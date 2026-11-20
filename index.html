@@ -11,18 +11,9 @@
   <div class="app-bg" aria-hidden="true"></div>
   <main class="app-shell">
     <header class="topbar">
-      <div class="status-dot"></div>
       <p class="motto">沾衣欲湿杏花雨，吹面不寒杨柳风。</p>
-      <button class="top-action" id="share-tool" type="button">分享工具</button>
-    </header>
-
-    <section class="hero" aria-labelledby="page-title">
-      <div>
-        <p class="eyebrow">轻盈 · 离线 · 随手用</p>
-        <h1 id="page-title">我的小工具箱</h1>
-      </div>
       <button class="list-style" id="list-style" type="button" aria-pressed="false">列表样式</button>
-    </section>
+    </header>
 
     <label class="search-box" for="search-input">
       <span class="search-icon" aria-hidden="true">⌕</span>
@@ -44,9 +35,9 @@
   </main>
 
   <nav class="bottom-nav" aria-label="主导航">
-    <button class="bottom-nav-item" data-nav="home" type="button"><span class="nav-glyph">⌂</span><span>首页</span></button>
-    <button class="bottom-nav-item active" data-nav="all" type="button"><span class="nav-glyph squares">▦</span><span>全部</span></button>
-    <button class="bottom-nav-item" data-nav="saved" type="button"><span class="nav-glyph">◉</span><span>我的</span></button>
+    <button class="bottom-nav-item" data-nav="home" type="button"><span class="nav-glyph nav-home" aria-hidden="true"></span><span>首页</span></button>
+    <button class="bottom-nav-item active" data-nav="all" type="button"><span class="nav-glyph nav-all" aria-hidden="true"></span><span>全部</span></button>
+    <button class="bottom-nav-item" data-nav="saved" type="button"><span class="nav-glyph nav-me" aria-hidden="true"></span><span>我的</span></button>
   </nav>
 
   <div class="modal-backdrop" id="tool-modal" hidden>

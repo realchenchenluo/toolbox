@@ -3,9 +3,9 @@
 
   var categories = [
     { id: 'favorites', name: '我的收藏', count: 0 },
-    { id: 'all', name: '全部', count: 52 },
-    { id: 'life', name: '日常', count: 8 },
-    { id: 'fun', name: '好玩', count: 8 },
+    { id: 'all', name: '全部', count: 114 },
+    { id: 'life', name: '日常', count: 10 },
+    { id: 'fun', name: '好玩', count: 11 },
     { id: 'image', name: '图片', count: 4 },
     { id: 'calc', name: '计算', count: 8 },
     { id: 'text', name: '文字', count: 8 },
@@ -43,6 +43,62 @@
   ];
   var toolMap = {};
   groups.forEach(function (group) { group.tools.forEach(function (tool) { toolMap[tool[0]] = { id: tool[0], name: tool[1], icon: tool[2], tone: tool[3], group: group.id }; }); });
+  // Lucide 风格的开源线性图标路径，统一还原截图中的浅灰工具图标。
+  var iconPaths = {
+    time: '<circle cx="12" cy="12" r="8.5"></circle><path d="M12 7v5l3 2"></path>',
+    pomodoro: '<circle cx="12" cy="13" r="7"></circle><path d="M9 3h6M12 3v3M16.5 8.5l2-2"></path><path d="M12 10v5"></path>',
+    noise: '<path d="M5 13a7 7 0 0 0 14 0c0-4-3-6-7-8-4 2-7 4-7 8Z"></path><path d="M8 14c1 2 2 3 4 3s3-1 4-3"></path>',
+    bmi: '<circle cx="9" cy="7" r="2.2"></circle><path d="M5 19v-5a4 4 0 0 1 8 0v5M15 8h5M15 11h5M15 14h5M15 17h5"></path>',
+    ledger: '<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4Z"></path><path d="M8 20V7a3 3 0 0 1 3-3M9 10h6M9 14h5"></path>',
+    decision: '<path d="M12 20V8"></path><path d="M8 12l4-4 4 4"></path><path d="M5 4h14"></path><path d="M7 4v3a5 5 0 0 0 10 0V4"></path>',
+    stopwatch: '<circle cx="12" cy="13" r="7"></circle><path d="M12 13V9M9 3h6M12 3v3M17 7l2-2"></path>',
+    score: '<rect x="5" y="6" width="14" height="12" rx="2"></rect><path d="M9 10v4M15 10v4M12 9v6"></path>',
+    sudoku: '<rect x="4" y="4" width="16" height="16" rx="1"></rect><path d="M9.3 4v16M14.7 4v16M4 9.3h16M4 14.7h16"></path>',
+    schulte: '<path d="M5 5h5v5H5zM14 5h5v5h-5zM5 14h5v5H5zM14 14h5v5h-5z"></path>',
+    light: '<path d="M9 20h6M10 23h4"></path><path d="M8 15a6 6 0 1 1 8 0c-1 1-1 2-1 3H9c0-1 0-2-1-3Z"></path><path d="M12 2v2M4.9 4.9l1.4 1.4M2 12h2M19.1 4.9l-1.4 1.4M22 12h-2"></path>',
+    beads: '<path d="M5 5h4v4H5zM15 5h4v4h-4zM5 15h4v4H5zM15 15h4v4h-4z"></path><path d="M12 5v14M5 12h14"></path>',
+    mbti: '<circle cx="12" cy="8" r="3"></circle><path d="M5 20c.5-4 3-6 7-6s6.5 2 7 6"></path><path d="M18 3v3M16.5 4.5h3"></path>',
+    marquee: '<rect x="4" y="6" width="16" height="12" rx="2"></rect><path d="M8 10h8M8 14h5"></path>',
+    'life-grid': '<path d="M6 4h12v16H6z"></path><path d="M9 8h6M9 12h6M9 16h6"></path>',
+    water: '<path d="M12 3s6 6 6 11a6 6 0 0 1-12 0c0-5 6-11 6-11Z"></path><path d="M9 16c1 1 2 1 3 1"></path>',
+    'id-photo': '<rect x="4" y="4" width="16" height="16" rx="2"></rect><circle cx="12" cy="10" r="2.5"></circle><path d="M7 17c1-2 3-3 5-3s4 1 5 3"></path>',
+    collage: '<rect x="4" y="5" width="10" height="10" rx="1"></rect><rect x="10" y="9" width="10" height="10" rx="1"></rect><path d="m6 13 3-3 2 2 2-2M12 17l3-3 3 2"></path>',
+    wallpaper: '<rect x="4" y="5" width="16" height="14" rx="2"></rect><circle cx="16" cy="9" r="1.5"></circle><path d="m6 17 4-4 3 3 2-2 3 3"></path>',
+    ocr: '<path d="M6 4H4v4M18 4h2v4M6 20H4v-4M18 20h2v-4"></path><path d="M8 9h8M8 13h6M8 17h4"></path>',
+    formula: '<path d="M4 17c2-8 5-8 7-2s5 6 9-5"></path><path d="M4 20h16M4 4v16"></path>',
+    tax: '<rect x="5" y="4" width="14" height="16" rx="2"></rect><path d="M8 8h8M8 12h2M14 12h2M8 16h2M14 16h2"></path>',
+    kinship: '<circle cx="8" cy="7" r="2"></circle><circle cx="16" cy="7" r="2"></circle><path d="M4 19c0-3 2-5 4-5s4 2 4 5M12 19c0-3 2-5 4-5s4 2 4 5M8 11h8"></path>',
+    calculator: '<rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"></path>',
+    unit: '<path d="m5 19 14-14"></path><path d="M7 17 5 15M10 14l-2-2M13 11l-2-2M16 8l-2-2M19 5l-2-2"></path>',
+    currency: '<circle cx="12" cy="12" r="8"></circle><path d="M15 8h-4a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4H9M12 6v12"></path>',
+    mortgage: '<path d="m4 11 8-7 8 7"></path><path d="M6 10v9h12v-9M9 19v-5h6v5"></path>',
+    date: '<rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M8 3v4M16 3v4M4 10h16M10 14h1M14 14h1M10 17h1"></path>',
+    translate: '<path d="M5 5h7M8 3v2M4 19l4-9 4 9M6 16h4M14 6h6M17 6c0 5-2 8-5 10M14 12c2 2 4 3 6 3"></path>',
+    random: '<circle cx="12" cy="12" r="8"></circle><circle cx="9" cy="9" r="1"></circle><circle cx="15" cy="15" r="1"></circle><circle cx="15" cy="9" r="1"></circle><circle cx="9" cy="15" r="1"></circle>',
+    tts: '<path d="M5 10v4M9 8v8M13 5v14M17 9v6M21 11v2"></path>',
+    morse: '<path d="M4 12h3M10 12h1M14 12h1M18 12h2"></path>',
+    dictionary: '<path d="M4 5a3 3 0 0 1 3-2h13v16H7a3 3 0 0 0-3 3V5Z"></path><path d="M7 3v16M9 8h7M9 12h6"></path>',
+    shortlink: '<path d="M10 13a5 5 0 0 0 7.1.1l2-2a5 5 0 0 0-7.1-7.1l-1.2 1.2"></path><path d="M14 11a5 5 0 0 0-7.1-.1l-2 2A5 5 0 0 0 12 20l1.2-1.2"></path>',
+    pinyin: '<path d="M5 4h6v6H5zM13 14h6v6h-6z"></path><path d="M13 4h6M16 4v6M5 14h6M8 14v6"></path>',
+    editor: '<path d="M5 4h14v16H5z"></path><path d="M8 8h8M8 12h8M8 16h5"></path>',
+    coupon: '<path d="M5 5h14v4a2 2 0 0 0 0 6v4H5v-4a2 2 0 0 0 0-6V5Z"></path><path d="M12 8v8"></path>',
+    express: '<path d="M3 7h12v10H3zM15 10h4l2 3v4h-6z"></path><circle cx="7" cy="18" r="2"></circle><circle cx="18" cy="18" r="2"></circle>',
+    today: '<path d="m4 17 5-5 3 3 7-8"></path><path d="M16 7h3v3"></path>',
+    antonym: '<path d="M4 5h16v14H4z"></path><path d="M8 9h8M8 13h5M8 16h7"></path>',
+    idiom: '<path d="M5 4h14v16H5z"></path><path d="M8 8h8M8 12h8M8 16h5"></path>',
+    'image-search': '<rect x="4" y="4" width="14" height="14" rx="2"></rect><circle cx="14" cy="9" r="2"></circle><path d="m6 16 4-4 2 2 2-2 4 4M18 18l3 3"></path>',
+    phone: '<path d="M6 4h4l2 5-2 2c1 2 3 4 5 5l2-2 5 2v4c0 1-1 2-2 2C10 21 3 14 3 6c0-1 1-2 3-2Z"></path>',
+    postcode: '<rect x="4" y="5" width="16" height="14" rx="2"></rect><path d="M7 9h10M7 13h2M11 13h2M15 13h2"></path>',
+    ruler: '<path d="m5 19 14-14 2 2L7 21z"></path><path d="m8 16 2 2M11 13l2 2M14 10l2 2M17 7l2 2"></path>',
+    level: '<circle cx="12" cy="12" r="8"></circle><path d="M8 12a4 4 0 0 1 8 0M12 12v4"></path>',
+    compass: '<circle cx="12" cy="12" r="8"></circle><path d="m15 9-2 4-4 2 2-4 4-2Z"></path>',
+    sound: '<path d="M5 10v4M9 8v8M13 5v14M17 9v6M21 11v2"></path><circle cx="13" cy="12" r="10" opacity=".25"></circle>',
+    apps: '<path d="M5 5h4v4H5zM15 5h4v4h-4zM5 15h4v4H5zM15 15h4v4h-4z"></path>',
+    vibration: '<path d="M8 5h8v14H8z"></path><path d="M4 8v8M2 10v4M20 8v8M22 10v4"></path>',
+    metal: '<circle cx="12" cy="12" r="8"></circle><path d="M12 7v10M7 12h10"></path>',
+    'current-wallpaper': '<rect x="4" y="5" width="16" height="14" rx="2"></rect><circle cx="16" cy="9" r="1.5"></circle><path d="m6 17 4-4 3 3 2-2 3 3"></path>'
+  };
+  function iconSvg(id) { return '<svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + (iconPaths[id] || '<rect x="5" y="5" width="14" height="14" rx="2"></rect>') + '</svg>'; }
   var state = { category: 'all', query: '', list: false, favorites: [], clientVersion: 0, storageReady: false, timer: null, timerSeconds: 25 * 60, stopwatch: 0, stopwatchStarted: 0, stopwatchTimer: null, score: [0, 0], sudoku: null, selectedSudoku: 0, schulte: null };
   var els = {
     tabs: document.getElementById('category-tabs'), groups: document.getElementById('tool-groups'), query: document.getElementById('search-input'), clear: document.getElementById('clear-search'), meta: document.getElementById('result-meta'), modal: document.getElementById('tool-modal'), content: document.getElementById('tool-content'), title: document.getElementById('tool-title'), icon: document.getElementById('tool-icon')
@@ -65,7 +121,7 @@
   }
   function renderTile(tool) {
     var favorite = state.favorites.indexOf(tool[0]) !== -1;
-    return '<div class="tool-tile"><button class="tool-open" type="button" data-tool="' + tool[0] + '"><span class="tool-icon ' + (tool[3] || '') + '">' + esc(tool[2]) + '</span>' + (tool[3] === 'yellow' ? '<span class="tool-badge">◆</span>' : '') + '<span class="tool-name">' + esc(tool[1]) + '</span></button><button class="tool-favorite ' + (favorite ? 'is-favorite' : '') + '" type="button" data-favorite="' + tool[0] + '" aria-label="' + (favorite ? '取消收藏' : '收藏') + ' ' + esc(tool[1]) + '">' + (favorite ? '♥' : '♡') + '</button></div>';
+    return '<div class="tool-tile"><button class="tool-open" type="button" data-tool="' + tool[0] + '"><span class="tool-icon ' + (tool[3] || '') + '">' + iconSvg(tool[0]) + '</span>' + (tool[3] === 'yellow' ? '<span class="tool-badge">◆</span>' : '') + '<span class="tool-name">' + esc(tool[1]) + '</span></button><button class="tool-favorite ' + (favorite ? 'is-favorite' : '') + '" type="button" data-favorite="' + tool[0] + '" aria-label="' + (favorite ? '取消收藏' : '收藏') + ' ' + esc(tool[1]) + '">' + (favorite ? '♥' : '♡') + '</button></div>';
   }
   function openTool(id) {
     var tool = toolMap[id]; if (!tool) return;
@@ -180,7 +236,6 @@
   document.getElementById('list-style').addEventListener('click', function () { state.list = !state.list; this.setAttribute('aria-pressed', state.list ? 'true' : 'false'); renderGroups(); });
   document.getElementById('close-tool').addEventListener('click', closeTool); els.modal.addEventListener('click', function (e) { if (e.target === els.modal) closeTool(); });
   document.getElementById('show-lab').addEventListener('click', function () { state.category = 'all'; state.query = ''; els.query.value = ''; renderTabs(); renderGroups(); document.querySelector('[data-category="all"]').scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); });
-  document.getElementById('share-tool').addEventListener('click', invokeShare);
   document.querySelectorAll('.bottom-nav-item').forEach(function (item) { item.addEventListener('click', function () { var nav = this.getAttribute('data-nav'); if (nav === 'saved') state.category = 'favorites'; else state.category = nav === 'home' ? 'life' : 'all'; document.querySelectorAll('.bottom-nav-item').forEach(function (button) { button.classList.toggle('active', button === item); }); renderTabs(); renderGroups(); }); });
   function clientVersionCode(options) { var env = options && options.miniToolEnv; return Math.floor((Number(env && env.buildVersion) || 0) / 1000); }
   function loadFavorites() { var xhs = window.xhs; var miniTool = xhs && xhs.miniTool; var launch = xhs && xhs.launchOptions; if (!miniTool || typeof miniTool.getStorage !== 'function') return; var version = clientVersionCode(launch); var promise = version ? Promise.resolve(launch) : (typeof miniTool.getLaunchOptions === 'function' ? miniTool.getLaunchOptions().catch(function () { return null; }) : Promise.resolve(null)); promise.then(function (options) { state.clientVersion = clientVersionCode(options); if (state.clientVersion < 9460) return null; return miniTool.getStorage({ key: 'toolbox-favorites' }); }).then(function (result) { if (!result || typeof result.data !== 'string') return; try { var items = JSON.parse(result.data); if (Array.isArray(items)) state.favorites = items.filter(function (id) { return !!toolMap[id]; }); } catch (error) { state.favorites = []; } state.storageReady = true; renderTabs(); renderGroups(); }).catch(function () {}); }
