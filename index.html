@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#e8f4ef">
+  <title>轻工具箱 · 日常与灵感</title>
+  <link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+  <div class="app-bg" aria-hidden="true"></div>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="status-dot"></div>
+      <p class="motto">沾衣欲湿杏花雨，吹面不寒杨柳风。</p>
+      <button class="top-action" id="share-tool" type="button">分享工具</button>
+    </header>
+
+    <section class="hero" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">轻盈 · 离线 · 随手用</p>
+        <h1 id="page-title">我的小工具箱</h1>
+      </div>
+      <button class="list-style" id="list-style" type="button" aria-pressed="false">列表样式</button>
+    </section>
+
+    <label class="search-box" for="search-input">
+      <span class="search-icon" aria-hidden="true">⌕</span>
+      <input id="search-input" type="search" autocomplete="off" placeholder="输入关键词搜索工具..">
+      <button id="clear-search" type="button" aria-label="清除搜索" hidden>×</button>
+    </label>
+
+    <nav class="category-tabs" id="category-tabs" aria-label="工具分类"></nav>
+    <div class="result-meta" id="result-meta" role="status"></div>
+    <div id="tool-groups" class="tool-groups"></div>
+
+    <section class="lab-card">
+      <div>
+        <h2>实验室</h2>
+        <p>不常用的工具也能通过搜索找到</p>
+      </div>
+      <button id="show-lab" type="button">更多 <span aria-hidden="true">›</span></button>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="主导航">
+    <button class="bottom-nav-item" data-nav="home" type="button"><span class="nav-glyph">⌂</span><span>首页</span></button>
+    <button class="bottom-nav-item active" data-nav="all" type="button"><span class="nav-glyph squares">▦</span><span>全部</span></button>
+    <button class="bottom-nav-item" data-nav="saved" type="button"><span class="nav-glyph">◉</span><span>我的</span></button>
+  </nav>
+
+  <div class="modal-backdrop" id="tool-modal" hidden>
+    <section class="tool-sheet" role="dialog" aria-modal="true" aria-labelledby="tool-title">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <header class="sheet-header">
+        <div><span class="sheet-icon" id="tool-icon">✦</span><h2 id="tool-title">工具</h2></div>
+        <button class="icon-button" id="close-tool" type="button" aria-label="关闭">×</button>
+      </header>
+      <div class="tool-content" id="tool-content"></div>
+    </section>
+  </div>
+
+  <script defer src="./assets/app.js"></script>
+</body>
+</html>
