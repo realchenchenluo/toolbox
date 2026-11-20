@@ -1,6 +1,6 @@
 # 轻工具箱 · 小红书小工具复刻版
 
-这是一个按用户提供截图复刻的离线 H5 工具箱：薄荷绿方格背景、搜索、分类卡片、底部导航和单页工具面板。页面不依赖 CDN、后端或外部字体，既可以作为 GitHub Pages 静态站点，也可以按小红书小工具规范打包成 ZIP。
+这是一个按用户提供截图复刻的离线 H5 工具箱：薄荷绿方格背景、手写风口号、胶囊分类栏、四列工具网格、底部导航和单页工具面板。首页视觉使用开源 Lucide 风格线性图标（MIT），不引用外部 CDN、后端或网络字体，既可以作为 GitHub Pages 静态站点，也可以按小红书小工具规范打包成 ZIP。
 
 ## 已实现
 
@@ -37,4 +37,4 @@ node "$env:USERPROFILE\.codex\skills\minitool-zip-builder\scripts\audit_artifact
 
 页面按 `minitool-zip-builder` 1.11.1 约束编写：无 `fetch`、外部资源、`eval`、Worker、剪贴板、外链跳转或网络 OCR。小工具在线文档中新增的窗口信息、分享、振动、定位、陀螺仪等能力需通过容器注入并满足客户端版本；本项目只接入分享 / 保存相册的可选路径，没有用角速度冒充指南针或分贝仪。
 
-GitHub 方案调研参考了 MIT 许可的 [pocketjoso/sudokuJS](https://github.com/pocketjoso/sudokuJS) 与 [mcarbonell/sudoku-solver-js](https://github.com/mcarbonell/sudoku-solver-js)，最终使用小型无依赖实现以保持离线包轻量，不复制第三方代码。
+GitHub 方案调研参考了 MIT 许可的 [pocketjoso/sudokuJS](https://github.com/pocketjoso/sudokuJS) 与 [mcarbonell/sudoku-solver-js](https://github.com/mcarbonell/sudoku-solver-js)，最终使用小型无依赖实现以保持离线包轻量，不复制第三方代码。图标路径采用 [lucide-icons/lucide](https://github.com/lucide-icons/lucide) 的开源线性图标风格，项目没有打入外部图标库运行时。
