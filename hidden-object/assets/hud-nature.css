@@ -1,0 +1,12 @@
+/* Adapted from game-hud Nature skin. MIT License
+Copyright (c) 2026 Aron & Sharon / threejsassets.com
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Source: https://github.com/threejsassets/game-hud — dist/skins/nature.css
+Local adaptation: system fonts, paper panels, touch sizing. */
+body[data-skin="nature"]{--page-bg:#eef0e6;--panel:#24391f;--panel-2:#2f4a28;--edge:#7fae5c;--accent:#ffc94a;--wood-l:#a8804e;--wood-m:#84623a;--wood-d:#5e4426;--moss:#2f4a28}
+[data-skin="nature"] .panel{border-radius:18px 22px 16px 24px;background:linear-gradient(180deg,#31502a,#24391f 65%,#1d3018);border:6px solid var(--wood-m);border-top-color:var(--wood-l);border-bottom-color:var(--wood-d);box-shadow:inset 0 0 0 2.5px #14240f,0 7px 0 rgba(10,22,8,.25),0 12px 20px rgba(10,22,8,.3)}
+[data-skin="nature"] .btn{border-radius:12px;height:46px;padding:0 20px;font-weight:600;font-size:13px;letter-spacing:.04em;color:#f8fbef;box-shadow:inset 0 2px 0 rgba(255,255,255,.32),inset 0 0 0 1px rgba(10,22,8,.17),0 3px 0 rgba(10,22,8,.22);text-shadow:0 1px 0 rgba(0,0,0,.12)}
+[data-skin="nature"] .btn:active{transform:translateY(2px);box-shadow:inset 0 2px 0 rgba(255,255,255,.32),inset 0 0 0 1px rgba(10,22,8,.17),0 1px 0 rgba(10,22,8,.22)}
+[data-skin="nature"] .btn-ok{background:linear-gradient(180deg,#7e9e61,#5e7e48)}

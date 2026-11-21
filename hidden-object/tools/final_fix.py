@@ -1,0 +1,2 @@
+from pathlib import Path
+p=Path('hidden-object/assets/app.js');s=p.read_text(encoding='utf8');s=s.replace('function save(){if(!level)return;','function save(){if(!level||!ready)return;');s=s.replace("stage.style.height=maxHeight+'px';var w=", "if(mobile)maxHeight=Math.min(maxHeight,stage.clientWidth/image.naturalWidth*image.naturalHeight);stage.style.height=maxHeight+'px';var w=");p.write_text(s,encoding='utf8')

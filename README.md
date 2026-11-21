@@ -38,3 +38,9 @@ node "$env:USERPROFILE\.codex\skills\minitool-zip-builder\scripts\audit_artifact
 页面按 `minitool-zip-builder` 1.11.1 约束编写：无 `fetch`、外部资源、`eval`、Worker、剪贴板、外链跳转或网络 OCR。小工具在线文档中新增的窗口信息、分享、振动、定位、陀螺仪等能力需通过容器注入并满足客户端版本；本项目只接入分享 / 保存相册的可选路径，没有用角速度冒充指南针或分贝仪。
 
 GitHub 方案调研参考了 MIT 许可的 [pocketjoso/sudokuJS](https://github.com/pocketjoso/sudokuJS) 与 [mcarbonell/sudoku-solver-js](https://github.com/mcarbonell/sudoku-solver-js)，最终使用小型无依赖实现以保持离线包轻量，不复制第三方代码。图标路径采用 [lucide-icons/lucide](https://github.com/lucide-icons/lucide) 的开源线性图标风格，项目没有打入外部图标库运行时。
+
+## 图画捉迷藏
+
+隐藏物寻找小游戏位于 [`hidden-object/`](./hidden-object/)，使用离线资源运行，当前包含 23 个可玩画面和 520 个隐藏目标。小红书上传包、图标、封面和填写资料位于 [`release/`](./release/)。
+
+在线试玩：<https://realchenchenluo.github.io/toolbox/hidden-object/>

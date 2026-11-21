@@ -1,0 +1,2 @@
+from pathlib import Path
+p=Path('hidden-object/assets/app.js');s=p.read_text(encoding='utf8');s=s.replace("$('scene-status').textContent='正在寻找：'+targets[index].label;renderTargets();}", "$('scene-status').textContent='正在寻找：'+targets[index].label;renderTargets();if(window.innerWidth<=820)window.scrollTo(0,Math.max(0,stage.getBoundingClientRect().top+window.pageYOffset-36));}");p.write_text(s,encoding='utf8')

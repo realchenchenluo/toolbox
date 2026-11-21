@@ -1,0 +1,2 @@
+from pathlib import Path
+p=Path('hidden-object/assets/app.js');s=p.read_text(encoding='utf8');s=s.replace("'use strict';","'use strict';\nif(window.history&&'scrollRestoration' in window.history)window.history.scrollRestoration='manual';",1);s=s.replace("stage.addEventListener('wheel',function(e){if(!ready)return;", "stage.addEventListener('wheel',function(e){if(!ready||(!e.ctrlKey&&!e.metaKey))return;");p.write_text(s,encoding='utf8')

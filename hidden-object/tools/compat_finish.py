@@ -1,0 +1,3 @@
+from pathlib import Path
+p=Path('hidden-object/assets/style.css');s=p.read_text(encoding='utf8').replace('inset:0;','top:0;right:0;bottom:0;left:0;');s+='\n.in-container .masthead{height:128px;padding-top:54px;padding-top:calc(54px + env(safe-area-inset-top))}.in-container .header-actions{padding-right:8px}\n';p.write_text(s,encoding='utf8')
+p=Path('hidden-object/assets/app.js');s=p.read_text(encoding='utf8');s=s.replace("if(window.history&&'scrollRestoration' in window.history)","if(window.xhs)document.body.classList.add('in-container');\nif(window.history&&'scrollRestoration' in window.history)");p.write_text(s,encoding='utf8')

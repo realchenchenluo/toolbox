@@ -1,0 +1,6 @@
+from pathlib import Path
+p=Path('hidden-object/assets/app.js');s=p.read_text(encoding='utf8');needle='function initStorage(){';idx=s.index(needle)
+f='''function readContainerWindow(tool){if(typeof tool.getWindowInfo!=='function')return;try{Promise.resolve(tool.getWindowInfo()).then(function(info){if(!info)return;var menus=info.menuButtons||{},rects=[];var visible=function(r){return r&&r.width>0&&r.height>0;};if(visible(menus.capsule))rects=[menus.capsule];else rects=[menus.back,menus.me,menus.share].filter(visible);var top=Number(info.safeArea&&info.safeArea.top)||0;rects.forEach(function(r){top=Math.max(top,Number(r.bottom)||0);});document.documentElement.style.setProperty('--container-top',(top+8)+'px');resize();}).catch(function(){});}catch(e){}}
+'''
+s=s[:idx]+f+s[idx:];s=s.replace("storage=tool;return storageCall('getStorage'", "storage=tool;if(Math.floor(Number(v)/1000)>=9490)readContainerWindow(tool);return storageCall('getStorage'");p.write_text(s,encoding='utf8')
+p=Path('hidden-object/assets/style.css');s=p.read_text(encoding='utf8')+'\n.in-container .masthead{height:calc(88px + var(--container-top,54px));padding-top:calc(16px + var(--container-top,54px))}\n';p.write_text(s,encoding='utf8')

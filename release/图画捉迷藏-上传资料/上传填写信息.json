@@ -1,0 +1,46 @@
+{
+  "appName": "图画捉迷藏",
+  "slogan": "每一页都有新发现",
+  "version": "1.0.0",
+  "description": "自由顺序寻找画里的隐藏物，发现后自动确认并点亮进度。",
+  "categorySuggestion": "益智 / 休闲游戏（请在上传页选择当前可用的实际类目）",
+  "authorizations": [],
+  "package": {
+    "file": "图画捉迷藏-小工具.zip",
+    "bytes": 2930876,
+    "md5": "ddb4c43fe068c256d53db5f990c1559a",
+    "sha256": "9b21e5ac96ede142d3bd8596afa4e9ba79eb566eb278d9315605bb0c4f414d65",
+    "entries": 76,
+    "rootEntry": "index.html",
+    "integrity": true
+  },
+  "icon": {
+    "file": "图画捉迷藏-图标.png",
+    "format": "PNG",
+    "width": 512,
+    "height": 512,
+    "bytes": 68018,
+    "md5": "a8d4ca51ba104c4d707ed5d09a1aa483",
+    "sha256": "388cd06bc37c6a8607c9317d86d3b423f428d92ea30c39b07101787621e38b07",
+    "limit": "PNG/JPG/JPEG，≤5 MiB，1:1"
+  },
+  "cover": {
+    "file": "图画捉迷藏-封面.jpg",
+    "format": "JPEG",
+    "width": 900,
+    "height": 1200,
+    "bytes": 248192,
+    "md5": "f2828002017cdd9287707a57ba02a277",
+    "sha256": "dbb27308b957f777cea48f18d810901687125f1b0652dea98dcdf093c7f41e22",
+    "limit": "PNG/JPG/JPEG，≤10 MiB，3:4"
+  },
+  "content": "23幅可玩画面，520个隐藏目标；后续88幅素材暂未开放。",
+  "localValidation": [
+    "ZIP根目录含index.html",
+    "离线包完整性通过",
+    "图标与封面尺寸通过",
+    "小红书本地模拟器iPhone全屏预览通过",
+    "目标识别回归测试通过"
+  ],
+  "uploadState": "本地资料已准备，尚未上传"
+}

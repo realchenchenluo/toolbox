@@ -1,0 +1,251 @@
+(function () {
+'use strict';
+if (window.history && 'scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
+var $ = function(id) { return document.getElementById(id); };
+var book = window.HIDDEN_BOOK || [], playable = book.filter(function(l) { return l.calibrated; }), matcher = window.HiddenRecognition;
+var current = 0, level, targets = [], strokes = [], draft = null, ready = false, sprite;
+var stage = $('scene-stage'), content = $('scene-content'), image = $('scene-image'), canvas = $('mark-layer'), ctx = canvas.getContext('2d');
+var fit = 1, zoom = 1, pan = {x:0,y:0}, mode = 'brush', color = '#ed9271', filter = 'all';
+var pointers = {}, gesture, paintingId = null, generation = 0, toastTimer, fadeHandle = 0, levelCelebrated = false;
+var progress = {pages:{},current:0}, storage, saveTimer, storageLoaded = false, interacted = false, KEY = 'hidden-object-answers-v4';
+var ASSET_VERSION = 'ui5';
+function count() { return targets.filter(function(t) { return t.found; }).length; }
+function toast(text) { $('toast').textContent = text; $('toast').hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(function() { $('toast').hidden = true; },2200); }
+function storageCall(method,data) {
+  if (!storage || typeof storage[method] !== 'function') return Promise.resolve(null);
+  try { return Promise.race([Promise.resolve(storage[method](data)).catch(function() { return null; }),new Promise(function(r) { setTimeout(function() { r(null); },2000); })]); } catch (error) { return Promise.resolve(null); }
+}
+function readWindow(tool) {
+  if (typeof tool.getWindowInfo !== 'function') return;
+  try { Promise.resolve(tool.getWindowInfo()).then(function(info) {
+    if (!info) return;
+    var top = Number(info.safeArea && info.safeArea.top) || 0, menus = info.menuButtons || {};
+    var rects = menus.capsule && menus.capsule.width > 0 ? [menus.capsule] : [menus.back,menus.me,menus.share];
+    rects.forEach(function(r) { if (r && r.width > 0 && r.height > 0) top = Math.max(top,Number(r.bottom) || 0); });
+    var bottom = info.safeArea && info.windowHeight ? Math.max(0,Number(info.windowHeight) - Number(info.safeArea.bottom)) : 0;
+    document.documentElement.style.setProperty('--container-top',(top + 8) + 'px');
+    document.documentElement.style.setProperty('--container-bottom',bottom + 'px'); resize();
+  }).catch(function() {}); } catch (error) {}
+}
+function initStorage() {
+  var xhs = window.xhs, tool = xhs && xhs.miniTool;
+  if (!tool) return;
+  document.body.classList.add('in-container'); readWindow(tool);
+  var launch;
+  try { launch = xhs.launchOptions || (typeof tool.getLaunchOptions === 'function' ? tool.getLaunchOptions() : null); } catch (error) { launch = null; }
+  Promise.race([Promise.resolve(launch),new Promise(function(r) { setTimeout(function() { r(null); },1800); })]).then(function(info) {
+    var version = Math.floor(Number(info && info.miniToolEnv && info.miniToolEnv.buildVersion) / 1000);
+    if (!version || version < 9460) return null;
+    storage = tool; return storageCall('getStorage',{key:KEY});
+  }).then(function(result) {
+    var saved;
+    try { saved = result && JSON.parse(result.data); } catch (error) {}
+    if (saved && saved.pages && typeof saved.pages === 'object') {
+      var local = progress.pages;
+      progress = {pages:saved.pages,current:Number(saved.current) || 0};
+      Object.keys(local).forEach(function(k) {
+        var remote = progress.pages[k], ids = remote && Array.isArray(remote.found) ? remote.found : [];
+        local[k].found.forEach(function(id) { if (ids.indexOf(id) < 0) ids.push(id); });
+        progress.pages[k] = {found:ids,strokes:local[k].strokes};
+      });
+      if (!interacted) openLevel(Math.min(playable.length - 1,Math.max(0,progress.current)),true);
+      else if (ready) {
+        var active = progress.pages[level.id];
+        if (active) targets.forEach(function(t) { if (active.found.indexOf(t.id) >= 0) t.found = true; });
+        renderTargets(); renderInk(); updateProgress();
+      }
+    }
+    storageLoaded = true; $('save-status').textContent = storage ? '进度保存在这台设备' : '本次游玩进度'; if (interacted) save(true);
+  }).catch(function() { storageLoaded = true; });
+}
+function persist() {
+  if (!storage || !storageLoaded) return;
+  var snapshot = JSON.parse(JSON.stringify(progress)), keys = Object.keys(snapshot.pages), data = JSON.stringify(snapshot);
+  // Found IDs always survive. Older decorative ink is bounded below the 1 MiB/key quota.
+  while (data.length > 260000) {
+    var biggest = keys.reduce(function(a,b) { return snapshot.pages[b].strokes.length > snapshot.pages[a].strokes.length ? b : a; },keys[0]);
+    if (!biggest || !snapshot.pages[biggest].strokes.length) break;
+    snapshot.pages[biggest].strokes.splice(0,20); data = JSON.stringify(snapshot);
+  }
+  storageCall('setStorage',{key:KEY,data:data}).then(function(result) { $('save-status').textContent = result && result.errMsg === 'setStorage:ok' ? '进度保存在这台设备' : '本次进度暂未保存'; });
+}
+function save(flush) {
+  if (!level || !ready) return;
+  progress.current = current;
+  progress.pages[level.id] = {found:targets.filter(function(t) { return t.found; }).map(function(t) { return t.id; }),strokes:strokes.slice(-100).map(function(s) {
+    var points = s.points;
+    if (points.length > 90) { var step = (points.length - 1) / 89; points = Array.from({length:90},function(_,i) { return s.points[Math.round(i * step)]; }); }
+    return {mode:s.mode,color:s.color,width:s.width,target:s.target,points:points};
+  })};
+  clearTimeout(saveTimer); if (flush) persist(); else saveTimer = setTimeout(persist,300);
+}
+function loadImage(src) {
+  return new Promise(function(resolve,reject) {
+    var img = new Image(), done = false, timer = setTimeout(function() { done = true; reject(new Error('timeout')); },12000);
+    img.onload = function() { if (done) return; done = true; clearTimeout(timer); resolve(img); };
+    img.onerror = function() { if (done) return; done = true; clearTimeout(timer); reject(new Error('image')); }; img.src = './' + src + (src.indexOf('?') >= 0 ? '&' : '?') + 'v=' + ASSET_VERSION;
+  });
+}
+function resize() {
+  if (!ready) return;
+  var mobile = window.innerWidth <= 820;
+  var height = mobile ? Math.min(stage.clientWidth / canvas.width * canvas.height,Math.max(230,window.innerHeight * .37)) : Math.min(740,Math.max(370,window.innerHeight - 400));
+  stage.style.height = height + 'px'; fit = Math.min(stage.clientWidth / canvas.width,stage.clientHeight / canvas.height);
+  content.style.width = canvas.width * fit + 'px'; content.style.height = canvas.height * fit + 'px'; applyTransform();
+  $('target-grid').style.maxHeight = mobile ? '236px' : Math.max(300,height + 10) + 'px';
+}
+function applyTransform() {
+  var maxX = Math.max(0,(canvas.width * fit * zoom - stage.clientWidth) / 2), maxY = Math.max(0,(canvas.height * fit * zoom - stage.clientHeight) / 2);
+  pan.x = Math.max(-maxX,Math.min(maxX,pan.x)); pan.y = Math.max(-maxY,Math.min(maxY,pan.y));
+  content.style.transform = 'translate(-50%,-50%) translate(' + pan.x + 'px,' + pan.y + 'px) scale(' + zoom + ')'; $('zoom-status').textContent = Math.round(zoom * 100) + '%';
+}
+function setZoom(z) { if (!ready) return; zoom = Math.max(1,Math.min(5,z)); if (zoom === 1) pan = {x:0,y:0}; applyTransform(); }
+function setMode(m) {
+  mode = m;
+  ['brush','eraser','move'].forEach(function(v) { $(v + '-tool').classList.toggle('active',v === m); $(v + '-tool').setAttribute('aria-pressed',String(v === m)); }); canvas.style.cursor = m === 'move' ? 'grab' : 'crosshair';
+}
+function point(e) { var r = canvas.getBoundingClientRect(); return {x:Math.round((e.clientX - r.left) / r.width * canvas.width),y:Math.round((e.clientY - r.top) / r.height * canvas.height)}; }
+function drawStroke(s,opacity) {
+  if (!s.points.length) return;
+  ctx.save(); ctx.globalAlpha = opacity; ctx.globalCompositeOperation = s.mode === 'eraser' ? 'destination-out' : 'source-over';
+  ctx.strokeStyle = s.color; ctx.fillStyle = s.color; ctx.lineWidth = s.width; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.beginPath();
+  if (s.points.length === 1) { ctx.arc(s.points[0].x,s.points[0].y,s.width / 2,0,Math.PI * 2); ctx.fill(); }
+  else { s.points.forEach(function(p,i) { if (!i) ctx.moveTo(p.x,p.y); else ctx.lineTo(p.x,p.y); }); ctx.stroke(); } ctx.restore();
+}
+function renderInk() {
+  ctx.clearRect(0,0,canvas.width,canvas.height); var animate = false, now = Date.now();
+  strokes.forEach(function(s) { var opacity = s.time ? Math.max(.55,1 - (now - s.time) / 520 * .45) : .55; if (opacity > .55) animate = true; drawStroke(s,opacity); }); if (draft) drawStroke(draft,1);
+  targets.forEach(function(t) {
+    if (!t.found) return;
+    ctx.save(); ctx.fillStyle = 'rgba(102,156,94,.24)'; ctx.strokeStyle = 'rgba(49,112,69,.75)'; ctx.lineWidth = 2;
+    t.polygons.forEach(function(poly) { ctx.beginPath(); poly.forEach(function(p,i) { if (!i) ctx.moveTo(p[0],p[1]); else ctx.lineTo(p[0],p[1]); }); ctx.closePath(); ctx.fill(); ctx.stroke(); }); ctx.restore();
+  });
+  if (animate && !fadeHandle && !document.hidden) fadeHandle = requestAnimationFrame(function() { fadeHandle = 0; renderInk(); });
+}
+function pointerList() { return Object.keys(pointers).map(function(k) { return pointers[k]; }); }
+function cancelDraft() { draft = null; paintingId = null; renderInk(); }
+function pointerDown(e) {
+  if (!ready || e.button > 0) return;
+  interacted = true; pointers[e.pointerId] = {x:e.clientX,y:e.clientY}; try { canvas.setPointerCapture(e.pointerId); } catch (error) {}
+  var ps = pointerList();
+  if (ps.length === 2) { cancelDraft(); gesture = {distance:Math.hypot(ps[0].x - ps[1].x,ps[0].y - ps[1].y),zoom:zoom,cx:(ps[0].x + ps[1].x) / 2,cy:(ps[0].y + ps[1].y) / 2,panX:pan.x,panY:pan.y}; }
+  else if (ps.length === 1) {
+    if (mode === 'move') gesture = {cx:e.clientX,cy:e.clientY,panX:pan.x,panY:pan.y};
+    else { paintingId = e.pointerId; draft = {mode:mode,color:color,width:mode === 'eraser' ? 32 : 12,target:null,points:[point(e)]}; renderInk(); }
+  } e.preventDefault();
+}
+function pointerMove(e) {
+  if (!pointers[e.pointerId]) return;
+  pointers[e.pointerId] = {x:e.clientX,y:e.clientY}; var ps = pointerList();
+  if (ps.length >= 2 && gesture) {
+    zoom = Math.max(1,Math.min(5,gesture.zoom * Math.hypot(ps[0].x - ps[1].x,ps[0].y - ps[1].y) / Math.max(1,gesture.distance)));
+    pan.x = gesture.panX + (ps[0].x + ps[1].x) / 2 - gesture.cx; pan.y = gesture.panY + (ps[0].y + ps[1].y) / 2 - gesture.cy; applyTransform();
+  } else if (mode === 'move' && gesture) { pan.x = gesture.panX + e.clientX - gesture.cx; pan.y = gesture.panY + e.clientY - gesture.cy; applyTransform(); }
+  else if (draft && paintingId === e.pointerId) { var p = point(e), last = draft.points[draft.points.length - 1]; if (Math.hypot(p.x - last.x,p.y - last.y) > 2 && draft.points.length < 500) { draft.points.push(p); renderInk(); } } e.preventDefault();
+}
+function finishPointer(e,cancel) {
+  if (draft && paintingId === e.pointerId) {
+    if (cancel) cancelDraft();
+    else {
+      var s = draft, last = point(e), end = s.points[s.points.length - 1]; if (Math.hypot(last.x - end.x,last.y - end.y) > 2) s.points.push(last);
+      draft = null; paintingId = null; s.time = Date.now();
+      if (s.mode === 'brush') {
+        var index = matcher.match(targets,s.points,Math.min(8,3 / (fit * zoom)));
+        if (index >= 0) { var t = targets[index]; if (!t.found) { t.found = true; s.target = t.id; $('scene-status').textContent = '找到了 · ' + t.label; toast('✓ 找到了「' + t.label + '」'); } else toast('「' + t.label + '」已经找到了'); }
+        else $('scene-status').textContent = '再仔细看看，轻点物体或沿着它涂色';
+      }
+      strokes.push(s); if (strokes.length > 160) strokes.shift(); renderTargets(); updateProgress(); renderInk(); save();
+    }
+  } delete pointers[e.pointerId]; if (pointerList().length < 2) gesture = null; e.preventDefault();
+}
+function makeCard(t,index) {
+  var button = document.createElement('button'); button.type = 'button'; button.className = 'target-card' + (t.found ? ' found' : ''); button.setAttribute('data-target',index); button.setAttribute('aria-label',t.label + (t.found ? '，已找到，放大查看' : '，还没找到，放大查看'));
+  var c = document.createElement('canvas'); c.width = 144; c.height = 106; c.getContext('2d').drawImage(sprite,t.x,t.y,t.w,t.h,0,0,144,106); button.appendChild(c);
+  var name = document.createElement('span'); name.className = 'target-name'; name.textContent = t.label; button.appendChild(name);
+  var tick = document.createElement('span'); tick.className = 'found-check'; tick.textContent = '✓'; button.appendChild(tick);
+  var number = document.createElement('span'); number.className = 'target-number'; number.textContent = String(index + 1).padStart(2,'0'); button.appendChild(number); return button;
+}
+function renderTargets() {
+  if (!sprite) return;
+  var grid = $('target-grid'), scroll = grid.scrollTop, frag = document.createDocumentFragment(); grid.textContent = '';
+  targets.forEach(function(t,i) { if (filter === 'left' && t.found) return; frag.appendChild(makeCard(t,i)); }); grid.appendChild(frag); grid.scrollTop = scroll;
+  $('empty-targets').hidden = !(filter === 'left' && count() === targets.length);
+}
+function choose(index) {
+  var t = targets[index]; if (!t) return; var c = $('target-preview'), pc = c.getContext('2d'); pc.clearRect(0,0,c.width,c.height); pc.drawImage(sprite,t.x,t.y,t.w,t.h,0,0,c.width,c.height);
+  $('target-preview-title').textContent = t.label; $('target-preview-status').textContent = t.found ? '✓ 已经找到，继续寻找其他目标吧' : '记住它的形状，再到画面里找一找'; $('target-modal').hidden = false;
+}
+function completedTotal() { return playable.filter(function(l) { return progress.pages[l.id] && progress.pages[l.id].found.length === l.items.length; }).length; }
+function paintProgress(n,total) {
+  var percent = total ? Math.round(n / total * 100) : 0, all = total > 0 && n === total;
+  $('found-count').textContent = n; $('target-count').textContent = total;
+  $('all-count').textContent = total; $('left-count').textContent = total - n; $('remaining-count').textContent = total - n;
+  $('progress-percent').textContent = percent + '%';
+  $('found-progress').style.width = percent + '%';
+  $('progress-ring').style.strokeDashoffset = String(251.3274 * (1 - percent / 100));
+  $('level-progress-card').classList.toggle('is-complete',all);
+  $('progress-medal-label').textContent = all ? '收集完成' : '收集进度';
+  $('progress-message').textContent = all ? '这一页的星光，都被你收集到了' : !n ? '每一次发现，都值得一颗小星星' : percent < 50 ? '好眼力，小惊喜正在一点点出现' : percent < 85 ? '已经过半，再发现一点小惊喜' : '快找齐啦，最后的小目标就在画里';
+  $('progress-meter').setAttribute('aria-valuemax',total); $('progress-meter').setAttribute('aria-valuenow',n);
+  $('progress-meter').setAttribute('aria-valuetext','已找到 ' + n + ' 个，共 ' + total + ' 个，还剩 ' + (total - n) + ' 个');
+}
+function updateProgress() {
+  var n = count(), all = n === targets.length && n > 0;
+  paintProgress(n,targets.length);
+  $('next-level-button').disabled = !all; $('undo-button').disabled = !strokes.length; $('collection-status').textContent = all ? '这一幅的所有小东西，都被你发现了' : '自由顺序 · 找到一个，就自动打勾';
+  if (all && !levelCelebrated) { levelCelebrated = true; $('success-detail').textContent = '你在「' + level.title + '」里找到了 ' + n + ' 个小东西。'; $('success-modal').hidden = false; }
+  if (!all) { levelCelebrated = false; $('success-modal').hidden = true; }
+}
+function openLevel(index,restoring) {
+  if (!playable.length || !matcher) { $('scene-status').textContent = '关卡资料未加载，请退出后重新打开'; return; }
+  if (!restoring) save(true); current = Math.max(0,Math.min(playable.length - 1,index)); level = playable[current]; ready = false;
+  var token = ++generation; sprite = null; targets = []; strokes = []; draft = null; paintingId = null; pointers = {}; gesture = null; zoom = 1; pan = {x:0,y:0}; filter = 'all'; levelCelebrated = false;
+  $('filter-all').classList.add('active'); $('filter-left').classList.remove('active'); $('play-view').hidden = false; $('library-view').hidden = true; $('success-modal').hidden = true; $('target-modal').hidden = true;
+  $('scene-loading').hidden = false; $('scene-loading').querySelector('strong').textContent = '翻开这一页…'; $('scene-loading').querySelector('small').textContent = '正在准备画面与全部目标'; $('retry-scene').hidden = true; stage.setAttribute('aria-busy','true');
+  $('chapter-number').textContent = String(current + 1).padStart(2,'0'); $('chapter-title').textContent = level.title; $('chapter-tag').textContent = level.items.length >= 30 ? '细心挑战' : level.items.length >= 20 ? '慢慢发现' : '轻松一刻'; $('page-counter').textContent = String(current + 1).padStart(2,'0') + ' / ' + playable.length;
+  $('scene-status').textContent = '正在准备场景和全部目标…'; $('target-grid').textContent = ''; paintProgress(0,level.items.length); $('empty-targets').hidden = true; $('next-level-button').disabled = true; $('undo-button').disabled = true; setMode('brush');
+  Promise.all([loadImage(level.scene),loadImage(level.sprite)]).then(function(results) {
+    if (token !== generation) return;
+    image.src = results[0].src; image.alt = level.title + '，在画面中寻找目标'; sprite = results[1]; canvas.width = level.width; canvas.height = level.height;
+    var saved = progress.pages[level.id];
+    targets = level.items.map(function(item) { var t = Object.assign({},item); t.found = !!(saved && Array.isArray(saved.found) && saved.found.indexOf(t.id) >= 0); return t; });
+    strokes = saved && Array.isArray(saved.strokes) ? saved.strokes.slice(-160).filter(function(s) { return s && Array.isArray(s.points) && s.points.length && s.points.length <= 501; }) : [];
+    levelCelebrated = count() === targets.length; ready = true; resize(); renderInk(); renderTargets(); updateProgress(); $('scene-loading').hidden = true; stage.setAttribute('aria-busy','false'); $('scene-status').textContent = '任意顺序寻找 · 轻点或涂出你发现的物体'; window.scrollTo(0,0);
+  }).catch(function() { if (token !== generation) return; $('scene-loading').querySelector('strong').textContent = '这一页没有打开'; $('scene-loading').querySelector('small').textContent = '请点重新加载，已有进度会保留'; $('retry-scene').hidden = false; }); window.scrollTo(0,0);
+}
+function renderLibrary() {
+  interacted = true; save(true); generation++; ready = false; draft = null; pointers = {}; $('play-view').hidden = true; $('library-view').hidden = false; $('completed-count').textContent = completedTotal();
+  $('total-found-count').textContent = playable.reduce(function(sum,l) { return sum + (progress.pages[l.id] && progress.pages[l.id].found.length || 0); },0);
+  var grid = $('level-grid'), frag = document.createDocumentFragment(); grid.textContent = '';
+  playable.forEach(function(l,i) {
+    var found = progress.pages[l.id] && progress.pages[l.id].found.length || 0; var b = document.createElement('button'); b.type = 'button'; b.className = 'level-card' + (found === l.items.length ? ' completed' : found ? ' started' : ''); b.setAttribute('data-level',i);
+    // Reuse the verified scene asset for the library preview. Some constrained WebViews
+    // defer small WebP thumbnails created at runtime; the scene is already a stable
+    // package asset and object-fit crops it into the card without another load path.
+    var img = document.createElement('img'); img.src = './' + l.scene + '?v=' + ASSET_VERSION; img.alt = ''; b.appendChild(img);
+    var number = document.createElement('span'); number.className = 'level-number'; number.textContent = String(i + 1).padStart(2,'0'); b.appendChild(number);
+    var state = document.createElement('span'); state.className = 'level-state'; state.textContent = found === l.items.length ? '✓ 已收齐' : found ? '寻找中' : '待发现'; b.appendChild(state);
+    var title = document.createElement('strong'); title.textContent = l.title; b.appendChild(title);
+    var sub = document.createElement('small'), label = document.createElement('span'), numbers = document.createElement('span');
+    label.textContent = '已发现'; var amount = document.createElement('b'); amount.textContent = found; numbers.appendChild(amount);
+    var total = document.createElement('i'); total.textContent = '/ ' + l.items.length; numbers.appendChild(total); sub.appendChild(label); sub.appendChild(numbers); b.appendChild(sub);
+    var bar = document.createElement('div'); bar.className = 'level-progress'; var ink = document.createElement('i'); ink.style.width = found / l.items.length * 100 + '%'; bar.appendChild(ink); b.appendChild(bar); frag.appendChild(b);
+  }); grid.appendChild(frag); window.scrollTo(0,0);
+}
+function nextLevel() { openLevel((current + 1) % playable.length); }
+canvas.addEventListener('pointerdown',pointerDown); canvas.addEventListener('pointermove',pointerMove); canvas.addEventListener('pointerup',function(e) { finishPointer(e,false); }); canvas.addEventListener('pointercancel',function(e) { finishPointer(e,true); });
+canvas.addEventListener('lostpointercapture',function(e) { if (draft && paintingId === e.pointerId) finishPointer(e,true); });
+stage.addEventListener('wheel',function(e) { if (!ready || (!e.ctrlKey && !e.metaKey)) return; e.preventDefault(); setZoom(zoom + (e.deltaY > 0 ? -.15 : .15)); },{passive:false});
+$('target-grid').addEventListener('click',function(e) { var b = e.target.closest('[data-target]'); if (b) choose(Number(b.getAttribute('data-target'))); });
+['brush','eraser','move'].forEach(function(m) { $(m + '-tool').addEventListener('click',function() { setMode(m); }); });
+document.querySelectorAll('.ink-dot').forEach(function(b) { b.addEventListener('click',function() { color = b.getAttribute('data-color'); setMode('brush'); document.querySelectorAll('.ink-dot').forEach(function(v) { v.classList.toggle('active',v === b); }); }); });
+$('undo-button').addEventListener('click',function() { var s = strokes.pop(); if (!s) return; if (s.target) targets.forEach(function(t) { if (t.id === s.target) { t.found = false; toast('已撤销「' + t.label + '」'); } }); renderInk(); renderTargets(); updateProgress(); save(); });
+$('zoom-in').addEventListener('click',function() { setZoom(zoom + .5); }); $('zoom-out').addEventListener('click',function() { setZoom(zoom - .5); }); $('zoom-reset').addEventListener('click',function() { setZoom(1); });
+['all','left'].forEach(function(f) { $('filter-' + f).addEventListener('click',function() { filter = f; $('filter-all').classList.toggle('active',f === 'all'); $('filter-left').classList.toggle('active',f === 'left'); renderTargets(); }); });
+$('library-button').addEventListener('click',renderLibrary); $('back-to-game').addEventListener('click',function() { openLevel(current); }); $('level-grid').addEventListener('click',function(e) { var b = e.target.closest('[data-level]'); if (b) openLevel(Number(b.getAttribute('data-level'))); });
+$('previous-button').addEventListener('click',function() { openLevel(Math.max(0,current - 1)); }); $('skip-button').addEventListener('click',nextLevel); $('next-level-button').addEventListener('click',nextLevel); $('success-next').addEventListener('click',nextLevel);
+$('retry-scene').addEventListener('click',function() { openLevel(current); }); $('help-button').addEventListener('click',function() { $('help-modal').hidden = false; }); document.querySelectorAll('[data-close]').forEach(function(b) { b.addEventListener('click',function() { $(b.getAttribute('data-close')).hidden = true; }); });
+window.addEventListener('resize',resize); document.addEventListener('visibilitychange',function() { if (document.hidden) { pointers = {}; gesture = null; cancelDraft(); save(true); } else if (ready) renderInk(); });
+document.addEventListener('keydown',function(e) { if (e.key === 'Escape') ['help-modal','success-modal','target-modal'].forEach(function(id) { $(id).hidden = true; }); });
+openLevel(0); initStorage();
+}());
