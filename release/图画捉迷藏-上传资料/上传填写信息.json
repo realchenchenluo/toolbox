@@ -7,9 +7,9 @@
   "authorizations": [],
   "package": {
     "file": "图画捉迷藏-小工具.zip",
-    "bytes": 2930876,
-    "md5": "ddb4c43fe068c256d53db5f990c1559a",
-    "sha256": "9b21e5ac96ede142d3bd8596afa4e9ba79eb566eb278d9315605bb0c4f414d65",
+    "bytes": 2909733,
+    "md5": "026716ed7127981eefba96fd88e15c6b",
+    "sha256": "218a94dca18c26a88a834f0ba2417ff1714e77ff2a377a88c8d7270a0837e438",
     "entries": 76,
     "rootEntry": "index.html",
     "integrity": true
@@ -19,9 +19,9 @@
     "format": "PNG",
     "width": 512,
     "height": 512,
-    "bytes": 68018,
-    "md5": "a8d4ca51ba104c4d707ed5d09a1aa483",
-    "sha256": "388cd06bc37c6a8607c9317d86d3b423f428d92ea30c39b07101787621e38b07",
+    "bytes": 45521,
+    "md5": "5f2355fea034af3644d81e94d99e316c",
+    "sha256": "46adccccd66dfd8f0ecfd68e40dab8bd836beb7725e89ada71f0b6541bbe36e8",
     "limit": "PNG/JPG/JPEG，≤5 MiB，1:1"
   },
   "cover": {
@@ -29,9 +29,9 @@
     "format": "JPEG",
     "width": 900,
     "height": 1200,
-    "bytes": 248192,
-    "md5": "f2828002017cdd9287707a57ba02a277",
-    "sha256": "dbb27308b957f777cea48f18d810901687125f1b0652dea98dcdf093c7f41e22",
+    "bytes": 251664,
+    "md5": "7b20c6d536682c2fcdb3a6691b831a0c",
+    "sha256": "13fbe6131e1213c7cc80c09d658ed1d3d376a41bdec9da779751119fed3f1f9c",
     "limit": "PNG/JPG/JPEG，≤10 MiB，3:4"
   },
   "content": "23幅可玩画面，520个隐藏目标；后续88幅素材暂未开放。",
