@@ -1,16 +1,16 @@
 {
   "appName": "图画捉迷藏",
   "slogan": "找到细节，收集惊喜",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "自由顺序寻找画里的隐藏物，发现后自动确认并点亮进度。",
   "categorySuggestion": "益智 / 休闲游戏（请在上传页选择当前可用的实际类目）",
   "authorizations": [],
   "package": {
     "file": "图画捉迷藏-小工具.zip",
-    "bytes": 2977186,
-    "md5": "1e002e163b84ff50eb218bdef483fd22",
-    "sha256": "e89bd2c94f0787f31a4fb0c297978e9fba5c6b6dd5375df8d12ddb53fc0e11e3",
-    "entries": 75,
+    "bytes": 2973448,
+    "md5": "a7fed00250b1150468ce667bd9010df6",
+    "sha256": "30c7dc86bfd0d382262aa26c190dea74db1f191d8d7d1f4393b029b896aa6a5f",
+    "entries": 76,
     "rootEntry": "index.html",
     "integrity": true
   },
@@ -39,8 +39,17 @@
     "ZIP根目录含index.html",
     "离线包完整性通过",
     "图标与封面尺寸通过",
-    "小红书本地模拟器iPhone全屏预览通过",
-    "目标识别回归测试通过"
+    "本地浏览器390×844、320×667、844×390及桌面布局检查",
+    "520个目标识别与23关回归测试通过",
+    "模拟账号A/B隔离、恢复与异常存档测试通过"
+  ],
+  "accountSave": "使用平台用户×小工具云存储隔离，需9.51+及云存储内测授权；未开放时仅临时游玩。旧共用设备存档不迁移。",
+  "pendingValidation": [
+    "创服平台模拟器",
+    "Android真机扫码",
+    "iOS真机扫码",
+    "真实账号A/B及跨设备恢复",
+    "Chrome 61兼容性及真机性能"
   ],
   "uploadState": "本地资料已准备，尚未上传"
 }

@@ -31,11 +31,13 @@ function harness(saved,storagePending) {
   }
   const elements={}, get=id => elements[id] || (elements[id]=new Element(id));
   const doc={getElementById:get,querySelectorAll(){return [];},createElement(tag){return new Element(tag);},createDocumentFragment(){return new Element('fragment');},addEventListener(){},body:new Element('body'),documentElement:new Element('html'),hidden:false};
+  const docListeners={};doc.addEventListener=(name,callback)=>{docListeners[name]=callback;};
   const imageControl={fail:[]};
   class FakeImage {set src(s){this._src=s; this.naturalWidth=1000; this.naturalHeight=1200; queueMicrotask(() => { if(imageControl.fail.some(x=>s.includes(x))) { if(this.onerror)this.onerror(); } else if(this.onload)this.onload(); });} get src(){return this._src;}}
-  let writes=[], resolver;
+  let writes=[], resolver, cloudSaved=saved, cloudId='account-a';
   const sandbox={document:doc,Image:FakeImage,Date,Promise,Math,console,setTimeout(){return 1;},clearTimeout(){},requestAnimationFrame(){return 1;},window:{HIDDEN_BOOK:data.window.HIDDEN_BOOK,HiddenRecognition:R,innerWidth:390,innerHeight:844,scrollTo(){},addEventListener(){}}};
-  if (saved) sandbox.window.xhs={launchOptions:{miniToolEnv:{buildVersion:9533000}},miniTool:{getStorage(){return storagePending ? new Promise(r => resolver=r) : Promise.resolve({data:JSON.stringify(saved)});},setStorage(v){writes.push(v);return Promise.resolve({errMsg:'setStorage:ok'});}}};
+  if (saved) sandbox.window.xhs={launchOptions:{miniToolEnv:{buildVersion:9533000}},miniTool:{queryCloudStorage(){return storagePending ? new Promise(r => resolver=r) : Promise.resolve({items:[{id:cloudId,content:{schema:1,slot:'primary',progress:cloudSaved}}]});},addCloudStorage(){throw new Error('existing account must not add');},updateCloudStorage(v){writes.push(v);cloudSaved=v.items[0].content.progress;return Promise.resolve({data:[{id:cloudId,status:'SUCCESS'}]});}}};
+  vm.runInNewContext(fs.readFileSync('hidden-object/assets/account-save.js','utf8'),sandbox);
   let source=fs.readFileSync('hidden-object/assets/game.js','utf8');
   source=source.replace('openLevel(0); initStorage();','window.test={pointerDown,pointerMove,finishPointer,openLevel,choose,save,setMode,setExploreMode,renderLibrary,get state(){return {targets,strokes,draft,zoom,progress,current,ready}}}; openLevel(0); initStorage();');
   vm.runInNewContext(source,sandbox);
@@ -43,7 +45,7 @@ function harness(saved,storagePending) {
   const game=sandbox.window.test;
   function toEvent(point,id) {return event({x:point[0]/get('mark-layer').width*600,y:point[1]/get('mark-layer').height*600},id);}
   function tap(point){game.pointerDown(toEvent(point));game.finishPointer(toEvent(point),false);}
-  return {game,get,tap,event,toEvent,writes,imageControl,resolve(){resolver({data:JSON.stringify(saved)});}};
+  return {game,get,tap,event,toEvent,writes,imageControl,resolve(){storagePending=false;resolver({items:[{id:cloudId,content:{schema:1,slot:'primary',progress:cloudSaved}}]});},switchAccount(value,id){cloudSaved=value;cloudId=id;},resume(){docListeners.visibilitychange();}};
 }
 const tick=()=>new Promise(r=>setImmediate(r));
 (async()=>{
@@ -76,9 +78,11 @@ const tick=()=>new Promise(r=>setImmediate(r));
   g.openLevel(4);g.renderLibrary();await tick();assert.equal(g.state.ready,false,'late load cannot reopen game over library');
   const saved={current:0,pages:{'001':{found:[book[0].items[12].id],strokes:[]}}};
   h=harness(saved);await tick();await tick();assert(h.game.state.targets[12].found,'startup restore must not overwrite saved discoveries');
-  h.game.save(true);await tick();assert(h.writes.length>0);assert(Buffer.byteLength(h.writes.at(-1).data,'utf8') < 1048576);
+  h.game.setExploreMode(true);h.tap(h.game.state.targets[8].anchor);h.game.save(true);await tick();assert(h.writes.length>0);assert(Buffer.byteLength(JSON.stringify(h.writes.at(-1).items[0].content),'utf8') < 65536);
   h=harness(saved,true);await tick();h.game.setExploreMode(true);h.tap(h.game.state.targets[9].anchor);h.game.save();h.resolve();await tick();
-  assert(h.game.state.targets[9].found,'late storage cannot erase active play');
-  assert(h.game.state.targets[12].found,'late storage must also preserve earlier saved discoveries');
-  console.log(`PASS: ${hits} target anchors, ${outside} polygon-vs-box negatives; all 23 chapters reverse-order completion; preview, miss, duplicate, undo, pinch, eraser, cancellation, stale loads, restore and late storage.`);
+  assert(!h.game.state.targets[9].found,'input is gated until the current account is verified');
+  assert(h.game.state.targets[12].found,'delayed account read restores the correct save');
+  h.game.setExploreMode(true);h.tap(h.game.state.targets[9].anchor);assert(h.game.state.targets[9].found,'play resumes after account verification');
+  h=harness(saved);await tick();h.switchAccount({current:1,pages:{}},'account-b');h.resume();await tick();assert.equal(h.game.state.current,1);assert(h.game.state.targets.every(t=>!t.found),'resume replaces A with B rather than merging');assert(!h.game.state.progress.pages['001']);h.switchAccount(saved,'account-a');h.resume();await tick();assert(h.game.state.targets[12].found,'returning to A restores only A');
+  console.log(`PASS: ${hits} target anchors, ${outside} polygon-vs-box negatives; all 23 chapters reverse-order completion; preview, miss, duplicate, undo, pinch, eraser, cancellation, stale loads, account restore and gated delayed storage.`);
 })().catch(e=>{console.error(e);process.exitCode=1;});

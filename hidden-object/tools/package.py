@@ -3,6 +3,7 @@ from pathlib import Path
 from html.parser import HTMLParser
 import json, re, shutil, zipfile, hashlib
 from PIL import Image
+from urllib.parse import urlsplit
 BASE = Path(__file__).resolve().parents[2]
 ROOT = BASE/'hidden-object'
 OUT = BASE/'release/hidden-object-minitool.zip'
@@ -21,7 +22,7 @@ class Audit(HTMLParser):
    if a.get(attr):
     if tag=='use' and a[attr].startswith('#'):continue
     assert a[attr].startswith('./'), a[attr]
-    p = ROOT/a[attr][2:]; assert p.is_file(), p; files.add(p)
+    p = ROOT/urlsplit(a[attr][2:]).path; assert p.is_file(), p; files.add(p)
 Audit().feed((ROOT/'index.html').read_text(encoding='utf-8-sig'))
 for l in playable:
  for key in ['scene','sprite','thumb']:
@@ -68,8 +69,9 @@ report={
  'files':len(files),'zipBytes':OUT.stat().st_size,'zipMiB':round(OUT.stat().st_size/1024/1024,2),
  'sha256':hashlib.sha256(OUT.read_bytes()).hexdigest(),'textBytes':sum(p.stat().st_size for p in files if p.suffix in ['.html','.js','.css','.json']),
  'recognition':'Offline position matching against answer-derived object polygons. Any target order; no target selection required.',
- 'validation':'Node geometry and game regression tests; local browser UI checks. Not a platform simulator or device acceptance.',
- 'pending':['Creator platform simulator','Android device','iOS device','Chrome 61 compatibility and performance on devices'],
+ 'validation':'Node geometry, game and simulated account isolation regression tests; local browser UI checks. Not a platform simulator or device acceptance.',
+ 'accountSave':'Platform user × mini-tool cloud storage, client 9.51+ and beta entitlement required. No shared-device save migration or persistent fallback.',
+ 'pending':['Creator platform simulator','Android device','iOS device','Real account switching and cross-device restore','Chrome 61 compatibility and performance on devices'],
  'contentReview':'Supplied answer components reviewed as contact sheets; labels are short visual descriptions. This is not a general-purpose semantic image classifier.'}
 (ROOT/'qa/package-report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
 print(json.dumps(report,ensure_ascii=False,indent=2));print(OUT)

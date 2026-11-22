@@ -1,4 +1,4 @@
-# 藏在画里 · 答案识别版
+# 图画捉迷藏
 
 本次从用户提供的答案截图继续制作，开放原图前 23 页，合计 520 个寻找目标。原有后 88 页源码与图片保留在工作区，未开放为可玩关卡，也未塞入上传包。
 
@@ -8,11 +8,14 @@
 - 任意顺序点中或沿物体涂色，按答案轮廓确认具体目标，立即高亮并打勾。
 - 外接矩形内但轮廓外的点不算命中；横穿许多物体的长线不会批量完成目标。
 - 重复点击不重复计数；每笔最多确认一个目标。
-- 双指缩放和平移、独立移动工具、颜色选择、擦笔迹、撤销。
+- 默认完整展示图片；点击进入独立找物工作区，工具栏与横向目标栏占独立空间，不压住画面。双指缩放和平移、画笔、移动、橡皮、撤销。
+- 手机图片贴边展示，压缩标题和进度卡，按钮触控区域至少44px；窄屏和横屏均有专门布局。
 - 全部找齐才开放通关；撤销发现后同步撤回通关状态。
 - 图册展示 23 幅缩略图、每页进度和完成印章。
-- 小红书 Storage 持久化，版本和方法检测；未知环境仅保留当前会话。异步存档读取会合并本次发现，不覆盖正在游玩的进度。
-- 新版使用 `hidden-object-answers-v4` 存档键。旧版的手动勾选不能验证位置，因此不转为新版本的已找到目标；旧键数据保留。
+- 账号存档改为平台云存储：collection `picture_hide_seek_v1`，按「用户 × 小工具」隔离。新账号空档，同账号重新打开恢复。读取账号存档期间暂停输入；回到前台和写入前重新核对存档记录，不跨账号合并。
+- 客户端9.51+且小工具开通云存储内测权限才支持账号持久化。版本未知、未授权、API缺失或读取失败时明确提示临时游玩，不回退到共用设备缓存。读失败不会当作空档写回；写入UNKNOWN时先query对账。
+- 旧键 `hidden-object-answers-v4` 无可靠账号归属，不导入任何新账号，也不删除旧数据。
+- 云端写入节流为分钟级，支持手动保存、切关及进入后台时尝试保存；异常不无限重试。平台不提供并发版本校验，多设备同时游玩采用最后写入生效规则。
 - 持久笔迹有数量和体积预算；完整已找到目标 ID 优先保留。
 
 ## 判定方式与内容范围
@@ -28,18 +31,20 @@
 ```powershell
 python -X utf8 hidden-object/tools/build_recognition.py
 node hidden-object/tools/test-recognition.cjs
+node hidden-object/tools/test-account-save.cjs
 python -X utf8 hidden-object/tools/package.py
+python -X utf8 hidden-object/tools/prepare_upload.py
 python -X utf8 C:/Users/33183/.codex/skills/minitool-zip-builder/scripts/audit_artifact.py release/hidden-object-minitool.zip
 ```
 
-入口为 `index.html`，运行代码为 `assets/game.js`、`assets/recognition.js`、`assets/game.css`，数据为 `assets/levels.js`，资源在 `assets/calibrated/`。旧版 `app.js`、`style.css` 仅作为历史源码保留，不进入发布包。
+入口为 `index.html`，运行代码为 `assets/game.js`、`assets/account-save.js`、`assets/recognition.js`、`assets/game.css`，数据为 `assets/levels.js`，资源在 `assets/calibrated/`。旧版 `app.js`、`style.css` 仅作为历史源码保留，不进入发布包。
 
-本地预览：`http://127.0.0.1:8785/hidden-object/`。
+本地预览：在工作区运行 `python -m http.server 8766 --directory hidden-object`，打开 `http://127.0.0.1:8766/`。网页预览不接入小红书账号，为临时游玩。
 
-新版上传包：`release/hidden-object-minitool.zip`。打包前版本保存在 `qa/before-recognition.zip`。包只包含运行必需的 75 个文件，线稿采用 4 色无损 WebP；包约 2.73 MiB，低于 10 MiB 上限，略高于 2 MiB 建议值，保留了放大线稿所需的分辨率。
+新版上传包：`release/hidden-object-minitool.zip`。打包前版本保存在 `qa/before-recognition.zip`。包只包含入口引用与可玩关卡必需的运行文件，线稿采用 4 色无损 WebP；包约 2.85 MiB，低于 10 MiB 上限，略高于 2 MiB 建议值，保留了放大线稿所需的分辨率。
 
-测试覆盖 520 个目标内部点、520 个外接框与轮廓差异的负例、23 关倒序通关、误点、重复、预览、撤销、双指取消绘画、擦除、取消事件、切关、资源加载失败与重试、过期加载、存档恢复与异步合并。另在普通浏览器检查了桌面、390px 手机和 320px 窄屏布局。
+测试覆盖 520 个目标内部点、520 个外接框与轮廓差异的负例、23 关倒序通关、误点、重复、预览、撤销、双指取消绘画、擦除、取消事件、切关、资源加载失败与重试、过期加载、存档恢复、延迟读取输入门禁、回到前台账号切换。账号模拟测试另覆盖新用户空档、A/B隔离、重新打开、写前切换、读取失败、UNKNOWN对账、分页和64KiB预算。另在普通浏览器检查390×844、320×667、844×390和1280×900布局，实际点击目标、缩放、拖动与切关，无控制台错误；放大工作区的工具栏和目标栏与画布区域无重叠。
 
-浏览器检查与 Node 测试不等于小红书容器验收。交付后还需将同一 ZIP 在创服平台模拟器、Android 真机和 iOS 真机中验证。Chrome 61 兼容性、真机首屏时间、帧率和内存尚未实测。在线规则核对来源：https://miniapp-sandbox.xiaohongshu.com/minitool/doc（2026-11-21 获取，页面版本 2026-11-19）。
+浏览器检查与 Node 测试不等于小红书容器验收。交付后还需将同一 ZIP 在创服平台模拟器、Android 真机和 iOS 真机中验证，确认该小工具云存储权限可用，再用真实A/B账号和同账号跨设备检查存档。当前没有这些真机/真实账号验收结果。Chrome 61 兼容性、真机首屏时间、帧率和内存尚未实测。在线规则核对来源：https://miniapp-sandbox.xiaohongshu.com/minitool/doc（2026-11-22在线核验，云存储仍为内测）。
 
 原版 Nature 主题的 MIT 许可保留在 `assets/hud-nature.css` 文件头。

@@ -6,10 +6,11 @@
 <meta name="theme-color" content="#1e2938">
 <title>图画捉迷藏 · 找到细节，收集惊喜</title>
 <link rel="icon" href="./assets/app-icon.png">
-<link rel="stylesheet" href="./assets/game.css">
+<link rel="stylesheet" href="./assets/game.css?v=ui8">
 <script defer src="./assets/levels.js"></script>
 <script defer src="./assets/recognition.js"></script>
-<script defer src="./assets/game.js"></script>
+<script defer src="./assets/account-save.js"></script>
+<script defer src="./assets/game.js?v=ui8"></script>
 </head>
 <body>
 <svg class="icon-definitions" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
@@ -26,6 +27,7 @@
 <header class="masthead"><div class="brand"><img class="brand-icon" src="./assets/app-icon.png" alt="图画捉迷藏图标"><div><strong>图画捉迷藏</strong><small>找到细节，收集惊喜</small></div></div><div class="header-actions"><button id="library-button" class="nav-button" type="button"><svg class="ui-icon" aria-hidden="true"><use href="#i-book"/></svg><span>我的画册</span></button><button id="help-button" class="help-button" type="button" aria-label="玩法说明">?</button></div></header>
 <main>
 <section id="play-view">
+ <p id="account-notice" class="account-notice" hidden></p>
  <div class="chapter-row"><div><span class="micro-label">每一幅画，都是一次小探险</span><h1><span id="chapter-number">01</span><span id="chapter-title">丛林健身房</span></h1></div><span class="chapter-tag" id="chapter-tag">今日探险</span></div>
  <div class="game-layout">
   <div class="scene-column">
@@ -40,23 +42,21 @@
      <div id="scene-content" class="scene-content"><img id="scene-image" alt="丛林健身房找物场景" draggable="false"><canvas id="mark-layer" aria-label="轻点或涂出找到的物体"></canvas></div>
      <div id="scene-loading" class="scene-loading" role="status"><img src="./assets/app-icon.png" alt=""><strong>小世界准备中…</strong><small>正在展开画册。若长时间未就绪，请退出后重新打开。</small></div>
      <button id="retry-scene" class="retry-button" type="button" hidden>重新加载</button>
-     <button id="enter-explore" class="enter-explore" type="button"><svg class="ui-icon" aria-hidden="true"><use href="#i-search"/></svg><span>进入找物</span></button>
-     <button id="exit-explore" class="exit-explore" type="button" hidden>退出放大</button>
-     <div class="zoom-pill"><button id="zoom-out" type="button" aria-label="缩小">−</button><span id="zoom-status">100%</span><button id="zoom-in" type="button" aria-label="放大">＋</button><button id="zoom-reset" type="button" aria-label="还原图片">↺</button></div>
     </div>
+    <div class="scene-actions"><button id="enter-explore" class="enter-explore" type="button"><svg class="ui-icon" aria-hidden="true"><use href="#i-search"/></svg><span>展开画面</span></button><button id="exit-explore" class="exit-explore" type="button" hidden>← 返回全图</button><span id="workspace-progress" class="workspace-progress">0 / 40</span><div class="zoom-pill"><button id="zoom-out" type="button" aria-label="缩小">−</button><span id="zoom-status">100%</span><button id="zoom-in" type="button" aria-label="放大">＋</button><button id="zoom-reset" type="button" aria-label="还原完整图片">↺</button></div></div>
     <div class="drawing-bar"><div class="tool-controls"><button id="brush-tool" class="tool active" type="button" aria-pressed="true"><svg class="ui-icon" aria-hidden="true"><use href="#i-pen"/></svg>画笔</button><button id="move-tool" class="tool" type="button" aria-pressed="false"><svg class="ui-icon" aria-hidden="true"><use href="#i-move"/></svg>移动</button><button id="eraser-tool" class="tool" type="button" aria-pressed="false"><svg class="ui-icon" aria-hidden="true"><use href="#i-eraser"/></svg>橡皮</button><button id="undo-button" class="tool" type="button" disabled><svg class="ui-icon" aria-hidden="true"><use href="#i-undo"/></svg>撤销</button></div><div class="ink-controls" role="group" aria-label="涂色颜色"><button class="ink-dot active" data-color="#ed9271" style="--ink:#ed9271" aria-label="珊瑚红" type="button"></button><button class="ink-dot" data-color="#e5b956" style="--ink:#e5b956" aria-label="暖黄色" type="button"></button><button class="ink-dot" data-color="#72a9b3" style="--ink:#72a9b3" aria-label="天空蓝" type="button"></button></div></div>
-    <p class="board-footnote">轻点或涂色确认 · 双指放大、移动画面</p>
+    <p class="board-footnote">点画面展开 · 双指放大细节 · 画笔点选或涂色</p>
    </section>
   </div>
   <aside class="collection-panel" aria-label="本关全部寻找目标"><div class="collection-heading"><div><span class="micro-label">藏在画里的线索</span><h2>今天找这些</h2></div><svg class="ui-icon collection-icon" aria-hidden="true"><use href="#i-search"/></svg></div><p class="collection-instruction">不用按顺序，看到就点亮。<span>点小图放大看，找到后自动亮起来。</span></p><div class="target-filter" role="group" aria-label="目标显示"><button id="filter-all" class="active" type="button">全部目标 <span id="all-count">40</span></button><button id="filter-left" type="button">还没找到 <span id="left-count">40</span></button></div><div id="target-grid" class="target-grid" aria-label="全部目标卡片"></div><p id="empty-targets" class="empty-targets" hidden>这一页的小惊喜，都被你找到了！</p><div class="collection-bottom"><p id="collection-status" role="status">看到一个，点亮一个，慢慢收集</p><button id="next-level-button" class="primary-button" type="button" disabled><span>找齐后，解锁下一页</span><svg class="ui-icon" aria-hidden="true"><use href="#i-arrow"/></svg></button></div></aside>
  </div>
- <div class="page-footer"><button id="previous-button" class="page-link" type="button">← 上一幅</button><div><span id="page-counter">01 / 23</span><small id="save-status">本次游玩进度</small></div><button id="skip-button" class="page-link" type="button">换一幅 →</button></div>
+ <div class="page-footer"><button id="previous-button" class="page-link" type="button">← 上一幅</button><div><span id="page-counter">01 / 23</span><button id="sync-save" class="save-button" type="button" hidden>保存</button><small id="save-status" role="status">本次游玩进度</small></div><button id="skip-button" class="page-link" type="button">换一幅 →</button></div>
 </section>
 <section id="library-view" class="library-view" hidden><div class="library-title"><div><span class="micro-label">我的探险地图</span><h1>继续寻找藏起来的小东西</h1><p>每一幅画，都藏着一组只属于你的发现。</p></div><button id="back-to-game" class="primary-button" type="button">继续上次探险 <svg class="ui-icon" aria-hidden="true"><use href="#i-arrow"/></svg></button></div><div class="library-stats"><div><svg class="ui-icon" aria-hidden="true"><use href="#i-book"/></svg><span><b id="completed-count">0</b><em>/ 23</em><small>幅画册已收齐</small></span></div><div><svg class="ui-icon" aria-hidden="true"><use href="#i-star"/></svg><span><b id="total-found-count">0</b><em>/ 520</em><small>个小惊喜已发现</small></span></div><p>不赶时间，<br>从喜欢的那一页开始。</p></div><div id="level-grid" class="level-grid"></div><div class="coming-next"><svg class="ui-icon" aria-hidden="true"><use href="#i-star"/></svg><p>还有 88 个小世界，等你来解锁。</p></div></section>
 </main>
 <div id="toast" class="toast" role="status" hidden></div>
 <div id="target-modal" class="modal" hidden><div class="modal-backdrop" data-close="target-modal"></div><section class="dialog target-dialog" role="dialog" aria-modal="true" aria-labelledby="target-preview-title"><button class="close-button" data-close="target-modal" type="button" aria-label="关闭">×</button><span class="micro-label">再靠近一点，看清它的样子</span><canvas id="target-preview" width="432" height="318"></canvas><h2 id="target-preview-title">目标小图</h2><p id="target-preview-status"></p><button class="primary-button" data-close="target-modal" type="button">记住了，去找找 <svg class="ui-icon" aria-hidden="true"><use href="#i-arrow"/></svg></button></section></div>
-<div id="help-modal" class="modal" hidden><div class="modal-backdrop" data-close="help-modal"></div><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="help-title"><button class="close-button" data-close="help-modal" type="button" aria-label="关闭">×</button><span class="micro-label">欢迎翻开「图画捉迷藏」</span><h2 id="help-title">用一点好奇心，<br>换一份小惊喜。</h2><ol><li><b>看看本关的小目标。</b>不用按顺序，想先找哪个都可以。点小图可以放大查看形状。</li><li><b>找到后，轻点或涂色。</b>确认正确的物体，画面显出淡彩，清单打勾，进度也会点亮。</li><li><b>放大，再仔细看一看。</b>双指缩放、拖动，也可以点放大按钮。撤销可以退回刚才的发现。</li></ol><p>擦笔迹只擦去涂色。需要取消一次发现时，请点撤销。每幅画找齐全部目标后，就能收获完成印章。</p><button class="primary-button" data-close="help-modal" type="button">开始今天的小探索</button></section></div>
+<div id="help-modal" class="modal" hidden><div class="modal-backdrop" data-close="help-modal"></div><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="help-title"><button class="close-button" data-close="help-modal" type="button" aria-label="关闭">×</button><span class="micro-label">欢迎翻开「图画捉迷藏」</span><h2 id="help-title">用一点好奇心，<br>换一份小惊喜。</h2><ol><li><b>看看本关的小目标。</b>不用按顺序，想先找哪个都可以。点小图可以放大查看形状。</li><li><b>找到后，轻点或涂色。</b>确认正确的物体，画面显出淡彩，清单打勾，进度也会点亮。</li><li><b>放大，再仔细看一看。</b>双指缩放、拖动，也可以点放大按钮。撤销可以退回刚才的发现。</li></ol><p>橡皮只擦去涂色。需要取消一次发现时，请点撤销。每幅画找齐全部目标后，就能收获完成印章。</p><p>支持账号存档时，进度只保存在当前小红书账号中，自动合并保存，也可点底部「保存」。网页预览或账号存档不可用时为临时游玩，关闭后不保留。</p><button class="primary-button" data-close="help-modal" type="button">开始今天的小探索</button></section></div>
 <div id="success-modal" class="modal" hidden><div class="modal-backdrop" data-close="success-modal"></div><section class="dialog success-dialog" role="dialog" aria-modal="true" aria-labelledby="success-title"><div class="success-seal"><svg class="ui-icon" aria-hidden="true"><use href="#i-star"/></svg></div><span class="micro-label">一页圆满的小小发现</span><h2 id="success-title">这一页，收集完成！</h2><p id="success-detail"></p><button id="success-next" class="primary-button" type="button">去下一幅小世界 <svg class="ui-icon" aria-hidden="true"><use href="#i-arrow"/></svg></button><button class="quiet-button" data-close="success-modal" type="button">再欣赏一下我的发现</button></section></div>
 </body></html>
 
