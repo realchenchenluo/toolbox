@@ -7,14 +7,11 @@ var current = 0, level, targets = [], strokes = [], draft = null, ready = false,
 var stage = $('scene-stage'), content = $('scene-content'), image = $('scene-image'), canvas = $('mark-layer'), ctx = canvas.getContext('2d');
 var fit = 1, zoom = 1, pan = {x:0,y:0}, mode = 'brush', color = '#ed9271', filter = 'all', exploreMode = false;
 var pointers = {}, gesture, paintingId = null, generation = 0, toastTimer, fadeHandle = 0, levelCelebrated = false;
-var progress = {pages:{},current:0}, storage, saveTimer, storageLoaded = false, interacted = false, KEY = 'hidden-object-answers-v4';
-var ASSET_VERSION = 'ui7';
+var progress = {pages:{},current:0}, account, accountId = null, accountPending = false, saveTimer, interacted = false;
+var dirty = false, writing = false, saveRevision = 0, accountEpoch = 0, lastWrite = 0;
+var ASSET_VERSION = 'ui8';
 function count() { return targets.filter(function(t) { return t.found; }).length; }
 function toast(text) { $('toast').textContent = text; $('toast').hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(function() { $('toast').hidden = true; },2200); }
-function storageCall(method,data) {
-  if (!storage || typeof storage[method] !== 'function') return Promise.resolve(null);
-  try { return Promise.race([Promise.resolve(storage[method](data)).catch(function() { return null; }),new Promise(function(r) { setTimeout(function() { r(null); },2000); })]); } catch (error) { return Promise.resolve(null); }
-}
 function readWindow(tool) {
   if (typeof tool.getWindowInfo !== 'function') return;
   try { Promise.resolve(tool.getWindowInfo()).then(function(info) {
@@ -27,57 +24,87 @@ function readWindow(tool) {
     document.documentElement.style.setProperty('--container-bottom',bottom + 'px'); resize();
   }).catch(function() {}); } catch (error) {}
 }
+function cleanProgress(saved) {
+  var result = {pages:{},current:Math.min(playable.length - 1,Math.max(0,Math.floor(Number(saved && saved.current) || 0)))};
+  playable.forEach(function(l) {
+    var page = saved && saved.pages && saved.pages[l.id]; if (!page || !Array.isArray(page.found)) return;
+    var ids = l.items.map(function(t) { return t.id; });
+    result.pages[l.id] = {found:ids.filter(function(id) { return page.found.indexOf(id) >= 0; }),strokes:Array.isArray(page.strokes) ? page.strokes.slice(-100).filter(function(s) {
+      return s && ['brush','eraser'].indexOf(s.mode) >= 0 && typeof s.color === 'string' && /^#[0-9a-f]{6}$/i.test(s.color) && Number(s.width) > 0 && Number(s.width) <= 64 && Array.isArray(s.points) && s.points.length > 0 && s.points.length <= 90 && s.points.every(function(p) { return p && Number.isFinite(p.x) && Number.isFinite(p.y) && p.x >= -64 && p.y >= -64 && p.x <= l.width + 64 && p.y <= l.height + 64; });
+    }) : []};
+  }); return result;
+}
+function setAccountPending(on) { accountPending = on; document.body.classList.toggle('account-checking',on); }
+function sessionOnly(message) {
+  setAccountPending(false); $('save-status').textContent = '临时游玩 · 关闭后不保留';
+  $('account-notice').textContent = message; $('account-notice').hidden = false; $('sync-save').hidden = true;
+}
+function applyAccount(saved) {
+  accountId = saved.id; progress = cleanProgress(saved.progress); dirty = false; saveRevision++;
+  openLevel(progress.current,true);
+}
+function refreshAccount() {
+  if (!account || !account.enabled) return Promise.resolve();
+  var epoch = ++accountEpoch, previous = accountId; clearTimeout(saveTimer); setAccountPending(true);
+  $('save-status').textContent = '正在读取账号存档…';
+  return account.load().then(function(saved) {
+    if (epoch !== accountEpoch) return;
+    if (!previous || previous !== saved.id || !dirty) applyAccount(saved);
+    setAccountPending(false); $('account-notice').hidden = true; $('sync-save').hidden = false;
+    $('save-status').textContent = dirty ? '有新进度待保存' : '当前账号的专属存档';
+    if (dirty) scheduleSave();
+  }).catch(function(error) {
+    if (epoch !== accountEpoch) return;
+    // A failed read is never an empty cloud save. No new cloud write can follow it.
+    accountId = null; progress = {pages:{},current:0}; dirty = false; openLevel(0,true);
+    sessionOnly(error && (error.errCode === 1006 || error.errCode === 10003) ? '账号存档暂未开放，本次可临时游玩。' : '账号存档未能读取，本次临时游玩不会覆盖原存档。');
+  });
+}
 function initStorage() {
   var xhs = window.xhs, tool = xhs && xhs.miniTool;
-  if (!tool) return;
-  document.body.classList.add('in-container'); readWindow(tool);
+  if (!tool) { sessionOnly('网页预览为临时游玩；账号存档需在支持的小红书中打开。'); return; }
+  document.body.classList.add('in-container'); setAccountPending(true);
   var launch;
   try { launch = xhs.launchOptions || (typeof tool.getLaunchOptions === 'function' ? tool.getLaunchOptions() : null); } catch (error) { launch = null; }
-  Promise.race([Promise.resolve(launch),new Promise(function(r) { setTimeout(function() { r(null); },1800); })]).then(function(info) {
+  Promise.race([Promise.resolve(launch),new Promise(function(r) { setTimeout(function() { r(null); },3000); })]).then(function(info) {
     var version = Math.floor(Number(info && info.miniToolEnv && info.miniToolEnv.buildVersion) / 1000);
-    if (!version || version < 9460) return null;
-    storage = tool; return storageCall('getStorage',{key:KEY});
-  }).then(function(result) {
-    var saved;
-    try { saved = result && JSON.parse(result.data); } catch (error) {}
-    if (saved && saved.pages && typeof saved.pages === 'object') {
-      var local = progress.pages;
-      progress = {pages:saved.pages,current:Number(saved.current) || 0};
-      Object.keys(local).forEach(function(k) {
-        var remote = progress.pages[k], ids = remote && Array.isArray(remote.found) ? remote.found : [];
-        local[k].found.forEach(function(id) { if (ids.indexOf(id) < 0) ids.push(id); });
-        progress.pages[k] = {found:ids,strokes:local[k].strokes};
-      });
-      if (!interacted) openLevel(Math.min(playable.length - 1,Math.max(0,progress.current)),true);
-      else if (ready) {
-        var active = progress.pages[level.id];
-        if (active) targets.forEach(function(t) { if (active.found.indexOf(t.id) >= 0) t.found = true; });
-        renderTargets(); renderInk(); updateProgress();
-      }
-    }
-    storageLoaded = true; $('save-status').textContent = storage ? '进度保存在这台设备' : '本次游玩进度'; if (interacted) save(true);
-  }).catch(function() { storageLoaded = true; });
+    if (version >= 9490) readWindow(tool);
+    account = window.PictureAccountSave.create(tool,version);
+    if (!account.enabled) { sessionOnly('当前版本暂不支持账号存档，本次可临时游玩。'); return; }
+    return refreshAccount();
+  }).catch(function() { sessionOnly('账号存档暂不可用，本次可临时游玩。'); });
+}
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  if (!accountId || accountPending) return;
+  saveTimer = setTimeout(persist,Math.max(1500,60000 - (Date.now() - lastWrite)));
 }
 function persist() {
-  if (!storage || !storageLoaded) return;
-  var snapshot = JSON.parse(JSON.stringify(progress)), keys = Object.keys(snapshot.pages), data = JSON.stringify(snapshot);
-  // Found IDs always survive. Older decorative ink is bounded below the 1 MiB/key quota.
-  while (data.length > 260000) {
-    var biggest = keys.reduce(function(a,b) { return snapshot.pages[b].strokes.length > snapshot.pages[a].strokes.length ? b : a; },keys[0]);
-    if (!biggest || !snapshot.pages[biggest].strokes.length) break;
-    snapshot.pages[biggest].strokes.splice(0,20); data = JSON.stringify(snapshot);
-  }
-  storageCall('setStorage',{key:KEY,data:data}).then(function(result) { $('save-status').textContent = result && result.errMsg === 'setStorage:ok' ? '进度保存在这台设备' : '本次进度暂未保存'; });
+  if (!accountId || accountPending || !dirty || writing) return;
+  writing = true; lastWrite = Date.now(); var revision = saveRevision, epoch = accountEpoch, failed = false;
+  $('save-status').textContent = '正在保存到当前账号…';
+  account.write(progress).then(function(result) {
+    if (epoch !== accountEpoch) return;
+    if (result.changed) { applyAccount(result.save); toast('已切换为当前账号的存档'); }
+    else if (revision === saveRevision) dirty = false;
+    lastWrite = Date.now(); $('save-status').textContent = dirty ? '有新进度待保存' : '已保存到当前账号';
+  }).catch(function(error) {
+    if (epoch !== accountEpoch) return;
+    failed = true; $('save-status').textContent = error && error.errCode === 'UNKNOWN' ? '存档结果待确认，请稍后重试' : '暂未保存，请点保存重试';
+    if (error && (error.errCode === 1006 || error.errCode === 10003)) { accountId = null; sessionOnly('账号存档暂不可用，本次进度只在本次游玩保留。'); }
+  }).then(function() { writing = false; if (!failed && dirty && accountId) scheduleSave(); });
 }
 function save(flush) {
-  if (!level || !ready) return;
+  if (!level || !ready || accountPending) return;
+  var before = JSON.stringify(progress);
   progress.current = current;
   progress.pages[level.id] = {found:targets.filter(function(t) { return t.found; }).map(function(t) { return t.id; }),strokes:strokes.slice(-100).map(function(s) {
     var points = s.points;
     if (points.length > 90) { var step = (points.length - 1) / 89; points = Array.from({length:90},function(_,i) { return s.points[Math.round(i * step)]; }); }
     return {mode:s.mode,color:s.color,width:s.width,target:s.target,points:points};
   })};
-  clearTimeout(saveTimer); if (flush) persist(); else saveTimer = setTimeout(persist,300);
+  if (JSON.stringify(progress) !== before) { dirty = true; saveRevision++; }
+  clearTimeout(saveTimer); if (flush) persist(); else scheduleSave();
 }
 function loadImage(src) {
   return new Promise(function(resolve,reject) {
@@ -89,24 +116,30 @@ function loadImage(src) {
 function setExploreMode(on) {
   exploreMode = !!on;
   $('play-view').classList.toggle('explore-mode',exploreMode);
+  document.body.classList.toggle('exploring',exploreMode);
+  pointers = {}; gesture = null; draft = null; paintingId = null;
   $('enter-explore').hidden = exploreMode;
   $('exit-explore').hidden = !exploreMode;
   if (exploreMode) {
-    zoom = Math.max(1.35,zoom); $('scene-status').textContent = '进入找物 · 可放大、移动、涂画';
+    zoom = 1; pan = {x:0,y:0}; $('scene-status').textContent = '双指放大细节 · 画笔点选或涂色';
   } else {
     zoom = 1; pan = {x:0,y:0}; $('scene-status').textContent = ready ? '先看完整画面，再点击进入找物' : '正在准备场景和全部目标…';
   }
   if (ready) resize();
 }
 function resize() {
+  var viewportHeight = window.visualViewport && window.visualViewport.height ? window.visualViewport.height : window.innerHeight;
+  document.documentElement.style.setProperty('--app-height',viewportHeight + 'px');
   if (!ready) return;
   var mobile = window.innerWidth <= 820;
-  var viewportHeight = window.visualViewport && window.visualViewport.height ? window.visualViewport.height : window.innerHeight;
-  var normalHeight = stage.clientWidth / canvas.width * canvas.height;
-  var height = mobile ? (exploreMode ? Math.max(460,viewportHeight) : Math.min(Math.max(330,normalHeight),Math.max(390,viewportHeight * .58))) : Math.min(740,Math.max(370,window.innerHeight - 400));
-  stage.style.height = height + 'px'; fit = mobile ? (exploreMode ? Math.max(stage.clientWidth / canvas.width,(stage.clientHeight * .76) / canvas.height) : Math.min(stage.clientWidth / canvas.width,stage.clientHeight / canvas.height)) : Math.min(stage.clientWidth / canvas.width,stage.clientHeight / canvas.height);
+  if (exploreMode) stage.style.height = '';
+  else {
+    var natural = stage.clientWidth / canvas.width * canvas.height;
+    stage.style.height = (mobile ? Math.min(natural,Math.max(300,viewportHeight - 290)) : Math.min(natural,Math.max(420,viewportHeight - 320))) + 'px';
+  }
+  fit = Math.min(stage.clientWidth / canvas.width,stage.clientHeight / canvas.height);
   content.style.width = canvas.width * fit + 'px'; content.style.height = canvas.height * fit + 'px'; applyTransform();
-  $('target-grid').style.maxHeight = mobile ? 'none' : Math.max(300,height + 10) + 'px';
+  $('target-grid').style.maxHeight = mobile || exploreMode ? 'none' : Math.max(300,stage.clientHeight) + 'px';
 }
 function applyTransform() {
   var maxX = Math.max(0,(canvas.width * fit * zoom - stage.clientWidth) / 2), maxY = Math.max(0,(canvas.height * fit * zoom - stage.clientHeight) / 2);
@@ -139,7 +172,7 @@ function renderInk() {
 function pointerList() { return Object.keys(pointers).map(function(k) { return pointers[k]; }); }
 function cancelDraft() { draft = null; paintingId = null; renderInk(); }
 function pointerDown(e) {
-  if (!ready || e.button > 0) return;
+  if (!ready || accountPending || e.button > 0) return;
   if (!exploreMode) { setExploreMode(true); e.preventDefault(); return; }
   interacted = true; pointers[e.pointerId] = {x:e.clientX,y:e.clientY}; try { canvas.setPointerCapture(e.pointerId); } catch (error) {}
   var ps = pointerList();
@@ -182,8 +215,8 @@ function makeCard(t,index) {
 }
 function renderTargets() {
   if (!sprite) return;
-  var grid = $('target-grid'), scroll = grid.scrollTop, frag = document.createDocumentFragment(); grid.textContent = '';
-  targets.forEach(function(t,i) { if (filter === 'left' && t.found) return; frag.appendChild(makeCard(t,i)); }); grid.appendChild(frag); grid.scrollTop = scroll;
+  var grid = $('target-grid'), scroll = grid.scrollTop, scrollX = grid.scrollLeft, frag = document.createDocumentFragment(); grid.textContent = '';
+  targets.forEach(function(t,i) { if (filter === 'left' && t.found) return; frag.appendChild(makeCard(t,i)); }); grid.appendChild(frag); grid.scrollTop = scroll; grid.scrollLeft = scrollX;
   $('empty-targets').hidden = !(filter === 'left' && count() === targets.length);
 }
 function choose(index) {
@@ -193,7 +226,7 @@ function choose(index) {
 function completedTotal() { return playable.filter(function(l) { return progress.pages[l.id] && progress.pages[l.id].found.length === l.items.length; }).length; }
 function paintProgress(n,total) {
   var percent = total ? Math.round(n / total * 100) : 0, all = total > 0 && n === total;
-  $('found-count').textContent = n; $('target-count').textContent = total;
+  $('workspace-progress').textContent = n + ' / ' + total; $('found-count').textContent = n; $('target-count').textContent = total;
   $('all-count').textContent = total; $('left-count').textContent = total - n; $('remaining-count').textContent = total - n;
   $('progress-percent').textContent = percent + '%';
   $('found-progress').style.width = percent + '%';
@@ -212,10 +245,11 @@ function updateProgress() {
   if (!all) { levelCelebrated = false; $('success-modal').hidden = true; }
 }
 function openLevel(index,restoring) {
+  if (accountPending && !restoring) return;
   if (!playable.length || !matcher) { $('scene-status').textContent = '关卡资料未加载，请退出后重新打开'; return; }
   if (!restoring) save(true); current = Math.max(0,Math.min(playable.length - 1,index)); level = playable[current]; ready = false;
   var token = ++generation; sprite = null; targets = []; strokes = []; draft = null; paintingId = null; pointers = {}; gesture = null; zoom = 1; pan = {x:0,y:0}; filter = 'all'; levelCelebrated = false;
-  $('filter-all').classList.add('active'); $('filter-left').classList.remove('active'); $('play-view').hidden = false; $('play-view').classList.remove('explore-mode'); exploreMode = false; $('enter-explore').hidden = false; $('exit-explore').hidden = true; $('library-view').hidden = true; $('success-modal').hidden = true; $('target-modal').hidden = true;
+  $('filter-all').classList.add('active'); $('filter-left').classList.remove('active'); $('play-view').hidden = false; $('play-view').classList.remove('explore-mode'); exploreMode = false; document.body.classList.remove('exploring'); $('enter-explore').hidden = false; $('exit-explore').hidden = true; $('library-view').hidden = true; $('success-modal').hidden = true; $('target-modal').hidden = true;
   $('scene-loading').hidden = false; $('scene-loading').querySelector('strong').textContent = '翻开这一页…'; $('scene-loading').querySelector('small').textContent = '正在准备画面与全部目标'; $('retry-scene').hidden = true; stage.setAttribute('aria-busy','true');
   $('chapter-number').textContent = String(current + 1).padStart(2,'0'); $('chapter-title').textContent = level.title; $('chapter-tag').textContent = level.items.length >= 30 ? '细心挑战' : level.items.length >= 20 ? '慢慢发现' : '轻松一刻'; $('page-counter').textContent = String(current + 1).padStart(2,'0') + ' / ' + playable.length;
   $('scene-status').textContent = '正在准备场景和全部目标…'; $('target-grid').textContent = ''; paintProgress(0,level.items.length); $('empty-targets').hidden = true; $('next-level-button').disabled = true; $('undo-button').disabled = true; setMode('brush');
@@ -229,7 +263,8 @@ function openLevel(index,restoring) {
   }).catch(function() { if (token !== generation) return; $('scene-loading').querySelector('strong').textContent = '这一页没有打开'; $('scene-loading').querySelector('small').textContent = '请点重新加载，已有进度会保留'; $('retry-scene').hidden = false; }); window.scrollTo(0,0);
 }
 function renderLibrary() {
-  interacted = true; save(true); generation++; ready = false; draft = null; pointers = {}; $('play-view').hidden = true; $('library-view').hidden = false; $('completed-count').textContent = completedTotal();
+  if (accountPending) return;
+  setExploreMode(false); interacted = true; save(true); generation++; ready = false; draft = null; pointers = {}; $('play-view').hidden = true; $('library-view').hidden = false; $('completed-count').textContent = completedTotal();
   $('total-found-count').textContent = playable.reduce(function(sum,l) { return sum + (progress.pages[l.id] && progress.pages[l.id].found.length || 0); },0);
   var grid = $('level-grid'), frag = document.createDocumentFragment(); grid.textContent = '';
   playable.forEach(function(l,i) {
@@ -256,13 +291,15 @@ $('target-grid').addEventListener('click',function(e) { var b = e.target.closest
 ['brush','eraser','move'].forEach(function(m) { $(m + '-tool').addEventListener('click',function() { setMode(m); }); });
 document.querySelectorAll('.ink-dot').forEach(function(b) { b.addEventListener('click',function() { color = b.getAttribute('data-color'); setMode('brush'); document.querySelectorAll('.ink-dot').forEach(function(v) { v.classList.toggle('active',v === b); }); }); });
 $('undo-button').addEventListener('click',function() { var s = strokes.pop(); if (!s) return; if (s.target) targets.forEach(function(t) { if (t.id === s.target) { t.found = false; toast('已撤销「' + t.label + '」'); } }); renderInk(); renderTargets(); updateProgress(); save(); });
-$('zoom-in').addEventListener('click',function() { setZoom(zoom + .5); }); $('zoom-out').addEventListener('click',function() { setZoom(zoom - .5); }); $('zoom-reset').addEventListener('click',function() { setZoom(1); });
+$('zoom-in').addEventListener('click',function() { if (!exploreMode) setExploreMode(true); setZoom(zoom + .5); }); $('zoom-out').addEventListener('click',function() { setZoom(zoom - .5); }); $('zoom-reset').addEventListener('click',function() { setZoom(1); });
 $('enter-explore').addEventListener('click',function() { setExploreMode(true); }); $('exit-explore').addEventListener('click',function() { setExploreMode(false); });
 ['all','left'].forEach(function(f) { $('filter-' + f).addEventListener('click',function() { filter = f; $('filter-all').classList.toggle('active',f === 'all'); $('filter-left').classList.toggle('active',f === 'left'); renderTargets(); }); });
 $('library-button').addEventListener('click',renderLibrary); $('back-to-game').addEventListener('click',function() { openLevel(current); }); $('level-grid').addEventListener('click',function(e) { var b = e.target.closest('[data-level]'); if (b) openLevel(Number(b.getAttribute('data-level'))); });
 $('previous-button').addEventListener('click',function() { openLevel(Math.max(0,current - 1)); }); $('skip-button').addEventListener('click',nextLevel); $('next-level-button').addEventListener('click',nextLevel); $('success-next').addEventListener('click',nextLevel);
 $('retry-scene').addEventListener('click',function() { openLevel(current); }); $('help-button').addEventListener('click',function() { $('help-modal').hidden = false; }); document.querySelectorAll('[data-close]').forEach(function(b) { b.addEventListener('click',function() { $(b.getAttribute('data-close')).hidden = true; }); });
-window.addEventListener('resize',resize); document.addEventListener('visibilitychange',function() { if (document.hidden) { pointers = {}; gesture = null; cancelDraft(); save(true); } else if (ready) renderInk(); });
-document.addEventListener('keydown',function(e) { if (e.key === 'Escape') ['help-modal','success-modal','target-modal'].forEach(function(id) { $(id).hidden = true; }); });
+$('sync-save').addEventListener('click',function() { save(true); });
+window.addEventListener('resize',resize); if (window.visualViewport) window.visualViewport.addEventListener('resize',resize);
+document.addEventListener('visibilitychange',function() { if (document.hidden) { pointers = {}; gesture = null; cancelDraft(); save(true); } else { if (account && account.enabled) refreshAccount(); if (ready) { resize(); renderInk(); } } });
+document.addEventListener('keydown',function(e) { if (e.key === 'Escape') { var modalOpen = ['help-modal','success-modal','target-modal'].some(function(id) { return !$(id).hidden; }); ['help-modal','success-modal','target-modal'].forEach(function(id) { $(id).hidden = true; }); if (!modalOpen && exploreMode) setExploreMode(false); } });
 openLevel(0); initStorage();
 }());
