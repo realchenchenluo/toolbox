@@ -1,16 +1,16 @@
 {
   "appName": "图画捉迷藏",
-  "slogan": "每一页都有新发现",
+  "slogan": "找到细节，收集惊喜",
   "version": "1.0.0",
   "description": "自由顺序寻找画里的隐藏物，发现后自动确认并点亮进度。",
   "categorySuggestion": "益智 / 休闲游戏（请在上传页选择当前可用的实际类目）",
   "authorizations": [],
   "package": {
     "file": "图画捉迷藏-小工具.zip",
-    "bytes": 2909733,
-    "md5": "026716ed7127981eefba96fd88e15c6b",
-    "sha256": "218a94dca18c26a88a834f0ba2417ff1714e77ff2a377a88c8d7270a0837e438",
-    "entries": 76,
+    "bytes": 2976058,
+    "md5": "4d0aa3a1d44809e10389924cff6533ca",
+    "sha256": "9fe36c48ae3e6c637eb1293ecb5aee81a49c6e748013dfafa4d31c34159ed0c6",
+    "entries": 75,
     "rootEntry": "index.html",
     "integrity": true
   },
@@ -19,9 +19,9 @@
     "format": "PNG",
     "width": 512,
     "height": 512,
-    "bytes": 45521,
-    "md5": "5f2355fea034af3644d81e94d99e316c",
-    "sha256": "46adccccd66dfd8f0ecfd68e40dab8bd836beb7725e89ada71f0b6541bbe36e8",
+    "bytes": 110162,
+    "md5": "5e8228b0571cf085e602f149272def87",
+    "sha256": "c841e58f367bce5381536959abebae7a820127f4cd8bf97938b3fc265c4765bb",
     "limit": "PNG/JPG/JPEG，≤5 MiB，1:1"
   },
   "cover": {
@@ -29,9 +29,9 @@
     "format": "JPEG",
     "width": 900,
     "height": 1200,
-    "bytes": 251664,
-    "md5": "7b20c6d536682c2fcdb3a6691b831a0c",
-    "sha256": "13fbe6131e1213c7cc80c09d658ed1d3d376a41bdec9da779751119fed3f1f9c",
+    "bytes": 264858,
+    "md5": "da9b301d7f9b28e56b26d660fd9d2b55",
+    "sha256": "85de04f576fb26e80a309e554b4fdaca7fc027827123ca7b87c699570011de78",
     "limit": "PNG/JPG/JPEG，≤10 MiB，3:4"
   },
   "content": "23幅可玩画面，520个隐藏目标；后续88幅素材暂未开放。",

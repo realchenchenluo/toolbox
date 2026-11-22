@@ -63,7 +63,7 @@ runtime.mkdir(exist_ok=True)
 for p in ordered:
  target=runtime/p.relative_to(ROOT);target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(p,target)
 report={
- 'name':'图画捉迷藏','slogan':'每一页都有新发现',
+ 'name':'图画捉迷藏','slogan':'找到细节，收集惊喜',
  'playableLevels':len(playable),'reservedLevels':len(book)-len(playable),'targets':sum(len(l['items']) for l in playable),
  'files':len(files),'zipBytes':OUT.stat().st_size,'zipMiB':round(OUT.stat().st_size/1024/1024,2),
  'sha256':hashlib.sha256(OUT.read_bytes()).hexdigest(),'textBytes':sum(p.stat().st_size for p in files if p.suffix in ['.html','.js','.css','.json']),

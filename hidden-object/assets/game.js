@@ -8,7 +8,7 @@ var stage = $('scene-stage'), content = $('scene-content'), image = $('scene-ima
 var fit = 1, zoom = 1, pan = {x:0,y:0}, mode = 'brush', color = '#ed9271', filter = 'all';
 var pointers = {}, gesture, paintingId = null, generation = 0, toastTimer, fadeHandle = 0, levelCelebrated = false;
 var progress = {pages:{},current:0}, storage, saveTimer, storageLoaded = false, interacted = false, KEY = 'hidden-object-answers-v4';
-var ASSET_VERSION = 'ui5';
+var ASSET_VERSION = 'ui7';
 function count() { return targets.filter(function(t) { return t.found; }).length; }
 function toast(text) { $('toast').textContent = text; $('toast').hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(function() { $('toast').hidden = true; },2200); }
 function storageCall(method,data) {
@@ -89,10 +89,11 @@ function loadImage(src) {
 function resize() {
   if (!ready) return;
   var mobile = window.innerWidth <= 820;
-  var height = mobile ? Math.min(stage.clientWidth / canvas.width * canvas.height,Math.max(230,window.innerHeight * .37)) : Math.min(740,Math.max(370,window.innerHeight - 400));
-  stage.style.height = height + 'px'; fit = Math.min(stage.clientWidth / canvas.width,stage.clientHeight / canvas.height);
+  var viewportHeight = window.visualViewport && window.visualViewport.height ? window.visualViewport.height : window.innerHeight;
+  var height = mobile ? Math.max(460,viewportHeight) : Math.min(740,Math.max(370,window.innerHeight - 400));
+  stage.style.height = height + 'px'; fit = mobile ? Math.max(stage.clientWidth / canvas.width,(stage.clientHeight * .76) / canvas.height) : Math.min(stage.clientWidth / canvas.width,stage.clientHeight / canvas.height);
   content.style.width = canvas.width * fit + 'px'; content.style.height = canvas.height * fit + 'px'; applyTransform();
-  $('target-grid').style.maxHeight = mobile ? '236px' : Math.max(300,height + 10) + 'px';
+  $('target-grid').style.maxHeight = mobile ? 'none' : Math.max(300,height + 10) + 'px';
 }
 function applyTransform() {
   var maxX = Math.max(0,(canvas.width * fit * zoom - stage.clientWidth) / 2), maxY = Math.max(0,(canvas.height * fit * zoom - stage.clientHeight) / 2);
