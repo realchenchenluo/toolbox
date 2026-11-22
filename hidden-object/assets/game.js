@@ -5,7 +5,7 @@ var $ = function(id) { return document.getElementById(id); };
 var book = window.HIDDEN_BOOK || [], playable = book.filter(function(l) { return l.calibrated; }), matcher = window.HiddenRecognition;
 var current = 0, level, targets = [], strokes = [], draft = null, ready = false, sprite;
 var stage = $('scene-stage'), content = $('scene-content'), image = $('scene-image'), canvas = $('mark-layer'), ctx = canvas.getContext('2d');
-var fit = 1, zoom = 1, pan = {x:0,y:0}, mode = 'brush', color = '#ed9271', filter = 'all';
+var fit = 1, zoom = 1, pan = {x:0,y:0}, mode = 'brush', color = '#ed9271', filter = 'all', exploreMode = false;
 var pointers = {}, gesture, paintingId = null, generation = 0, toastTimer, fadeHandle = 0, levelCelebrated = false;
 var progress = {pages:{},current:0}, storage, saveTimer, storageLoaded = false, interacted = false, KEY = 'hidden-object-answers-v4';
 var ASSET_VERSION = 'ui7';
@@ -86,12 +86,25 @@ function loadImage(src) {
     img.onerror = function() { if (done) return; done = true; clearTimeout(timer); reject(new Error('image')); }; img.src = './' + src + (src.indexOf('?') >= 0 ? '&' : '?') + 'v=' + ASSET_VERSION;
   });
 }
+function setExploreMode(on) {
+  exploreMode = !!on;
+  $('play-view').classList.toggle('explore-mode',exploreMode);
+  $('enter-explore').hidden = exploreMode;
+  $('exit-explore').hidden = !exploreMode;
+  if (exploreMode) {
+    zoom = Math.max(1.35,zoom); $('scene-status').textContent = '进入找物 · 可放大、移动、涂画';
+  } else {
+    zoom = 1; pan = {x:0,y:0}; $('scene-status').textContent = ready ? '先看完整画面，再点击进入找物' : '正在准备场景和全部目标…';
+  }
+  if (ready) resize();
+}
 function resize() {
   if (!ready) return;
   var mobile = window.innerWidth <= 820;
   var viewportHeight = window.visualViewport && window.visualViewport.height ? window.visualViewport.height : window.innerHeight;
-  var height = mobile ? Math.max(460,viewportHeight) : Math.min(740,Math.max(370,window.innerHeight - 400));
-  stage.style.height = height + 'px'; fit = mobile ? Math.max(stage.clientWidth / canvas.width,(stage.clientHeight * .76) / canvas.height) : Math.min(stage.clientWidth / canvas.width,stage.clientHeight / canvas.height);
+  var normalHeight = stage.clientWidth / canvas.width * canvas.height;
+  var height = mobile ? (exploreMode ? Math.max(460,viewportHeight) : Math.min(Math.max(330,normalHeight),Math.max(390,viewportHeight * .58))) : Math.min(740,Math.max(370,window.innerHeight - 400));
+  stage.style.height = height + 'px'; fit = mobile ? (exploreMode ? Math.max(stage.clientWidth / canvas.width,(stage.clientHeight * .76) / canvas.height) : Math.min(stage.clientWidth / canvas.width,stage.clientHeight / canvas.height)) : Math.min(stage.clientWidth / canvas.width,stage.clientHeight / canvas.height);
   content.style.width = canvas.width * fit + 'px'; content.style.height = canvas.height * fit + 'px'; applyTransform();
   $('target-grid').style.maxHeight = mobile ? 'none' : Math.max(300,height + 10) + 'px';
 }
@@ -127,6 +140,7 @@ function pointerList() { return Object.keys(pointers).map(function(k) { return p
 function cancelDraft() { draft = null; paintingId = null; renderInk(); }
 function pointerDown(e) {
   if (!ready || e.button > 0) return;
+  if (!exploreMode) { setExploreMode(true); e.preventDefault(); return; }
   interacted = true; pointers[e.pointerId] = {x:e.clientX,y:e.clientY}; try { canvas.setPointerCapture(e.pointerId); } catch (error) {}
   var ps = pointerList();
   if (ps.length === 2) { cancelDraft(); gesture = {distance:Math.hypot(ps[0].x - ps[1].x,ps[0].y - ps[1].y),zoom:zoom,cx:(ps[0].x + ps[1].x) / 2,cy:(ps[0].y + ps[1].y) / 2,panX:pan.x,panY:pan.y}; }
@@ -201,7 +215,7 @@ function openLevel(index,restoring) {
   if (!playable.length || !matcher) { $('scene-status').textContent = '关卡资料未加载，请退出后重新打开'; return; }
   if (!restoring) save(true); current = Math.max(0,Math.min(playable.length - 1,index)); level = playable[current]; ready = false;
   var token = ++generation; sprite = null; targets = []; strokes = []; draft = null; paintingId = null; pointers = {}; gesture = null; zoom = 1; pan = {x:0,y:0}; filter = 'all'; levelCelebrated = false;
-  $('filter-all').classList.add('active'); $('filter-left').classList.remove('active'); $('play-view').hidden = false; $('library-view').hidden = true; $('success-modal').hidden = true; $('target-modal').hidden = true;
+  $('filter-all').classList.add('active'); $('filter-left').classList.remove('active'); $('play-view').hidden = false; $('play-view').classList.remove('explore-mode'); exploreMode = false; $('enter-explore').hidden = false; $('exit-explore').hidden = true; $('library-view').hidden = true; $('success-modal').hidden = true; $('target-modal').hidden = true;
   $('scene-loading').hidden = false; $('scene-loading').querySelector('strong').textContent = '翻开这一页…'; $('scene-loading').querySelector('small').textContent = '正在准备画面与全部目标'; $('retry-scene').hidden = true; stage.setAttribute('aria-busy','true');
   $('chapter-number').textContent = String(current + 1).padStart(2,'0'); $('chapter-title').textContent = level.title; $('chapter-tag').textContent = level.items.length >= 30 ? '细心挑战' : level.items.length >= 20 ? '慢慢发现' : '轻松一刻'; $('page-counter').textContent = String(current + 1).padStart(2,'0') + ' / ' + playable.length;
   $('scene-status').textContent = '正在准备场景和全部目标…'; $('target-grid').textContent = ''; paintProgress(0,level.items.length); $('empty-targets').hidden = true; $('next-level-button').disabled = true; $('undo-button').disabled = true; setMode('brush');
@@ -211,7 +225,7 @@ function openLevel(index,restoring) {
     var saved = progress.pages[level.id];
     targets = level.items.map(function(item) { var t = Object.assign({},item); t.found = !!(saved && Array.isArray(saved.found) && saved.found.indexOf(t.id) >= 0); return t; });
     strokes = saved && Array.isArray(saved.strokes) ? saved.strokes.slice(-160).filter(function(s) { return s && Array.isArray(s.points) && s.points.length && s.points.length <= 501; }) : [];
-    levelCelebrated = count() === targets.length; ready = true; resize(); renderInk(); renderTargets(); updateProgress(); $('scene-loading').hidden = true; stage.setAttribute('aria-busy','false'); $('scene-status').textContent = '任意顺序寻找 · 轻点或涂出你发现的物体'; window.scrollTo(0,0);
+    levelCelebrated = count() === targets.length; ready = true; resize(); renderInk(); renderTargets(); updateProgress(); $('scene-loading').hidden = true; stage.setAttribute('aria-busy','false'); $('scene-status').textContent = '先看完整画面，再点击进入找物'; window.scrollTo(0,0);
   }).catch(function() { if (token !== generation) return; $('scene-loading').querySelector('strong').textContent = '这一页没有打开'; $('scene-loading').querySelector('small').textContent = '请点重新加载，已有进度会保留'; $('retry-scene').hidden = false; }); window.scrollTo(0,0);
 }
 function renderLibrary() {
@@ -235,6 +249,7 @@ function renderLibrary() {
 }
 function nextLevel() { openLevel((current + 1) % playable.length); }
 canvas.addEventListener('pointerdown',pointerDown); canvas.addEventListener('pointermove',pointerMove); canvas.addEventListener('pointerup',function(e) { finishPointer(e,false); }); canvas.addEventListener('pointercancel',function(e) { finishPointer(e,true); });
+stage.addEventListener('click',function(e) { if (!exploreMode && ready && !e.target.closest('button')) setExploreMode(true); });
 canvas.addEventListener('lostpointercapture',function(e) { if (draft && paintingId === e.pointerId) finishPointer(e,true); });
 stage.addEventListener('wheel',function(e) { if (!ready || (!e.ctrlKey && !e.metaKey)) return; e.preventDefault(); setZoom(zoom + (e.deltaY > 0 ? -.15 : .15)); },{passive:false});
 $('target-grid').addEventListener('click',function(e) { var b = e.target.closest('[data-target]'); if (b) choose(Number(b.getAttribute('data-target'))); });
@@ -242,6 +257,7 @@ $('target-grid').addEventListener('click',function(e) { var b = e.target.closest
 document.querySelectorAll('.ink-dot').forEach(function(b) { b.addEventListener('click',function() { color = b.getAttribute('data-color'); setMode('brush'); document.querySelectorAll('.ink-dot').forEach(function(v) { v.classList.toggle('active',v === b); }); }); });
 $('undo-button').addEventListener('click',function() { var s = strokes.pop(); if (!s) return; if (s.target) targets.forEach(function(t) { if (t.id === s.target) { t.found = false; toast('已撤销「' + t.label + '」'); } }); renderInk(); renderTargets(); updateProgress(); save(); });
 $('zoom-in').addEventListener('click',function() { setZoom(zoom + .5); }); $('zoom-out').addEventListener('click',function() { setZoom(zoom - .5); }); $('zoom-reset').addEventListener('click',function() { setZoom(1); });
+$('enter-explore').addEventListener('click',function() { setExploreMode(true); }); $('exit-explore').addEventListener('click',function() { setExploreMode(false); });
 ['all','left'].forEach(function(f) { $('filter-' + f).addEventListener('click',function() { filter = f; $('filter-all').classList.toggle('active',f === 'all'); $('filter-left').classList.toggle('active',f === 'left'); renderTargets(); }); });
 $('library-button').addEventListener('click',renderLibrary); $('back-to-game').addEventListener('click',function() { openLevel(current); }); $('level-grid').addEventListener('click',function(e) { var b = e.target.closest('[data-level]'); if (b) openLevel(Number(b.getAttribute('data-level'))); });
 $('previous-button').addEventListener('click',function() { openLevel(Math.max(0,current - 1)); }); $('skip-button').addEventListener('click',nextLevel); $('next-level-button').addEventListener('click',nextLevel); $('success-next').addEventListener('click',nextLevel);
