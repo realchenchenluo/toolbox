@@ -37,7 +37,7 @@ function harness(saved,storagePending) {
   const sandbox={document:doc,Image:FakeImage,Date,Promise,Math,console,setTimeout(){return 1;},clearTimeout(){},requestAnimationFrame(){return 1;},window:{HIDDEN_BOOK:data.window.HIDDEN_BOOK,HiddenRecognition:R,innerWidth:390,innerHeight:844,scrollTo(){},addEventListener(){}}};
   if (saved) sandbox.window.xhs={launchOptions:{miniToolEnv:{buildVersion:9533000}},miniTool:{getStorage(){return storagePending ? new Promise(r => resolver=r) : Promise.resolve({data:JSON.stringify(saved)});},setStorage(v){writes.push(v);return Promise.resolve({errMsg:'setStorage:ok'});}}};
   let source=fs.readFileSync('hidden-object/assets/game.js','utf8');
-  source=source.replace('openLevel(0); initStorage();','window.test={pointerDown,pointerMove,finishPointer,openLevel,choose,save,setMode,renderLibrary,get state(){return {targets,strokes,draft,zoom,progress,current,ready}}}; openLevel(0); initStorage();');
+  source=source.replace('openLevel(0); initStorage();','window.test={pointerDown,pointerMove,finishPointer,openLevel,choose,save,setMode,setExploreMode,renderLibrary,get state(){return {targets,strokes,draft,zoom,progress,current,ready}}}; openLevel(0); initStorage();');
   vm.runInNewContext(source,sandbox);
   const event=(p,id=1)=>({pointerId:id,button:0,clientX:p.x,clientY:p.y,preventDefault(){}});
   const game=sandbox.window.test;
@@ -48,7 +48,7 @@ function harness(saved,storagePending) {
 const tick=()=>new Promise(r=>setImmediate(r));
 (async()=>{
   let h=harness(),g=h.game; await tick();
-  assert(g.state.ready); g.choose(15); assert.equal(g.state.targets.filter(t=>t.found).length,0,'preview cannot complete a target');
+  assert(g.state.ready); g.choose(15); assert.equal(g.state.targets.filter(t=>t.found).length,0,'preview cannot complete a target'); g.setExploreMode(true);
   h.tap([-20,-20]); assert.equal(g.state.targets.filter(t=>t.found).length,0,'empty tap');
   h.tap(g.state.targets[37].anchor); assert(g.state.targets[37].found,'find target out of order');
   h.tap(g.state.targets[37].anchor); assert.equal(g.state.targets.filter(t=>t.found).length,1,'repeat tap is idempotent');
@@ -61,7 +61,7 @@ const tick=()=>new Promise(r=>setImmediate(r));
   g.setMode('eraser');h.tap(p);assert.equal(g.state.targets.filter(t=>t.found).length,0,'eraser cannot discover');g.setMode('brush');
   g.pointerDown(h.toEvent(p));g.finishPointer(h.toEvent(p),true);assert.equal(g.state.targets.filter(t=>t.found).length,0,'cancel cannot discover');
   for(let chapter=0;chapter<book.length;chapter++){
-    g.openLevel(chapter);await tick();
+    g.openLevel(chapter);await tick(); g.setExploreMode(true);
     const order=[...g.state.targets].reverse();
     for(const t of order) h.tap(t.anchor);
     assert.equal(g.state.targets.filter(t=>t.found).length,book[chapter].items.length,`complete chapter ${chapter+1} in reverse order`);
@@ -77,7 +77,7 @@ const tick=()=>new Promise(r=>setImmediate(r));
   const saved={current:0,pages:{'001':{found:[book[0].items[12].id],strokes:[]}}};
   h=harness(saved);await tick();await tick();assert(h.game.state.targets[12].found,'startup restore must not overwrite saved discoveries');
   h.game.save(true);await tick();assert(h.writes.length>0);assert(Buffer.byteLength(h.writes.at(-1).data,'utf8') < 1048576);
-  h=harness(saved,true);await tick();h.tap(h.game.state.targets[9].anchor);h.game.save();h.resolve();await tick();
+  h=harness(saved,true);await tick();h.game.setExploreMode(true);h.tap(h.game.state.targets[9].anchor);h.game.save();h.resolve();await tick();
   assert(h.game.state.targets[9].found,'late storage cannot erase active play');
   assert(h.game.state.targets[12].found,'late storage must also preserve earlier saved discoveries');
   console.log(`PASS: ${hits} target anchors, ${outside} polygon-vs-box negatives; all 23 chapters reverse-order completion; preview, miss, duplicate, undo, pinch, eraser, cancellation, stale loads, restore and late storage.`);

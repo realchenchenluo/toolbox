@@ -15,6 +15,7 @@
 <svg class="icon-definitions" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
 <symbol id="i-book" viewBox="0 0 24 24"><path d="M3 4.5C7 3.5 9 4 12 6c3-2 5-2.5 9-1.5v15c-4-1-6-.5-9 1.5-3-2-5-2.5-9-1.5zM12 6v15"/></symbol>
 <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5M8 10.5h5M10.5 8v5"/></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="m4 20 4.5-1 10-10-3.5-3.5-10 10L4 20Z"/><path d="m13.5 7.5 3.5 3.5M5 16l3 3"/></symbol>
 <symbol id="i-move" viewBox="0 0 24 24"><path d="M12 3v18M3 12h18M8 7l4-4 4 4M8 17l4 4 4-4M7 8l-4 4 4 4M17 8l4 4-4 4"/></symbol>
 <symbol id="i-eraser" viewBox="0 0 24 24"><path d="m14 3 7 7-11 11H5l-3-3zM7 13l7 7M10 21h12"/></symbol>
 <symbol id="i-undo" viewBox="0 0 24 24"><path d="m8 4-5 5 5 5M3 9h10a7 7 0 0 1 0 14"/></symbol>
@@ -39,9 +40,11 @@
      <div id="scene-content" class="scene-content"><img id="scene-image" alt="丛林健身房找物场景" draggable="false"><canvas id="mark-layer" aria-label="轻点或涂出找到的物体"></canvas></div>
      <div id="scene-loading" class="scene-loading" role="status"><img src="./assets/app-icon.png" alt=""><strong>小世界准备中…</strong><small>正在展开画册。若长时间未就绪，请退出后重新打开。</small></div>
      <button id="retry-scene" class="retry-button" type="button" hidden>重新加载</button>
+     <button id="enter-explore" class="enter-explore" type="button"><svg class="ui-icon" aria-hidden="true"><use href="#i-search"/></svg><span>进入找物</span></button>
+     <button id="exit-explore" class="exit-explore" type="button" hidden>退出放大</button>
      <div class="zoom-pill"><button id="zoom-out" type="button" aria-label="缩小">−</button><span id="zoom-status">100%</span><button id="zoom-in" type="button" aria-label="放大">＋</button><button id="zoom-reset" type="button" aria-label="还原图片">↺</button></div>
     </div>
-    <div class="drawing-bar"><div class="tool-controls"><button id="brush-tool" class="tool active" type="button" aria-pressed="true"><svg class="ui-icon" aria-hidden="true"><use href="#i-search"/></svg>寻找</button><button id="move-tool" class="tool" type="button" aria-pressed="false"><svg class="ui-icon" aria-hidden="true"><use href="#i-move"/></svg>移动</button><button id="eraser-tool" class="tool" type="button" aria-pressed="false"><svg class="ui-icon" aria-hidden="true"><use href="#i-eraser"/></svg>擦笔迹</button><button id="undo-button" class="tool" type="button" disabled><svg class="ui-icon" aria-hidden="true"><use href="#i-undo"/></svg>撤销</button></div><div class="ink-controls" role="group" aria-label="涂色颜色"><button class="ink-dot active" data-color="#ed9271" style="--ink:#ed9271" aria-label="珊瑚红" type="button"></button><button class="ink-dot" data-color="#e5b956" style="--ink:#e5b956" aria-label="暖黄色" type="button"></button><button class="ink-dot" data-color="#72a9b3" style="--ink:#72a9b3" aria-label="天空蓝" type="button"></button></div></div>
+    <div class="drawing-bar"><div class="tool-controls"><button id="brush-tool" class="tool active" type="button" aria-pressed="true"><svg class="ui-icon" aria-hidden="true"><use href="#i-pen"/></svg>画笔</button><button id="move-tool" class="tool" type="button" aria-pressed="false"><svg class="ui-icon" aria-hidden="true"><use href="#i-move"/></svg>移动</button><button id="eraser-tool" class="tool" type="button" aria-pressed="false"><svg class="ui-icon" aria-hidden="true"><use href="#i-eraser"/></svg>橡皮</button><button id="undo-button" class="tool" type="button" disabled><svg class="ui-icon" aria-hidden="true"><use href="#i-undo"/></svg>撤销</button></div><div class="ink-controls" role="group" aria-label="涂色颜色"><button class="ink-dot active" data-color="#ed9271" style="--ink:#ed9271" aria-label="珊瑚红" type="button"></button><button class="ink-dot" data-color="#e5b956" style="--ink:#e5b956" aria-label="暖黄色" type="button"></button><button class="ink-dot" data-color="#72a9b3" style="--ink:#72a9b3" aria-label="天空蓝" type="button"></button></div></div>
     <p class="board-footnote">轻点或涂色确认 · 双指放大、移动画面</p>
    </section>
   </div>
