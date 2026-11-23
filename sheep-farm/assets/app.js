@@ -5,21 +5,21 @@
   var PLATFORM_SAVE_KEY = 'muyun-sheep-farm-v3';
   var AUTO_SAVE_INTERVAL = 12000;
   var RETIREMENT_GOAL = 100000000;
-  var refillPrices = { hay: 12, water: 6 };
+  var refillPrices = { hay: 4, water: 2 };
   var levelMeta = [
     { cost: 0, income: 0, opens: '添草加水、剪毛售卖、退休金' },
-    { cost: 480, income: 150, opens: '草料仓、蓄水池、食槽改良' },
-    { cost: 900, income: 500, opens: '雇佣工人、精细剪毛、原料订单' },
-    { cost: 1800, income: 1600, opens: '薄荷羊、三叶草地、冷藏仓' },
-    { cost: 3600, income: 4000, opens: '蜜桃羊、营养配方、工人装备' },
-    { cost: 7200, income: 10000, opens: '彩虹羊、集市商路' },
-    { cost: 14400, income: 25000, opens: '树荫休憩、高阶羊群培育' },
-    { cost: 28800, income: 60000, opens: '礼盒车间' }
+    { cost: 160, income: 120, opens: '草料仓、蓄水池、食槽改良' },
+    { cost: 420, income: 450, opens: '雇佣工人、精细剪毛、原料订单' },
+    { cost: 1200, income: 1600, opens: '薄荷羊、三叶草地、冷藏仓' },
+    { cost: 2800, income: 4000, opens: '蜜桃羊、营养配方、工人装备' },
+    { cost: 6500, income: 10000, opens: '彩虹羊、集市商路' },
+    { cost: 16000, income: 25000, opens: '树荫休憩、高阶羊群培育' },
+    { cost: 34000, income: 60000, opens: '礼盒车间' }
   ];
   var breedMeta = {
-    normal: { name: '云朵羊', level: 1, unlock: 0, price: 280, sale: 420, wool: 1, desc: '基础羊种 · 幼羊也能产毛' },
-    mint: { name: '薄荷羊', level: 4, unlock: 1800, price: 1000, sale: 1700, wool: 1.5, desc: '全场羊毛生长 +20% · 最多叠加 3 只' },
-    peach: { name: '蜜桃羊', level: 5, unlock: 3600, price: 1800, sale: 3200, wool: 1.8, desc: '全场成长速度 +20% · 最多叠加 3 只' },
+    normal: { name: '云朵羊', level: 1, unlock: 0, price: 160, sale: 420, wool: 1, desc: '基础羊种 · 幼羊也能产毛' },
+    mint: { name: '薄荷羊', level: 4, unlock: 1200, price: 900, sale: 1700, wool: 1.5, desc: '全场羊毛生长 +20% · 最多叠加 3 只' },
+    peach: { name: '蜜桃羊', level: 5, unlock: 2800, price: 1600, sale: 3200, wool: 1.8, desc: '全场成长速度 +20% · 最多叠加 3 只' },
     rainbow: { name: '彩虹羊', level: 6, unlock: 7200, price: 4000, sale: 18000, wool: 4, desc: '羊毛产量 ×4 · 成年活羊可卖 ¥18,000 起' }
   };
   var upgradeLevels = { capacity: 1, hayBarn: 2, cistern: 2, feeder: 2, worker: 3, wool: 3, shears: 3, clover: 4, meat: 4, growth: 5, boots: 5, basket: 5, merchant: 6, shade: 7, workshop: 8 };
@@ -33,19 +33,19 @@
     '山谷收购站有原料委托，按订单交货可以多赚一些。'
   ];
   var upgradeMeta = {
-    capacity: { icon: '⌂', name: '羊圈扩建', desc: function (level) { return '容量提升至 ' + (6 + level * 2) + ' 只'; }, base: 520, max: 4 },
-    feeder: { icon: '✣', name: '食槽改良', desc: function (level) { return '每次进食恢复 +' + level * 6 + ' 饱腹'; }, base: 380, max: 3 },
-    wool: { icon: '✦', name: '羊毛品种', desc: function (level) { return '羊毛品质提升 +' + (level * 10) + '%'; }, base: 500, max: 4 },
+    capacity: { icon: '⌂', name: '羊圈扩建', desc: function (level) { return '容量提升至 ' + (6 + level * 2) + ' 只'; }, base: 180, max: 4 },
+    feeder: { icon: '✣', name: '食槽改良', desc: function (level) { return '每次进食恢复 +' + level * 6 + ' 饱腹'; }, base: 120, max: 3 },
+    wool: { icon: '✦', name: '羊毛品种', desc: function (level) { return '羊毛品质提升 +' + (level * 10) + '%'; }, base: 220, max: 4 },
     growth: { icon: '↗', name: '营养配方', desc: function (level) { return '成长速度提升 +' + (level * 12) + '%'; }, base: 460, max: 4 },
     meat: { icon: '◇', name: '冷藏仓', desc: function (level) { return '羊肉售价提升 +' + (level * 15) + '%'; }, base: 620, max: 3 },
-    worker: { icon: '♙', name: '雇佣牧场工', desc: function (level) { return level ? '拾取羊毛，搬回收纳棚' : '一位会拾取、搬运的帮手'; }, base: 1200, max: 1 },
+    worker: { icon: '♙', name: '雇佣牧场工', desc: function (level) { return level ? '拾取羊毛，搬回收纳棚' : '一位会拾取、搬运的帮手'; }, base: 480, max: 1 },
     boots: { icon: '↟', name: '工人靴子', desc: function (level) { return '行走速度 +' + level * 25 + '%'; }, base: 280, max: 3, requires: 'worker' },
     basket: { icon: '▤', name: '搬运背篓', desc: function (level) { return '每趟可搬 ' + (2 + level) + ' 堆羊毛'; }, base: 360, max: 3, requires: 'worker' },
-    hayBarn: { icon: '▥', name: '草料仓', desc: function (level) { return '干草容量 +' + level * 12; }, base: 240, max: 3 },
-    cistern: { icon: '≈', name: '蓄水池', desc: function (level) { return '清水容量 +' + level * 12; }, base: 220, max: 3 },
+    hayBarn: { icon: '▥', name: '草料仓', desc: function (level) { return '干草容量 +' + level * 12; }, base: 80, max: 3 },
+    cistern: { icon: '≈', name: '蓄水池', desc: function (level) { return '清水容量 +' + level * 12; }, base: 70, max: 3 },
     clover: { icon: '♧', name: '三叶草地', desc: function (level) { return '闲逛啃草恢复 ' + level * 4 + ' 饱腹'; }, base: 440, max: 3 },
     shade: { icon: '♠', name: '树荫休憩', desc: function (level) { return '休息恢复幸福度 +' + level * .5; }, base: 320, max: 3 },
-    shears: { icon: '✂', name: '精细剪毛', desc: function (level) { return '每次剪毛产量 +' + level * 15 + '%'; }, base: 480, max: 3 },
+    shears: { icon: '✂', name: '精细剪毛', desc: function (level) { return '每次剪毛产量 +' + level * 15 + '%'; }, base: 200, max: 3 },
     merchant: { icon: '¥', name: '集市商路', desc: function (level) { return '原料售价、委托奖励 +' + level * 8 + '%'; }, base: 560, max: 3 },
     workshop: { icon: '▣', name: '礼盒车间', desc: function (level) { return level ? '已解锁礼盒加工' : '牧场 LV8 后解锁礼盒加工'; }, base: 1600, max: 1, unlockAt: 8 }
   };
@@ -56,7 +56,7 @@
     meat: { name: '鲜肉礼盒', input: 'meat', amount: 2.5, price: 380, label: '鲜肉礼盒' }
   };
   var defaultState = {
-    calendarVersion: 1, progressionVersion: 1, level: 1, savings: 0, breeds: { normal: true, mint: false, peach: false, rainbow: false }, day: 0, dayPhase: 0, gold: 2380, earned: 0, careDone: false, retired: false, retirementClaimed: false, hay: 26, water: 22, wool: 0, meat: 0, happiness: 88, cycle: 0, savedAt: 0,
+    calendarVersion: 1, progressionVersion: 1, level: 1, savings: 0, breeds: { normal: true, mint: false, peach: false, rainbow: false }, day: 0, dayPhase: 0, gold: 300, earned: 0, careDone: false, retired: false, retirementClaimed: false, hay: 26, water: 22, wool: 0, meat: 0, happiness: 88, cycle: 0, savedAt: 0,
     upgrades: { capacity: 0, feeder: 0, wool: 0, growth: 0, meat: 0, worker: 0, workshop: 0, boots: 0, basket: 0, hayBarn: 0, cistern: 0, clover: 0, shade: 0, shears: 0, merchant: 0 },
     worker: { x: 50, y: 88, mode: 'idle', targetId: '', carry: 0, count: 0, direction: 1, until: 0 },
     tradeOrder: { type: 'wool', qty: 3, completed: 0 },
@@ -64,8 +64,7 @@
     sheep: [
       { id: 's1', name: '棉花糖', age: 8, hunger: 82, thirst: 91, wool: 0, zone: 0, x: 22, y: 28, tx: 22, ty: 28, direction: 1, action: 'idle', actionUntil: 0 },
       { id: 's2', name: '小麦穗', age: 12, hunger: 73, thirst: 69, wool: 15, zone: 1, x: 66, y: 26, tx: 66, ty: 26, direction: -1, action: 'idle', actionUntil: 0 },
-      { id: 's3', name: '云朵', age: 16, hunger: 93, thirst: 86, wool: 30, zone: 2, x: 30, y: 68, tx: 30, ty: 68, direction: 1, action: 'idle', actionUntil: 0 },
-      { id: 's4', name: '黑豆', age: 20, hunger: 84, thirst: 77, wool: 45, zone: 3, x: 71, y: 68, tx: 71, ty: 68, direction: -1, action: 'idle', actionUntil: 0 }
+      { id: 's3', name: '云朵', age: 16, hunger: 93, thirst: 86, wool: 30, zone: 2, x: 30, y: 68, tx: 30, ty: 68, direction: 1, action: 'idle', actionUntil: 0 }
     ]
   };
   var miniTool = window.xhs && window.xhs.miniTool;
@@ -81,6 +80,9 @@
   var sheepSequence = 0;
   var clockPhaseStartedAt = Date.now();
   var grassField = null;
+  var modalReturnFocus = null;
+  var sheepAnimations = {}, sheepArtCache = {};
+  var sheepSequences = {idle:[2,700],walk:[4,130],sit:[2,800],eat:[3,280],drink:[3,320],lie:[2,900],sleep:[2,1000]};
 
   function cloneState() { return JSON.parse(JSON.stringify(defaultState)); }
   function isNight() { return Number(state.dayPhase) >= 12; }
@@ -313,8 +315,11 @@
   function hayCapacity() { return 40 + state.upgrades.capacity * 5 + state.upgrades.hayBarn * 12; }
   function waterCapacity() { return 40 + state.upgrades.capacity * 5 + state.upgrades.cistern * 12; }
   function tradeBonus() { return 1 + state.upgrades.merchant * .08; }
-  function woolPrice() { return Math.round((46 + state.upgrades.wool * 7) * tradeBonus()); }
+  function woolPrice() { return Math.round((56 + state.upgrades.wool * 7) * tradeBonus()); }
   function meatPrice() { return Math.round(118 * (1 + state.upgrades.meat * .15) * tradeBonus()); }
+  function upgradeCost(key) { return Math.round(upgradeMeta[key].base * [1,2.25,4.5,8][Math.min(3,state.upgrades[key])] / 10) * 10; }
+  function recipeUnitPrice(type) { var meta = recipeMeta[type]; return Math.max(meta.price,Math.ceil(meta.amount * (type === 'wool' ? woolPrice() : meatPrice()) * 1.25)); }
+  function orderReward() { return Math.max(state.order.reward,Math.ceil(state.order.qty * recipeUnitPrice(state.order.type) * 1.15)); }
   function farmLevel() { return state.level; }
   function featureLevel(key) { return upgradeLevels[key] || 1; }
   function flockBonus(breed) { return 1 + Math.min(3, state.sheep.filter(function (s) { return s.breed === breed; }).length) * .2; }
@@ -387,7 +392,8 @@
     var shearButton = document.querySelector('[data-action="shear"]'), buyButton = document.querySelector('[data-action="buy"]'), butcherButton = document.querySelector('[data-action="butcher"]');
     shearButton.disabled = loading || !ready; shearButton.classList.toggle('is-ready', ready > 0);
     shearButton.title = ready ? '剪下羊毛后，点击草地上的羊毛拾取' : '羊毛生长到 100% 后可剪';
-    buyButton.disabled = loading || free <= 0 || state.gold < 280;
+    buyButton.disabled = loading || free <= 0 || state.gold < breedMeta.normal.price;
+    setText('buy-price', '选羊种 · ¥' + breedMeta.normal.price + ' 起');
     butcherButton.disabled = loading || !adults; butcherButton.classList.toggle('is-ready', adults > 0);
     setText('shear-ready', ready ? ready + ' 只可剪' : '长毛 ' + Math.floor(nextWool) + '%');
     setText('shear-hint', ready ? '剪下后点击草地拾取' : '羊毛长满后再开剪');
@@ -401,7 +407,7 @@
       setText(type + '-revenue', state[type] > 0 ? '+¥' + gold(state[type] * (type === 'wool' ? woolPrice() : meatPrice())) : '暂无可售');
     });
     var step = 1, title = '先给羊添一次草或水', copy = '点击两侧槽位，每次补一格并消耗金币。';
-    if (!state.sheep.length) { title = '羊圈空了，先购入一只小羊'; copy = '点购入按钮，每只小羊需要 ¥280。'; }
+    if (!state.sheep.length) { title = '羊圈空了，先购入一只小羊'; copy = '点购入按钮，每只小羊需要 ¥' + breedMeta.normal.price + '。'; }
     else if (state.hay < hayCapacity() * .2 || state.water < waterCapacity() * .2) { title = '补给见底了，先添草加水'; }
     else if (state.woolDrops.length) { step = 3; title = '草地上有 ' + state.woolDrops.length + ' 堆羊毛待拾取'; copy = state.upgrades.worker ? '雇工正在搬运，你也可以点击羊毛帮忙。' : '点击草地上的羊毛，收进仓库再卖。'; }
     else if (ready) { step = 2; title = ready + ' 只羊可以剪毛了'; copy = '点金色剪毛按钮，羊毛会掉在草地上。'; }
@@ -415,10 +421,34 @@
   function relativeSave(time) { var seconds = Math.max(0, Math.floor((Date.now() - time) / 1000)); return seconds < 8 ? '刚刚' : seconds < 60 ? seconds + ' 秒前' : Math.floor(seconds / 60) + ' 分钟前'; }
   function sheepPose(sheep) {
     var action = sheep.action || 'idle';
-    return action === 'sitting' ? 'sit' : action === 'lying' ? 'lie' : action === 'sleeping' ? 'sleep' : action === 'drinking' ? 'drink' : action === 'eating' || action === 'grazing' ? 'eat' : 'idle';
+    return action === 'walking' ? 'walk' : action === 'sitting' ? 'sit' : action === 'lying' ? 'lie' : action === 'sleeping' ? 'sleep' : action === 'drinking' ? 'drink' : action === 'eating' || action === 'grazing' ? 'eat' : 'idle';
   }
-  function sheepImage(sheep) {
-    return './assets/sheep/' + (isAdult(sheep) ? 'adult' : 'young') + '-' + (sheep.breed || 'normal') + '-' + (sheep.wool > 0 ? 'wool' : 'shorn') + '-' + sheepPose(sheep) + '.png';
+  function sheepArtPrefix(sheep) { return './assets/sheep/' + (isAdult(sheep) ? 'adult' : 'young') + '-' + (sheep.breed || 'normal') + '-' + (sheep.wool > 0 ? 'wool' : 'shorn'); }
+  function sheepImage(sheep, time) {
+    var now = typeof time === 'number' ? time : Date.now(), pose = sheepPose(sheep), key = sheepArtPrefix(sheep) + '-' + pose;
+    var animation = sheepAnimations[sheep.id];
+    if (!animation || animation.key !== key) animation = sheepAnimations[sheep.id] = {key:key, started:now};
+    var elapsed = Math.max(0, now - animation.started), sequence = sheepSequences[pose];
+    var frame = pose === 'idle' || pose === 'sit' ? (elapsed % 4200 >= 4060 ? 1 : 0) : Math.floor(elapsed / sequence[1]) % sequence[0];
+    return key + '-' + frame + '.png';
+  }
+  function preloadSheepArt(sheep) {
+    var prefix = sheepArtPrefix(sheep);
+    if (sheepArtCache[prefix]) return;
+    sheepArtCache[prefix] = [];
+    Object.keys(sheepSequences).forEach(function (pose) {
+      for (var i = 0; i < sheepSequences[pose][0]; i += 1) {
+        var image = document.createElement('img'); image.src = prefix + '-' + pose + '-' + i + '.png'; sheepArtCache[prefix].push(image);
+      }
+    });
+  }
+  function animateSheepFrames() {
+    if (document.hidden || (platformStorage && !storageHydrated) || cloudBusy) return;
+    state.sheep.forEach(function (sheep) {
+      var art = document.querySelector('[data-sheep-id="' + sheep.id.replace(/"/g, '') + '"] .sheep-art');
+      var source = sheepImage(sheep);
+      if (art && art.getAttribute('src') !== source) art.setAttribute('src', source);
+    });
   }
   function sheepClass(sheep) { return 'sheep ' + (sheep.action || 'idle') + (sheep.wool > 0 ? ' woolly' : ' sheared') + (isAdult(sheep) ? ' adult-sheep' : ' young-sheep') + ' breed-' + (sheep.breed || 'normal'); }
   function sheepFeet(sheep) { return isAdult(sheep) ? 21 : 20; }
@@ -430,6 +460,8 @@
   function renderSheep() {
     var field = document.getElementById('sheep-field');
     var height = field.getBoundingClientRect().height;
+    var alive = {}; state.sheep.forEach(function (sheep) { alive[sheep.id] = true; preloadSheepArt(sheep); });
+    Object.keys(sheepAnimations).forEach(function (id) { if (!alive[id]) delete sheepAnimations[id]; });
     field.innerHTML = state.sheep.map(function (sheep, index) {
       return '<div class="' + sheepClass(sheep) + '" style="left:' + sheep.x.toFixed(2) + '%;top:' + sheep.y.toFixed(2) + '%;z-index:' + Math.round(sheep.y * height / 100 + sheepFeet(sheep) - 1) + ';--flip:' + sheep.direction + ';" data-sheep-id="' + esc(sheep.id) + '" title="' + breedMeta[sheep.breed || 'normal'].name + (isAdult(sheep) ? ' · 成年可出栏' : ' · 幼羊成长中') + '"><span class="sheep-emoji" aria-hidden="true"><img class="sheep-art" src="' + sheepImage(sheep) + '" width="52" height="52" alt="" draggable="false"></span><span class="sleep-z" aria-hidden="true">💤</span></div>';
     }).join('');
@@ -452,7 +484,7 @@
   function renderUpgrades() {
     var list = document.getElementById('upgrade-list');
     list.innerHTML = upgradeGroups[activeUpgradeGroup].map(function (key) {
-      var meta = upgradeMeta[key], level = state.upgrades[key], cost = meta.base * (level + 1), maxed = level >= meta.max, required = featureLevel(key), locked = farmLevel() < required && !level;
+      var meta = upgradeMeta[key], level = state.upgrades[key], cost = upgradeCost(key), maxed = level >= meta.max, required = featureLevel(key), locked = farmLevel() < required && !level;
       if (locked) return required === farmLevel() + 1 ? '<div class="locked-feature"><span>▣</span><div><strong>' + meta.name + '</strong><small>牧场 LV' + required + ' 后开放 · 再花费 ¥' + cost + ' 解锁</small></div></div>' : '';
       var prerequisite = meta.requires && !state.upgrades[meta.requires];
       var dots = ''; for (var i = 0; i < meta.max; i += 1) dots += '<i class="' + (i < level ? 'filled' : '') + '"></i>';
@@ -499,6 +531,32 @@
     document.getElementById('modal-body').innerHTML = '<div id="nursery-list">' + breedCards() + '</div>';
     document.getElementById('modal').hidden = false;
   }
+  function openRules() {
+    var modal = document.getElementById('modal');
+    modalReturnFocus = document.activeElement;
+    var rules = [
+      ['从小羊场开始', '新玩家从第 0 天开始，带着 ' + defaultState.gold + ' 金币和 ' + defaultState.sheep.length + ' 只普通幼羊。钱包里的金币用来添草、加水、买羊和升级。'],
+      ['添草加水', '点击草场两侧的槽位，一次补一格。干草每格 ' + refillPrices.hay + ' 金币，清水每格 ' + refillPrices.water + ' 金币；羊会自己走近吃喝。槽里填充的高度就是剩余补给。'],
+      ['剪羊毛，捡起来，再卖出', '幼羊和成年羊都能长毛。羊毛达到 100% 后点击“剪羊毛”，再点击草地上的羊毛拾取，最后到“集市”出售换取金币。LV' + featureLevel('worker') + ' 后可付费雇工帮忙搬运。'],
+      ['长大后才能出栏', '在“羊群”里查看成长情况。达到 60 日龄会变成成年模型，才能卖活羊，或获取羊肉后到集市出售。幼羊可以剪毛，不能出栏。'],
+      ['一步步升级牧场', '先让累计营业收入达到门槛，再去“升级”花金币提升牧场等级。新等级开放购买资格；设施和特殊羊种仍需另付金币解锁，羊仔也需要单独购买。'],
+      ['经营收支', '普通羊仔 ' + breedMeta.normal.price + ' 金币，基础羊毛收购价 ' + woolPrice() + ' 金币/kg（含当前品质和商路加成）。基础设施首级便宜，后续各级费用按 1、2.25、4.5、8 倍递增，基础补给价格保持不涨。先照顾好羊、剪毛卖出，再逐步扩张；雇工负责拾取，卖货仍由你决定。礼盒售价至少比当前所需原料的直接售价高 25%，礼盒订单比直接售盒多赚至少 15%。'],
+      ['认识特殊羊', 'LV' + breedMeta.mint.level + ' 薄荷羊：每只让全场长毛加快 20%；LV' + breedMeta.peach.level + ' 蜜桃羊：每只让全场成长加快 20%。这两种光环各最多叠加 3 只，出售后加成减少。LV' + breedMeta.rainbow.level + ' 彩虹羊产毛量为普通羊的 4 倍，成年活羊基础售价 ' + gold(breedMeta.rainbow.sale) + ' 金币。'],
+      ['亲手攒退休金', '售卖收入先进入钱包。打开“账本”，输入金额存入退休金，钱包会等额扣除；存入后不再用于经营。累计收入用于解锁等级，退休金存够 1 亿元才能退休。记得留些金币照顾羊群。'],
+      ['昼夜、草地和存档', '游戏时间 06:00 日出、18:00 入夜；现实中白天约 48 秒、夜晚约 12 秒，顶部时钟会倒计时。夜里羊会休息，走过草簇时草叶会弯下、回弹。进度每 12 秒自动保存，也可以手动点击“保存”；退出前留意保存状态。']
+    ];
+    document.getElementById('modal-kicker').textContent = '牧场手册';
+    document.getElementById('modal-title').textContent = '玩法说明';
+    document.getElementById('modal-copy').textContent = '从照顾第一只小羊，到慢慢攒下退休金。随时点右上角“玩法”回来查看。';
+    document.getElementById('modal-body').innerHTML = '<ol class="game-rules">' + rules.map(function (rule,index) { return '<li><span class="rule-number">' + (index + 1) + '</span><div><h4>' + esc(rule[0]) + '</h4><p>' + esc(rule[1]) + '</p></div></li>'; }).join('') + '</ol>';
+    modal.classList.add('rules-open'); modal.hidden = false;
+    var close = modal.querySelector('.modal-close'); if (close && typeof close.focus === 'function') close.focus();
+  }
+  function closeModal() {
+    var modal = document.getElementById('modal'); modal.hidden = true; modal.classList.remove('rules-open');
+    if (modalReturnFocus && typeof modalReturnFocus.focus === 'function') modalReturnFocus.focus();
+    modalReturnFocus = null;
+  }
   function renderTradeOrder() {
     var order = state.tradeOrder, label = order.type === 'wool' ? '羊毛' : '羊肉';
     setText('trade-copy', '收购' + label + ' ' + order.qty + ' kg');
@@ -513,7 +571,7 @@
     if (state[order.type] < order.qty) { showToast('仓库原料不足，先收集或出栏。'); return; }
     state[order.type] -= order.qty; bookIncome(reward);
     state.tradeOrder = { type: order.type === 'wool' ? 'meat' : 'wool', qty: order.type === 'wool' ? 1.5 : 3, completed: order.completed + 1 };
-    saveState(false); showToast('委托完成 · +¥' + reward + '，新的收购单已到。');
+    render(); saveState(false); showToast('委托完成 · +¥' + reward + '，新的收购单已到。');
   }
   function renderWorkshop() {
     var locked = !state.workshopUnlocked;
@@ -528,7 +586,7 @@
     setText('workshop-progress-label', Math.round(line.progress) + '%');
     var progress = document.getElementById('workshop-progress'); if (progress) progress.style.width = Math.min(100, line.progress) + '%';
     setText('box-stock', state.boxes.wool + state.boxes.meat);
-    var orderMeta = recipeMeta[state.order.type]; setText('order-copy', orderMeta.label + ' × ' + state.order.qty); setText('order-reward', '¥' + gold(state.order.reward));
+    var orderMeta = recipeMeta[state.order.type]; setText('order-copy', orderMeta.label + ' × ' + state.order.qty); setText('order-reward', '¥' + gold(orderReward()));
     var tabs = document.querySelectorAll('[data-recipe]'); for (var i = 0; i < tabs.length; i += 1) tabs[i].classList.toggle('active', tabs[i].getAttribute('data-recipe') === state.workshop.recipe);
   }
   function refillSupply(type) {
@@ -540,7 +598,7 @@
     state.gold -= price;
     state[type] = Math.min(limit, state[type] + limit / 10);
     state.careDone = true;
-    saveState(false);
+    render(); saveState(false);
     showToast(label + '补充一格 · −¥' + price);
   }
   function shear() {
@@ -594,13 +652,14 @@
     if (!state.workshopUnlocked) { showToast('礼盒车间还未解锁。'); return; }
     var woolBoxes = state.boxes.wool, meatBoxes = state.boxes.meat;
     if (!woolBoxes && !meatBoxes) { showToast('还没有完成的礼盒，先开工制作一批。'); return; }
-    var revenue = woolBoxes * recipeMeta.wool.price + meatBoxes * recipeMeta.meat.price; bookIncome(revenue); state.boxes.wool = 0; state.boxes.meat = 0; render(); saveState(false); showToast('礼盒售出 ¥' + gold(revenue) + '，加工比散卖更划算。');
+    var revenue = woolBoxes * recipeUnitPrice('wool') + meatBoxes * recipeUnitPrice('meat'); bookIncome(revenue); state.boxes.wool = 0; state.boxes.meat = 0; render(); saveState(false); showToast('礼盒售出 ¥' + gold(revenue) + '，加工比散卖更划算。');
   }
   function deliverOrder() {
     if (!state.workshopUnlocked) { showToast('礼盒车间还未解锁。'); return; }
     var order = state.order, available = state.boxes[order.type];
     if (available < order.qty) { showToast('订单需要 ' + recipeMeta[order.type].label + ' × ' + order.qty + '，车间库存还不够。'); return; }
-    state.boxes[order.type] -= order.qty; bookIncome(order.reward); state.order = { type: order.type === 'wool' ? 'meat' : 'wool', qty: order.type === 'wool' ? 1 : 2, reward: order.type === 'wool' ? 520 : 420 }; render(); saveState(false); showToast('订单交付完成，奖励 ¥' + gold(order.reward) + '。');
+    var reward = orderReward();
+    state.boxes[order.type] -= order.qty; bookIncome(reward); state.order = { type: order.type === 'wool' ? 'meat' : 'wool', qty: order.type === 'wool' ? 1 : 2, reward: order.type === 'wool' ? 520 : 420 }; render(); saveState(false); showToast('订单交付完成，奖励 ¥' + gold(reward) + '。');
   }
   function openButcher() {
     var adults = readyAdults(), modal = document.getElementById('modal'), body = document.getElementById('modal-body');
@@ -627,7 +686,7 @@
     var level = state.upgrades[key]; if (level >= meta.max) return;
     if (meta.requires && !state.upgrades[meta.requires]) { showToast('先雇佣一位牧场工。'); return; }
     if (meta.unlockAt && farmLevel() < meta.unlockAt) { showToast('先把牧场升到 LV' + meta.unlockAt + '，再解锁礼盒车间。'); return; }
-    var cost = meta.base * (level + 1);
+    var cost = upgradeCost(key);
     if (state.gold < cost) { showToast('升级还差 ¥' + gold(cost - state.gold) + '，继续经营攒一攒。'); return; }
     state.gold -= cost; state.upgrades[key] += 1; if (key === 'workshop') state.workshopUnlocked = true; render(); saveState(false); showToast(meta.name + '升级完成，效果已生效。');
   }
@@ -780,6 +839,8 @@
     var breedButton = event.target.closest ? event.target.closest('[data-buy-breed]') : null;
     var unlockButton = event.target.closest ? event.target.closest('[data-unlock-breed]') : null;
     var liveButton = event.target.closest ? event.target.closest('[data-live-sale-id]') : null;
+    if (actionButton && actionButton.getAttribute('data-action') === 'rules') { openRules(); return; }
+    if (actionButton && actionButton.getAttribute('data-action') === 'close-modal') { closeModal(); return; }
     if ((actionButton || upgradeButton || butcherButton || dropButton || breedButton || unlockButton || liveButton) && ((platformStorage && !storageHydrated) || cloudBusy)) {
       if (actionButton && actionButton.getAttribute('data-action') === 'save' && !cloudBusy) hydratePlatformState();
       showToast('正在读取存档，请稍候再操作。'); return;
@@ -814,12 +875,22 @@
     var recipeButton = event.target.closest ? event.target.closest('[data-recipe]') : null;
     if (recipeButton) chooseRecipe(recipeButton.getAttribute('data-recipe'));
   });
-  document.getElementById('modal').addEventListener('click', function (event) { if (event.target === this) this.hidden = true; });
+  document.getElementById('modal').addEventListener('click', function (event) { if (event.target === this) closeModal(); });
+  document.addEventListener('keydown',function (event) {
+    var modal = document.getElementById('modal'); if (modal.hidden) return;
+    if (event.key === 'Escape') { event.preventDefault(); closeModal(); return; }
+    if (event.key !== 'Tab') return;
+    var focusable = Array.prototype.slice.call(modal.querySelectorAll('button:not([disabled]),input:not([disabled]),[tabindex="0"]')).filter(function (node) { return node.offsetParent !== null; });
+    if (!focusable.length) return;
+    var first = focusable[0], last = focusable[focusable.length - 1], active = document.activeElement;
+    if (event.shiftKey && (active === first || focusable.indexOf(active) < 0)) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && (active === last || focusable.indexOf(active) < 0)) { event.preventDefault(); first.focus(); }
+  });
   window.addEventListener('resize', function () {
     state.sheep.forEach(function (sheep) { sheep.tx = undefined; sheep.actionUntil = 0; sheep.action = 'idle'; sheep.actionTarget = ''; sheep.troughSlot = null; });
   });
   if (typeof window.createFarmGrassField === 'function') grassField = window.createFarmGrassField({ field:document.getElementById('sheep-field'), scene:document.getElementById('pasture-scene'), getActors:grassActors });
-  render(); hydratePlatformState(); setInterval(tick, 4000); setInterval(autoSave, AUTO_SAVE_INTERVAL); setInterval(animateSheep, 260); setInterval(renderClock, 250);
+  render(); hydratePlatformState(); setInterval(tick, 4000); setInterval(autoSave, AUTO_SAVE_INTERVAL); setInterval(animateSheep, 260); setInterval(animateSheepFrames, 80); setInterval(renderClock, 250);
   if (document.addEventListener) document.addEventListener('visibilitychange', handleVisibilityChange);
   if (window.addEventListener) { window.addEventListener('pagehide', saveOnLifecycle); window.addEventListener('beforeunload', saveOnLifecycle); }
 }());

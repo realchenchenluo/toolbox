@@ -146,7 +146,8 @@
       if (tuft.flip) { ctx.translate(30,0); ctx.scale(-1,1); }
       for (var r = 0; r < h; r += 1) {
         var sy = Math.round(r * 13 / Math.max(1,h - 1));
-        ctx.drawImage(source,0,sy,12,1,9 + offsets[r],24 - h + r,12,1);
+        // Mirror the blade silhouette while keeping the bend in world-space direction.
+        ctx.drawImage(source,0,sy,12,1,9 + (tuft.flip ? -offsets[r] : offsets[r]),24 - h + r,12,1);
       }
       ctx.restore();
       if (rustling) {

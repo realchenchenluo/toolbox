@@ -51,3 +51,51 @@ body.night-mode { background:#d2e2d9 url('./meadow-ui.svg') center top / 1440px 
 .action-button.is-ready { background:#94b766; border-color:#80a355; color:#29471e; box-shadow:0 2px #7c9f53,inset 0 1px #b1cb8d; }.action-button.is-ready b { color:#29471e; }.control-tab.active { background:#a1bf80; color:#2d4b25; box-shadow:0 2px #87a562,inset 0 1px #c0d4a5; }
 .interactive-grass-tuft { position:absolute; display:block; width:60px; height:52px; transform:translate(-50%,-100%); image-rendering:pixelated; pointer-events:none; }
 .sheep-field .wool-drop { z-index:1000; }
+.pasture-scene.night-mode { background:linear-gradient(#243950 0 10%,#405e46 10% 100%); }
+.pasture-scene.night-mode .night-sky { height:10%; box-shadow:none; }
+.topbar-right { display:flex; align-items:center; }.rules-button { display:flex; align-items:center; min-height:42px; margin-right:7px; padding:8px 10px; border:1px solid #b4c99d; border-radius:8px; background:#f3f8e8; color:#577248; box-shadow:0 2px #cbdcb6; font-size:12px; }.rules-button>span { display:grid; place-items:center; width:19px; height:19px; margin-right:5px; border:1px solid #91ad76; border-radius:50%; font:bold 13px Georgia,serif; color:#6c8c54; }
+.rules-open .modal-card { max-width:550px; max-height:calc(100vh - 48px); overflow-y:auto; padding:20px; }.rules-open .modal-close { position:sticky; top:0; float:right; min-width:34px; min-height:34px; margin:-6px -6px 6px 10px; z-index:1; }.rules-open #modal-copy { margin:8px 0 14px; font-size:12px; color:#6c805a; }
+.game-rules { list-style:none; margin:0; padding:0; }.game-rules li { display:flex; align-items:flex-start; padding:13px 0; border-top:1px solid #dce6cc; }.rule-number { display:grid; place-items:center; flex:none; width:24px; height:24px; margin:1px 10px 0 0; border:1px solid #c4d6ad; border-radius:6px; background:#e6efd8; color:#69854f; font:700 13px Consolas,monospace; }.game-rules h4 { margin:0 0 5px; font-size:14px; line-height:1.6; color:#44653a; }.game-rules p { font-size:12px; line-height:1.9; color:#627653; }
+@media(max-width:760px) { .topbar-right { grid-gap:0; gap:0; }.rules-button { min-height:40px; margin-right:5px; padding:7px 8px; font-size:11px; }.rules-button>span { width:16px; height:16px; margin-right:4px; font-size:11px; }.rules-open .modal-card { padding:17px; max-height:calc(100vh - 36px); }.game-rules li { padding:11px 0; } }
+
+/* Keep the viewport bounded. Long management lists scroll inside their panel. */
+html { height:100%; overflow:hidden; }
+body { height:100%; max-height:100vh; max-height:100dvh; overflow:hidden; }
+.app-shell { display:flex; flex-direction:column; height:100%; max-height:100vh; max-height:100dvh; min-height:0; padding:14px 0 10px; overflow:hidden; }
+.topbar { flex:none; grid-template-columns:minmax(160px,1fr) minmax(250px,320px) minmax(148px,1fr); margin-bottom:12px; padding-bottom:12px; }
+.topbar-right { flex-direction:row; }
+.app-shell>main { display:flex; flex:1; flex-direction:column; min-height:0; max-height:100%; overflow-y:auto; overflow-x:hidden; overscroll-behavior-y:contain; }
+.compact-overview { flex:none; }
+.game-grid { display:grid; flex:1; min-height:390px; align-items:stretch; }
+.pasture-card { display:flex; flex-direction:column; min-height:0; }
+.pasture-card>.panel-header,.pasture-actions { flex:none; }
+.pasture-scene { flex:1; height:auto; min-height:220px; max-height:500px; }
+.side-column { display:flex; min-height:0; height:100%; max-height:100%; overflow:hidden; }
+.control-tabs { flex:none; }
+.side-view.active { flex:1; min-height:0; max-height:100%; overflow-y:auto; overflow-x:hidden; overscroll-behavior-y:contain; -webkit-overflow-scrolling:touch; }
+.side-view>.panel-card,.flock-card { min-height:0; max-height:none; }
+.side-view .upgrade-list { max-height:none; overflow:visible; }
+.side-view .compact-table { max-height:none; overflow:visible; }
+.side-view,.app-shell>main,.modal-card { scrollbar-width:thin; scrollbar-color:#a8be8e #edf3e2; }
+.save-line,.footer-note { flex:none; }
+.modal-card { max-height:calc(100vh - 40px); max-height:calc(100dvh - 40px); overflow-y:auto; overscroll-behavior-y:contain; }
+.modal-close { position:sticky; top:0; float:right; z-index:2; }
+.upgrade-groups { grid-gap:7px; gap:7px; }
+.upgrade-groups button { min-height:46px; padding:10px 6px; font-size:16px; font-weight:600; line-height:1.45; }
+.level-card strong { font-size:16px; }.level-card small,.level-card span { font-size:14px; }.level-card button { font-size:15px; }
+.upgrade-copy strong { font-size:15px; }.upgrade-copy small,.upgrade-item .upgrade-button { font-size:13px; }.progression-note { font-size:13px; line-height:1.8; }
+.game-rules h4 { font-size:16px; }.game-rules p,.modal-card p { font-size:14px; }
+@media(max-width:760px) {
+  .app-shell { padding:10px 0 8px; }
+  .topbar { grid-template-columns:minmax(0,1fr) auto; grid-gap:9px; margin-bottom:9px; padding-bottom:0; }
+  .topbar-right { flex-direction:row; align-items:center; }
+  .game-grid { flex:none; min-height:0; grid-template-columns:minmax(0,1fr); grid-gap:12px; }
+  .pasture-scene { flex:none; height:40vh; height:40dvh; min-height:210px; max-height:352px; }
+  .side-column { height:65vh; height:65dvh; min-height:280px; max-height:600px; }
+  .upgrade-groups button { min-height:46px; font-size:15px; }
+  .footer-note { display:none; }
+  .modal-card,.rules-open .modal-card { max-height:calc(100vh - 28px); max-height:calc(100dvh - 28px); }
+}
+@media(max-height:550px) and (min-width:761px) {
+  .app-shell { padding-top:7px; }.topbar { margin-bottom:6px; padding-bottom:6px; }.game-grid { min-height:380px; }
+}
