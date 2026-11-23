@@ -1,5 +1,6 @@
 {
-  "version": "20261123-meadow-6",
-  "sourceCommit": "3219dc628b304391fde35317d46999f5f26bd6c1",
-  "publishedAt": "2026-11-23T21:47:07+08:00"
+  "version": "20261123-neighbors-7",
+  "sourceCommit": "9bd26805042bdbbd28e08bf1a6bcc6066be5891b",
+  "artifactSha256": "6c13bbd9ffe84a834046a96da8d3c377c816e5ec8175991e91396d37fc857976",
+  "publishedAt": "2026-11-24T00:41:23+08:00"
 }

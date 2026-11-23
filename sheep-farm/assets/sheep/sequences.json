@@ -316,6 +316,270 @@
       ]
     },
     {
+      "name": "adult-gift-wool",
+      "sheet": "adult-gift-wool-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "adult-gift-wool-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "adult-gift-wool-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "adult-gift-wool-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "adult-gift-wool-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "adult-gift-wool-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "adult-gift-wool-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "adult-gift-wool-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "adult-gift-wool-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "adult-gift-wool-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "adult-gift-wool-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "adult-gift-wool-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "adult-gift-wool-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "adult-gift-wool-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "adult-gift-wool-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "adult-gift-wool-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "adult-gift-wool-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "adult-gift-wool-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "adult-gift-wool-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "adult-gift-shorn",
+      "sheet": "adult-gift-shorn-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "adult-gift-shorn-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "adult-gift-shorn-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "adult-gift-shorn-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "adult-gift-shorn-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "adult-gift-shorn-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "adult-gift-shorn-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "adult-gift-shorn-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "adult-gift-shorn-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "adult-gift-shorn-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "adult-gift-shorn-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "adult-gift-shorn-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "adult-gift-shorn-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "adult-gift-shorn-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "adult-gift-shorn-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "adult-gift-shorn-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "adult-gift-shorn-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "adult-gift-shorn-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "adult-gift-shorn-sleep-1.png"
+        }
+      ]
+    },
+    {
       "name": "adult-mint-wool",
       "sheet": "adult-mint-wool-sequence.png",
       "frames": [
@@ -840,6 +1104,270 @@
           "x": 32,
           "y": 192,
           "path": "adult-peach-shorn-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "adult-wish-wool",
+      "sheet": "adult-wish-wool-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "adult-wish-wool-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "adult-wish-wool-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "adult-wish-wool-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "adult-wish-wool-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "adult-wish-wool-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "adult-wish-wool-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "adult-wish-wool-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "adult-wish-wool-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "adult-wish-wool-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "adult-wish-wool-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "adult-wish-wool-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "adult-wish-wool-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "adult-wish-wool-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "adult-wish-wool-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "adult-wish-wool-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "adult-wish-wool-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "adult-wish-wool-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "adult-wish-wool-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "adult-wish-shorn",
+      "sheet": "adult-wish-shorn-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "adult-wish-shorn-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "adult-wish-shorn-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "adult-wish-shorn-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "adult-wish-shorn-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "adult-wish-shorn-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "adult-wish-shorn-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "adult-wish-shorn-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "adult-wish-shorn-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "adult-wish-shorn-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "adult-wish-shorn-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "adult-wish-shorn-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "adult-wish-shorn-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "adult-wish-shorn-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "adult-wish-shorn-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "adult-wish-shorn-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "adult-wish-shorn-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "adult-wish-shorn-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "adult-wish-shorn-sleep-1.png"
         }
       ]
     },
@@ -1372,6 +1900,270 @@
       ]
     },
     {
+      "name": "young-gift-wool",
+      "sheet": "young-gift-wool-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "young-gift-wool-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "young-gift-wool-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "young-gift-wool-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "young-gift-wool-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "young-gift-wool-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "young-gift-wool-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "young-gift-wool-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "young-gift-wool-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "young-gift-wool-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "young-gift-wool-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "young-gift-wool-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "young-gift-wool-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "young-gift-wool-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "young-gift-wool-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "young-gift-wool-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "young-gift-wool-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "young-gift-wool-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "young-gift-wool-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "young-gift-shorn",
+      "sheet": "young-gift-shorn-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "young-gift-shorn-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "young-gift-shorn-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "young-gift-shorn-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "young-gift-shorn-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "young-gift-shorn-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "young-gift-shorn-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "young-gift-shorn-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "young-gift-shorn-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "young-gift-shorn-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "young-gift-shorn-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "young-gift-shorn-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "young-gift-shorn-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "young-gift-shorn-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "young-gift-shorn-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "young-gift-shorn-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "young-gift-shorn-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "young-gift-shorn-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "young-gift-shorn-sleep-1.png"
+        }
+      ]
+    },
+    {
       "name": "young-mint-wool",
       "sheet": "young-mint-wool-sequence.png",
       "frames": [
@@ -1896,6 +2688,270 @@
           "x": 32,
           "y": 192,
           "path": "young-peach-shorn-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "young-wish-wool",
+      "sheet": "young-wish-wool-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "young-wish-wool-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "young-wish-wool-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "young-wish-wool-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "young-wish-wool-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "young-wish-wool-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "young-wish-wool-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "young-wish-wool-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "young-wish-wool-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "young-wish-wool-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "young-wish-wool-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "young-wish-wool-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "young-wish-wool-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "young-wish-wool-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "young-wish-wool-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "young-wish-wool-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "young-wish-wool-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "young-wish-wool-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "young-wish-wool-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "young-wish-shorn",
+      "sheet": "young-wish-shorn-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "young-wish-shorn-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "young-wish-shorn-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "young-wish-shorn-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "young-wish-shorn-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "young-wish-shorn-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "young-wish-shorn-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "young-wish-shorn-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "young-wish-shorn-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "young-wish-shorn-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "young-wish-shorn-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "young-wish-shorn-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "young-wish-shorn-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "young-wish-shorn-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "young-wish-shorn-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "young-wish-shorn-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "young-wish-shorn-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "young-wish-shorn-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "young-wish-shorn-sleep-1.png"
         }
       ]
     },

@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#e9e5da">
   <title>牧云羊场 · 轻经营模拟器</title>
-  <link rel="stylesheet" href="./assets/style.css">
-  <link rel="stylesheet" href="./assets/workshop.css">
-  <link rel="stylesheet" href="./assets/pixel.css">
-  <link rel="stylesheet" href="./assets/layout.css">
-  <link rel="stylesheet" href="./assets/farm-items.css">
-  <link rel="stylesheet" href="./assets/controls.css">
-  <link rel="stylesheet" href="./assets/sheep-night.css">
-  <link rel="stylesheet" href="./assets/progression.css">
-  <link rel="stylesheet" href="./assets/field-ui.css">
+  <link rel="stylesheet" href="./assets/style.css?v=20261123-neighbors-7">
+  <link rel="stylesheet" href="./assets/workshop.css?v=20261123-neighbors-7">
+  <link rel="stylesheet" href="./assets/pixel.css?v=20261123-neighbors-7">
+  <link rel="stylesheet" href="./assets/layout.css?v=20261123-neighbors-7">
+  <link rel="stylesheet" href="./assets/farm-items.css?v=20261123-neighbors-7">
+  <link rel="stylesheet" href="./assets/controls.css?v=20261123-neighbors-7">
+  <link rel="stylesheet" href="./assets/sheep-night.css?v=20261123-neighbors-7">
+  <link rel="stylesheet" href="./assets/progression.css?v=20261123-neighbors-7">
+  <link rel="stylesheet" href="./assets/field-ui.css?v=20261123-neighbors-7">
 </head>
 <body>
   <div class="app-shell">
@@ -61,7 +61,7 @@
             <div class="pasture-clover" id="pasture-clover" hidden aria-hidden="true"></div>
             <div class="shade-tree" id="shade-tree" hidden aria-hidden="true"></div>
             <button class="station hay-station" type="button" data-action="feed" aria-label="干草槽，点击补充干草">
-              <span class="station-icon hay-symbol" aria-hidden="true"></span><span class="station-meter"><span id="hay-fill"></span></span><span class="refill-price">+1格 ¥4</span><span class="sr-only"><span id="hay-value">26</span> / <span id="hay-capacity">40</span></span>
+              <span class="station-icon hay-symbol" aria-hidden="true"></span><span class="station-meter"><span id="hay-fill"></span></span><span class="refill-price">+1格 ¥2</span><span class="sr-only"><span id="hay-value">26</span> / <span id="hay-capacity">40</span></span>
             </button>
             <button class="station water-station" type="button" data-action="water" aria-label="清水槽，点击补充清水">
               <span class="station-icon water-symbol" aria-hidden="true"></span><span class="station-meter"><span id="water-fill"></span></span><span class="refill-price">+1格 ¥2</span><span class="sr-only"><span id="water-value">22</span> / <span id="water-capacity">40</span></span>
@@ -73,7 +73,7 @@
 
 
           <div class="pasture-toolbar">
-            <div class="farm-guide"><span class="guide-marker" aria-hidden="true">!</span><div><strong id="guide-title">先给羊添草加水</strong><small id="guide-copy">点击两侧槽位补充，羊毛长满后再剪。</small></div><span class="guide-step" id="guide-step">01 / 04</span></div>
+            <div class="farm-guide"><span class="guide-marker" aria-hidden="true">!</span><div><strong id="guide-title">先给羊添草加水</strong><small id="guide-copy">点击两侧槽位补充，羊毛长满后再剪。</small></div><span class="guide-step" id="guide-step">01 / 04</span><div class="tutorial-actions" id="tutorial-actions" hidden><button type="button" data-action="tutorial-go" id="tutorial-go">找到按钮</button><button type="button" data-action="skip-tutorial">跳过</button></div></div>
             <div class="action-buttons" aria-label="羊场操作">
               <button class="action-button primary" type="button" data-action="shear"><span class="px-icon icon-shear" aria-hidden="true"></span><span class="action-copy"><strong>剪羊毛</strong><small id="shear-hint">羊毛长满后可剪</small></span><b id="shear-ready">等待长毛</b><span class="action-meter" aria-hidden="true"><i id="shear-progress"></i></span></button>
               <button class="action-button" type="button" data-action="buy"><span class="px-icon icon-sheep" aria-hidden="true"></span><span class="action-copy"><strong>购入羊仔</strong><small id="buy-hint">羊圈还有 3 个空位</small></span><b id="buy-price">选羊种 · ¥160 起</b></button>
@@ -100,18 +100,24 @@
             <div class="warehouse-row"><span>羊毛库存 <strong id="wool-stock">0.0</strong> kg</span><button type="button" data-action="sell-wool"><span class="px-icon icon-coin" aria-hidden="true"></span><span>出售羊毛<small id="wool-revenue">暂无可售</small></span></button></div>
             <div class="warehouse-row"><span>羊肉库存 <strong id="meat-stock">0.0</strong> kg</span><button type="button" data-action="sell-meat"><span class="px-icon icon-coin" aria-hidden="true"></span><span>出售羊肉<small id="meat-revenue">暂无可售</small></span></button></div>
             </section>
+            <section class="special-feed-panel" id="special-feed-panel" hidden>
+              <header><strong>牧场精料</strong><small>限时生效，不叠加 · 先留好日常补给钱</small></header>
+              <article><span class="px-icon icon-hay" aria-hidden="true"></span><div><strong>长绒精料</strong><small>全场长毛 +20% · 120 秒</small><em id="wool-feed-time">未使用</em></div><span><b id="wool-feed-price">¥500</b><button type="button" data-feed-kind="wool">购买使用</button></span></article>
+              <article><span class="px-icon icon-growth" aria-hidden="true"></span><div><strong>成长精料</strong><small>幼羊成长 +30% · 180 秒</small><em id="growth-feed-time">未使用</em></div><span><b id="growth-feed-price">¥800</b><button type="button" data-feed-kind="growth">购买使用</button></span></article>
+            </section>
           </section>
 
           <section class="side-view" data-panel-view="order">
             <div class="locked-panel" id="order-locked"><span>▣</span><strong>山谷收购站</strong><p>牧场升到 LV3 后开放原料订单。</p></div>
             <section class="trade-card" id="order-content" hidden>
               <header class="panel-header compact"><div><p class="eyebrow">牧场委托</p><h3>山谷收购站</h3></div><span class="market-up">随时交付</span></header>
-              <div class="trade-order"><span class="trade-icon product-icon wool" id="trade-icon" aria-hidden="true"></span><div><strong id="trade-copy">收购羊毛 3 kg</strong><small id="trade-stock">仓库 0 / 3 kg</small></div><b id="trade-reward">¥180</b></div>
-              <button type="button" class="trade-deliver" data-action="trade-order">交付原料</button>
-              <p class="trade-count">已完成 <span id="trade-count">0</span> 笔 · 交付后刷新委托</p>
+              <div class="customer-desk"><div><strong>客户满意度</strong><b id="customer-score">0/100</b></div><div class="customer-track"><i id="customer-fill"></i></div><p>产毛 <b id="customer-yield">+0.0%</b> · 长毛速度 <b id="customer-growth">+0.00%</b></p><small>每单 +1 · 产毛最多 +10%，速度最多 +5%</small></div>
+              <div id="contract-list" class="contract-list"></div>
+              <div class="pending-rainbow" id="pending-rainbow" hidden><img src="./assets/sheep/young-rainbow-wool-idle.png" alt="彩虹羊仔"><span>奖励羊仔已保留</span><button type="button" data-action="claim-rainbow">领取</button></div>
+              <p class="trade-count">已完成 <span id="trade-count">0</span> 笔 · 交付仅刷新该张订单</p>
             </section>
             <section class="panel-card workshop-card" id="late-workshop" hidden>
-            <div class="workshop-locked" id="workshop-locked"><span class="lock-pixel">▣</span><p class="eyebrow">后期设施</p><h3>礼盒车间</h3><p>把羊毛和羊肉加工成高价礼盒。</p><small>牧场达到 LV8 后可在升级面板解锁</small></div>
+            <div class="workshop-locked" id="workshop-locked"><span class="lock-pixel">▣</span><p class="eyebrow">绒糖羊的礼物</p><h3>礼盒工坊</h3><p>把羊毛和羊肉加工成高价礼盒。</p><small>购入绒糖羊后永久开启</small></div>
             <div class="workshop-unlocked" id="workshop-unlocked" hidden>
               <header class="panel-header compact"><div><p class="eyebrow">加工流水线</p><h3>礼盒车间</h3></div><span class="workshop-state" id="workshop-state">待机</span></header>
               <div class="machine-stage"><div class="machine-screen"><span>✦</span><small>品质检测</small></div><div class="machine-body"><span class="machine-light"></span><span class="machine-slot"></span><span class="machine-panel">◎</span></div><div class="machine-boxes"><i></i><i></i><i></i></div></div>
@@ -136,11 +142,11 @@
           </section>
 
           <section class="side-view ledger-view" data-panel-view="ledger">
-            <header class="panel-header compact"><div><h3>退休账本</h3></div><span class="small-muted">一亿退休计划</span></header>
+            <header class="panel-header compact"><div><h3>退休账本</h3></div><span class="small-muted">五千万退休计划</span></header>
       <section class="inheritance-intro" aria-label="羊场故事与退休目标">
         <span class="origin-mark" aria-hidden="true">乡</span>
-        <div class="origin-copy"><strong>回乡接手家里的养羊场</strong><p>养羊、做生意、升级牧场。亲手存下 1 亿元，就能安心退休。</p></div>
-        <div class="retirement-progress"><div class="retirement-total"><span>退休积蓄</span><strong id="retirement-income">¥0</strong></div><div class="retirement-meter" role="progressbar" aria-label="退休目标进度" aria-valuemin="0" aria-valuemax="100000000" aria-valuenow="0"><span id="retirement-fill"></span></div><div class="retirement-meta"><span>目标 ¥100,000,000</span><button id="retire-action" type="button" data-action="retire" hidden>收下退休生活</button><span id="retirement-percent">0%</span></div></div>
+        <div class="origin-copy"><strong>回乡接手家里的养羊场</strong><p>养羊、做生意、升级牧场。亲手存下 5000 万元，就能安心退休。</p></div>
+        <div class="retirement-progress"><div class="retirement-total"><span>退休积蓄</span><strong id="retirement-income">¥0</strong></div><div class="retirement-meter" role="progressbar" aria-label="退休目标进度" aria-valuemin="0" aria-valuemax="50000000" aria-valuenow="0"><span id="retirement-fill"></span></div><div class="retirement-meta"><span>目标 ¥50,000,000</span><button id="retire-action" type="button" data-action="retire" hidden>收下退休生活</button><span id="retirement-percent">0%</span></div></div>
       </section>
       <section class="savings-desk" aria-label="退休金存钱罐">
         <span class="savings-jar" aria-hidden="true">¥</span><div class="savings-copy"><strong>退休金存钱罐</strong><small id="deposit-available">钱包可用 ¥300</small></div>
@@ -164,15 +170,16 @@
       <div class="save-line"><span><span id="save-status">本机存档</span> · <span id="last-save">尚未保存</span> · <span id="autosave-label">自动存档已开启</span></span><button type="button" class="cloud-save-button" data-action="cloud-save" id="cloud-save-button" hidden><span class="px-icon icon-save" aria-hidden="true"></span>同步云存档</button><span id="tip-text">羊群会自己寻找干草和水槽。</span></div>
     </main>
 
-    <footer class="footer-note"><span>预览版 · 2026.11.23 · 动作序列与牧场手册</span><span>点击槽位补给 · 点击落地羊毛拾取</span></footer>
+    <footer class="footer-note"><span>预览版 · 2026.11.23 · 新手指引与邻里订单</span><span>点击槽位补给 · 点击落地羊毛拾取</span></footer>
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <div class="modal-backdrop" id="modal" hidden><section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="modal-close" type="button" data-action="close-modal">×</button><p class="eyebrow" id="modal-kicker">出栏管理</p><h2 id="modal-title">选择成年羊</h2><p id="modal-copy">成年后可出栏，获得稳定的羊肉收入。</p><div id="modal-body"></div></section></div>
 
-  <script defer src="./assets/cloud-save.js"></script>
-  <script defer src="./assets/pixel-ambience.js"></script>
-  <script defer src="./assets/interactive-grass.js"></script>
-  <script defer src="./assets/app.js"></script>
+  <script defer src="./assets/cloud-save.js?v=20261123-neighbors-7"></script>
+  <script defer src="./assets/pixel-ambience.js?v=20261123-neighbors-7"></script>
+  <script defer src="./assets/interactive-grass.js?v=20261123-neighbors-7"></script>
+  <script defer src="./assets/farm-orders.js?v=20261123-neighbors-7"></script>
+  <script defer src="./assets/app.js?v=20261123-neighbors-7"></script>
 </body>
 </html>
