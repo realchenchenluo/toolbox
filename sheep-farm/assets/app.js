@@ -469,8 +469,10 @@
     var frame = pose === 'idle' || pose === 'sit' ? (elapsed % 4200 >= 4060 ? 1 : 0) : Math.floor(elapsed / sequence[1]) % sequence[0];
     return key + '-' + frame + '.png';
   }
+  function sheepArtSource(sheep,time) {var path=sheepImage(sheep,time);return window.FarmSheepFrames ? window.FarmSheepFrames.resolve(path) : path;}
   function preloadSheepArt(sheep) {
     var prefix = sheepArtPrefix(sheep);
+    if(window.FarmSheepFrames){window.FarmSheepFrames.preload(prefix);return;}
     if (sheepArtCache[prefix]) return;
     sheepArtCache[prefix] = [];
     Object.keys(sheepSequences).forEach(function (pose) {
@@ -483,7 +485,7 @@
     if (document.hidden || (platformStorage && !storageHydrated) || cloudBusy) return;
     state.sheep.forEach(function (sheep) {
       var art = document.querySelector('[data-sheep-id="' + sheep.id.replace(/"/g, '') + '"] .sheep-art');
-      var source = sheepImage(sheep);
+      var source = sheepArtSource(sheep);
       if (art && art.getAttribute('src') !== source) art.setAttribute('src', source);
     });
   }
@@ -500,7 +502,7 @@
     var alive = {}; state.sheep.forEach(function (sheep) { alive[sheep.id] = true; preloadSheepArt(sheep); });
     Object.keys(sheepAnimations).forEach(function (id) { if (!alive[id]) delete sheepAnimations[id]; });
     field.innerHTML = state.sheep.map(function (sheep, index) {
-      return '<div class="' + sheepClass(sheep) + '" style="left:' + sheep.x.toFixed(2) + '%;top:' + sheep.y.toFixed(2) + '%;z-index:' + Math.round(sheep.y * height / 100 + sheepFeet(sheep) - 1) + ';--flip:' + sheep.direction + ';" data-sheep-id="' + esc(sheep.id) + '" title="' + breedMeta[sheep.breed || 'normal'].name + (isAdult(sheep) ? ' · 成年可出栏' : ' · 幼羊成长中') + '"><span class="sheep-emoji" aria-hidden="true"><img class="sheep-art" src="' + sheepImage(sheep) + '" width="52" height="52" alt="" draggable="false"></span><span class="sleep-z" aria-hidden="true">💤</span></div>';
+      return '<div class="' + sheepClass(sheep) + '" style="left:' + sheep.x.toFixed(2) + '%;top:' + sheep.y.toFixed(2) + '%;z-index:' + Math.round(sheep.y * height / 100 + sheepFeet(sheep) - 1) + ';--flip:' + sheep.direction + ';" data-sheep-id="' + esc(sheep.id) + '" title="' + breedMeta[sheep.breed || 'normal'].name + (isAdult(sheep) ? ' · 成年可出栏' : ' · 幼羊成长中') + '"><span class="sheep-emoji" aria-hidden="true"><img class="sheep-art" src="' + sheepArtSource(sheep) + '" width="52" height="52" alt="" draggable="false"></span><span class="sleep-z" aria-hidden="true">💤</span></div>';
     }).join('');
   }
   function renderDrops() {
@@ -515,7 +517,7 @@
     table.innerHTML = state.sheep.map(function (sheep, index) {
       var status = canShear(sheep) ? '<span class="row-tag ready">羊毛可收</span>' : isAdult(sheep) ? '<span class="row-tag adult">已成年</span>' : '<span class="row-tag">成长中</span>';
       var ageLabel = isAdult(sheep) ? '成年 · ' + Math.floor(sheep.age) + ' 日龄' : '幼羊 · ' + Math.floor(sheep.age) + ' 日龄';
-      return '<div class="sheep-row"><span class="row-avatar"><img class="flock-portrait" src="' + sheepImage(sheep) + '" alt=""></span><div><span class="row-name">' + breedMeta[sheep.breed || 'normal'].name + ' #' + (index + 1) + '</span><span class="row-meta">' + ageLabel + ' · 饱腹 ' + Math.round(sheep.hunger) + '%</span></div><div class="meter"><span style="width:' + Math.min(100, sheep.wool) + '%"></span></div>' + status + '</div>';
+      return '<div class="sheep-row"><span class="row-avatar"><img class="flock-portrait" src="' + sheepArtSource(sheep) + '" alt=""></span><div><span class="row-name">' + breedMeta[sheep.breed || 'normal'].name + ' #' + (index + 1) + '</span><span class="row-meta">' + ageLabel + ' · 饱腹 ' + Math.round(sheep.hunger) + '%</span></div><div class="meter"><span style="width:' + Math.min(100, sheep.wool) + '%"></span></div>' + status + '</div>';
     }).join('');
   }
   function renderUpgrades() {
@@ -786,7 +788,7 @@
   function renderButcherChoices() {
     var adults=readyAdults();
     Object.keys(saleSelection).forEach(function(id){if(!adults.some(function(s){return s.id===id;}))delete saleSelection[id];});
-    document.getElementById('modal-body').innerHTML='<div class="sale-tools"><span>可出栏 '+adults.length+' 只</span><button type="button" data-action="sale-select-all">全选 / 取消</button></div><div class="sale-flock-list">'+adults.map(function(sheep,index){return '<label class="sale-sheep"><input type="checkbox" data-sale-id="'+esc(sheep.id)+'"'+(saleSelection[sheep.id]?' checked':'')+'><img src="'+sheepImage(sheep)+'" alt=""><span><strong>'+breedMeta[sheep.breed||'normal'].name+' #'+(index+1)+'</strong><small>'+Math.floor(sheep.age)+' 日龄 · 肉品 '+number(meatYield(sheep),1)+' kg</small></span><b>¥'+gold(liveSheepPrice(sheep))+'</b></label>';}).join('')+'</div><div class="sale-summary"><p id="sale-total"></p><div><button type="button" data-action="sale-live-selected">卖出选中活羊</button><button type="button" data-action="sale-meat-selected">选中羊换肉品</button></div><small>薄荷羊、蜜桃羊离场后，其加成也会减少。</small></div>';
+    document.getElementById('modal-body').innerHTML='<div class="sale-tools"><span>可出栏 '+adults.length+' 只</span><button type="button" data-action="sale-select-all">全选 / 取消</button></div><div class="sale-flock-list">'+adults.map(function(sheep,index){return '<label class="sale-sheep"><input type="checkbox" data-sale-id="'+esc(sheep.id)+'"'+(saleSelection[sheep.id]?' checked':'')+'><img src="'+sheepArtSource(sheep)+'" alt=""><span><strong>'+breedMeta[sheep.breed||'normal'].name+' #'+(index+1)+'</strong><small>'+Math.floor(sheep.age)+' 日龄 · 肉品 '+number(meatYield(sheep),1)+' kg</small></span><b>¥'+gold(liveSheepPrice(sheep))+'</b></label>';}).join('')+'</div><div class="sale-summary"><p id="sale-total"></p><div><button type="button" data-action="sale-live-selected">卖出选中活羊</button><button type="button" data-action="sale-meat-selected">选中羊换肉品</button></div><small>薄荷羊、蜜桃羊离场后，其加成也会减少。</small></div>';
     renderSaleSummary();
   }
   function selectSaleSheep(id,checked) {if(find(id)&&isAdult(find(id))) {if(checked)saleSelection[id]=true;else delete saleSelection[id];}renderSaleSummary();}
@@ -868,7 +870,7 @@
     var node = document.querySelector('[data-sheep-id="' + sheep.id.replace(/"/g, '') + '"]');
     if (node) {
       node.style.left = sheep.x.toFixed(2) + '%'; node.style.top = sheep.y.toFixed(2) + '%'; node.style.zIndex = Math.round(sheep.y * size.height / 100 + sheepFeet(sheep) - 1); node.style.setProperty('--flip', sheep.direction); node.className = sheepClass(sheep);
-      var art = node.querySelector('.sheep-art'), source = sheepImage(sheep);
+      var art = node.querySelector('.sheep-art'), source = sheepArtSource(sheep);
       if (art && art.getAttribute('src') !== source) art.setAttribute('src', source);
     }
   }
