@@ -1,0 +1,41 @@
+/* Day/night layer and the full 16-frame reference-based sheep sheet. */
+.day-night-icon { display:inline-block; width:15px; margin-right:4px; color:#bb8a36; font-size:14px; text-align:center; }
+.weather #weather-icon { color:#d49a32; }
+.sheep-emoji { background-size:832px 52px; }
+.sheep.walking .sheep-emoji { animation:reference-sheep-walk .56s steps(2,end) infinite; }
+.sheep.sheared.walking .sheep-emoji { animation:reference-sheep-walk-shorn .56s steps(2,end) infinite; }
+.sheep.idle .sheep-emoji { background-position:0 0; animation:none; }
+.sheep.walking .sheep-emoji { background-position:-52px 0; }
+.sheep.sitting .sheep-emoji { background-position:-156px 0; transform:translateY(2px) scaleX(var(--flip,1)); transform-origin:center bottom; animation:none; }
+.sheep.eating .sheep-emoji,.sheep.grazing .sheep-emoji { background-position:-208px 0; transform:scaleX(var(--flip,1)); animation:reference-sheep-nibble .66s steps(2,end) infinite; }
+.sheep.drinking .sheep-emoji { background-position:-260px 0; transform:scaleX(var(--flip,1)); animation:reference-sheep-drink .8s steps(2,end) infinite; }
+.sheep.lying .sheep-emoji { background-position:-312px 0; transform:translateY(4px) scaleX(var(--flip,1)); transform-origin:center bottom; animation:none; }
+.sheep.sleeping .sheep-emoji { background-position:-364px 0; transform:translateY(4px) scaleX(var(--flip,1)); transform-origin:center bottom; animation:sleep-breathe 2.2s steps(2,end) infinite; }
+.sheep.sheared.idle .sheep-emoji { background-position:-416px 0; animation:none; }
+.sheep.sheared.walking .sheep-emoji { background-position:-468px 0; }
+.sheep.sheared.sitting .sheep-emoji { background-position:-572px 0; transform:translateY(2px) scaleX(var(--flip,1)); transform-origin:center bottom; animation:none; }
+.sheep.sheared.eating .sheep-emoji,.sheep.sheared.grazing .sheep-emoji { background-position:-624px 0; transform:scaleX(var(--flip,1)); animation:reference-sheep-nibble .66s steps(2,end) infinite; }
+.sheep.sheared.drinking .sheep-emoji { background-position:-676px 0; transform:scaleX(var(--flip,1)); animation:reference-sheep-drink .8s steps(2,end) infinite; }
+.sheep.sheared.lying .sheep-emoji { background-position:-728px 0; transform:translateY(4px) scaleX(var(--flip,1)); transform-origin:center bottom; animation:none; }
+.sheep.sheared.sleeping .sheep-emoji { background-position:-780px 0; transform:translateY(4px) scaleX(var(--flip,1)); transform-origin:center bottom; animation:sleep-breathe 2.2s steps(2,end) infinite; }
+.sleep-z { display:none; position:absolute; z-index:4; top:-7px; right:4px; font-family:"Segoe UI Emoji","Microsoft YaHei",sans-serif; font-size:15px; line-height:1; filter:drop-shadow(1px 1px 0 #314634); }
+.sheep.sleeping .sleep-z { display:block; animation:sleep-z-float 2.2s steps(3,end) infinite; }
+@keyframes reference-sheep-walk { 0%,100% { background-position:-52px 0; transform:scaleX(var(--flip,1)); } 50% { background-position:-104px 0; transform:scaleX(var(--flip,1)); } }
+@keyframes reference-sheep-walk-shorn { 0%,100% { background-position:-416px 0; transform:scaleX(var(--flip,1)); } 50% { background-position:-468px 0; transform:scaleX(var(--flip,1)); } }
+@keyframes reference-sheep-nibble { 0%,100% { transform:translateY(0) scaleX(var(--flip,1)); } 50% { transform:translateY(2px) scaleX(var(--flip,1)); } }
+@keyframes reference-sheep-drink { 0%,100% { transform:translateY(0) scaleX(var(--flip,1)); } 50% { transform:translateY(1px) scaleX(var(--flip,1)); } }
+@keyframes sleep-breathe { 0%,100% { transform:translateY(4px) scaleY(1) scaleX(var(--flip,1)); } 50% { transform:translateY(5px) scaleY(.97) scaleX(var(--flip,1)); } }
+@keyframes sleep-z-float { 0%,100% { opacity:.45; transform:translate(0,4px); } 50% { opacity:1; transform:translate(4px,-3px); } }
+.night-sky { display:none; }
+.pasture-scene.night-mode { background:linear-gradient(#334f48 0 31%,#405e46 31% 100%); box-shadow:inset 0 7px #566d57,inset 0 -8px #253d47; }
+.pasture-scene.night-mode .night-sky { display:block; position:absolute; z-index:1; top:0; right:0; left:0; height:31%; background:#243950; box-shadow:inset 0 0 0 3px #314b54; }
+.night-moon { position:absolute; top:13px; right:19%; width:15px; height:15px; border:2px solid #344252; background:#f3d980; box-shadow:3px 3px 0 #c9b466; }
+.night-moon::after { content:''; position:absolute; top:-4px; right:-5px; width:12px; height:12px; background:#243950; }
+.night-stars { position:absolute; top:13px; left:22%; width:3px; height:3px; background:#fff0ba; box-shadow:29px 18px 0 #fff0ba,62px 4px 0 #e5e6c6,98px 20px 0 #fff0ba,142px 8px 0 #e5e6c6,194px 22px 0 #fff0ba,232px 7px 0 #e5e6c6,274px 18px 0 #fff0ba; }
+.pasture-scene.night-mode::after { opacity:.28; filter:saturate(.55) brightness(.65); }
+.pasture-scene.night-mode .fence { filter:brightness(.65); }
+.pasture-scene.night-mode .station { filter:brightness(.8) saturate(.8); }
+body.night-mode { background:#172d34; }
+body.night-mode .season-pill { background:#d9d6bd; border-color:#6b735d; box-shadow:3px 3px 0 #384b4a; }
+body.night-mode .day-night-icon, body.night-mode .weather #weather-icon { color:#4e5c91; }
+@media(prefers-reduced-motion:reduce) { .sheep.walking .sheep-emoji,.sheep.eating .sheep-emoji,.sheep.sleeping .sheep-emoji,.sheep.sleeping .sleep-z { animation:none; } }
