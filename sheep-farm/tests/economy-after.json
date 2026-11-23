@@ -1,0 +1,128 @@
+{
+  "starter": {
+    "firstSale": 36,
+    "events": {
+      "LV1": 4
+    },
+    "checkpoints": {
+      "60": {
+        "cash": 552,
+        "earned": 252,
+        "level": 1,
+        "sheep": 3
+      },
+      "180": {
+        "cash": 1117,
+        "earned": 817,
+        "level": 1,
+        "sheep": 3
+      },
+      "300": {
+        "cash": 1726,
+        "earned": 1426,
+        "level": 1,
+        "sheep": 3
+      },
+      "600": {
+        "cash": 3034,
+        "earned": 2742,
+        "level": 1,
+        "sheep": 3
+      }
+    },
+    "cash": 3034,
+    "earned": 2742,
+    "spend": {
+      "supplies": 8,
+      "levels": 0,
+      "facilities": 0,
+      "sheep": 0,
+      "breeds": 0
+    }
+  },
+  "progression": {
+    "firstSale": 36,
+    "events": {
+      "LV1": 4,
+      "LV2": 48,
+      "LV3": 140,
+      "worker": 192,
+      "LV4": 272,
+      "mint": 440,
+      "LV5": 560,
+      "peach": 764,
+      "LV6": 992,
+      "rainbow": 1412
+    },
+    "checkpoints": {
+      "60": {
+        "cash": 80,
+        "earned": 340,
+        "level": 2,
+        "sheep": 5
+      },
+      "180": {
+        "cash": 142,
+        "earned": 1472,
+        "level": 3,
+        "sheep": 6
+      },
+      "300": {
+        "cash": 283,
+        "earned": 3295,
+        "level": 4,
+        "sheep": 6
+      },
+      "600": {
+        "cash": 1015,
+        "earned": 9119,
+        "level": 5,
+        "sheep": 7
+      },
+      "1200": {
+        "cash": 5696,
+        "earned": 24730,
+        "level": 6,
+        "sheep": 8
+      }
+    },
+    "cash": 14803,
+    "earned": 45473,
+    "spend": {
+      "supplies": 70,
+      "levels": 11080,
+      "facilities": 1640,
+      "sheep": 6980,
+      "breeds": 11200
+    }
+  },
+  "recovery": {
+    "firstSale": 36,
+    "events": {
+      "LV1": 4
+    },
+    "checkpoints": {
+      "60": {
+        "cash": 233,
+        "earned": 251,
+        "level": 1,
+        "sheep": 3
+      },
+      "180": {
+        "cash": 791,
+        "earned": 815,
+        "level": 1,
+        "sheep": 3
+      }
+    },
+    "cash": 791,
+    "earned": 815,
+    "spend": {
+      "supplies": 24,
+      "levels": 0,
+      "facilities": 0,
+      "sheep": 0,
+      "breeds": 0
+    }
+  }
+}

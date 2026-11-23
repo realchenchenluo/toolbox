@@ -1,0 +1,2167 @@
+{
+  "schema": 2,
+  "frameSize": [
+    32,
+    32
+  ],
+  "columns": 4,
+  "runtime": "Complete PNG frames; switch img.src discretely and mirror the whole image.",
+  "sequences": [
+    {
+      "name": "idle",
+      "row": 0,
+      "frames": 2,
+      "frameMs": 700
+    },
+    {
+      "name": "walk",
+      "row": 1,
+      "frames": 4,
+      "frameMs": 130
+    },
+    {
+      "name": "sit",
+      "row": 2,
+      "frames": 2,
+      "frameMs": 800
+    },
+    {
+      "name": "eat",
+      "row": 3,
+      "frames": 3,
+      "frameMs": 280
+    },
+    {
+      "name": "drink",
+      "row": 4,
+      "frames": 3,
+      "frameMs": 320
+    },
+    {
+      "name": "lie",
+      "row": 5,
+      "frames": 2,
+      "frameMs": 900
+    },
+    {
+      "name": "sleep",
+      "row": 6,
+      "frames": 2,
+      "frameMs": 1000
+    }
+  ],
+  "variants": [
+    {
+      "name": "adult-normal-wool",
+      "sheet": "adult-normal-wool-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "adult-normal-wool-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "adult-normal-wool-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "adult-normal-wool-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "adult-normal-wool-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "adult-normal-wool-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "adult-normal-wool-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "adult-normal-wool-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "adult-normal-wool-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "adult-normal-wool-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "adult-normal-wool-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "adult-normal-wool-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "adult-normal-wool-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "adult-normal-wool-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "adult-normal-wool-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "adult-normal-wool-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "adult-normal-wool-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "adult-normal-wool-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "adult-normal-wool-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "adult-normal-shorn",
+      "sheet": "adult-normal-shorn-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "adult-normal-shorn-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "adult-normal-shorn-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "adult-normal-shorn-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "adult-normal-shorn-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "adult-normal-shorn-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "adult-normal-shorn-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "adult-normal-shorn-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "adult-normal-shorn-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "adult-normal-shorn-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "adult-normal-shorn-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "adult-normal-shorn-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "adult-normal-shorn-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "adult-normal-shorn-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "adult-normal-shorn-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "adult-normal-shorn-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "adult-normal-shorn-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "adult-normal-shorn-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "adult-normal-shorn-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "adult-mint-wool",
+      "sheet": "adult-mint-wool-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "adult-mint-wool-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "adult-mint-wool-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "adult-mint-wool-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "adult-mint-wool-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "adult-mint-wool-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "adult-mint-wool-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "adult-mint-wool-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "adult-mint-wool-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "adult-mint-wool-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "adult-mint-wool-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "adult-mint-wool-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "adult-mint-wool-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "adult-mint-wool-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "adult-mint-wool-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "adult-mint-wool-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "adult-mint-wool-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "adult-mint-wool-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "adult-mint-wool-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "adult-mint-shorn",
+      "sheet": "adult-mint-shorn-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "adult-mint-shorn-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "adult-mint-shorn-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "adult-mint-shorn-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "adult-mint-shorn-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "adult-mint-shorn-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "adult-mint-shorn-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "adult-mint-shorn-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "adult-mint-shorn-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "adult-mint-shorn-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "adult-mint-shorn-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "adult-mint-shorn-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "adult-mint-shorn-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "adult-mint-shorn-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "adult-mint-shorn-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "adult-mint-shorn-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "adult-mint-shorn-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "adult-mint-shorn-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "adult-mint-shorn-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "adult-peach-wool",
+      "sheet": "adult-peach-wool-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "adult-peach-wool-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "adult-peach-wool-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "adult-peach-wool-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "adult-peach-wool-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "adult-peach-wool-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "adult-peach-wool-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "adult-peach-wool-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "adult-peach-wool-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "adult-peach-wool-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "adult-peach-wool-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "adult-peach-wool-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "adult-peach-wool-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "adult-peach-wool-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "adult-peach-wool-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "adult-peach-wool-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "adult-peach-wool-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "adult-peach-wool-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "adult-peach-wool-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "adult-peach-shorn",
+      "sheet": "adult-peach-shorn-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "adult-peach-shorn-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "adult-peach-shorn-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "adult-peach-shorn-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "adult-peach-shorn-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "adult-peach-shorn-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "adult-peach-shorn-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "adult-peach-shorn-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "adult-peach-shorn-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "adult-peach-shorn-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "adult-peach-shorn-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "adult-peach-shorn-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "adult-peach-shorn-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "adult-peach-shorn-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "adult-peach-shorn-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "adult-peach-shorn-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "adult-peach-shorn-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "adult-peach-shorn-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "adult-peach-shorn-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "adult-rainbow-wool",
+      "sheet": "adult-rainbow-wool-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "adult-rainbow-wool-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "adult-rainbow-wool-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "adult-rainbow-wool-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "adult-rainbow-wool-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "adult-rainbow-wool-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "adult-rainbow-wool-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "adult-rainbow-wool-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "adult-rainbow-wool-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "adult-rainbow-wool-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "adult-rainbow-wool-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "adult-rainbow-wool-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "adult-rainbow-wool-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "adult-rainbow-wool-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "adult-rainbow-wool-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "adult-rainbow-wool-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "adult-rainbow-wool-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "adult-rainbow-wool-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "adult-rainbow-wool-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "adult-rainbow-shorn",
+      "sheet": "adult-rainbow-shorn-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "adult-rainbow-shorn-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "adult-rainbow-shorn-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "adult-rainbow-shorn-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "adult-rainbow-shorn-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "adult-rainbow-shorn-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "adult-rainbow-shorn-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "adult-rainbow-shorn-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "adult-rainbow-shorn-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "adult-rainbow-shorn-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "adult-rainbow-shorn-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "adult-rainbow-shorn-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "adult-rainbow-shorn-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "adult-rainbow-shorn-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "adult-rainbow-shorn-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "adult-rainbow-shorn-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "adult-rainbow-shorn-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "adult-rainbow-shorn-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "adult-rainbow-shorn-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "young-normal-wool",
+      "sheet": "young-normal-wool-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "young-normal-wool-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "young-normal-wool-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "young-normal-wool-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "young-normal-wool-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "young-normal-wool-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "young-normal-wool-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "young-normal-wool-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "young-normal-wool-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "young-normal-wool-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "young-normal-wool-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "young-normal-wool-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "young-normal-wool-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "young-normal-wool-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "young-normal-wool-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "young-normal-wool-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "young-normal-wool-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "young-normal-wool-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "young-normal-wool-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "young-normal-shorn",
+      "sheet": "young-normal-shorn-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "young-normal-shorn-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "young-normal-shorn-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "young-normal-shorn-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "young-normal-shorn-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "young-normal-shorn-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "young-normal-shorn-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "young-normal-shorn-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "young-normal-shorn-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "young-normal-shorn-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "young-normal-shorn-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "young-normal-shorn-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "young-normal-shorn-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "young-normal-shorn-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "young-normal-shorn-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "young-normal-shorn-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "young-normal-shorn-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "young-normal-shorn-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "young-normal-shorn-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "young-mint-wool",
+      "sheet": "young-mint-wool-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "young-mint-wool-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "young-mint-wool-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "young-mint-wool-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "young-mint-wool-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "young-mint-wool-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "young-mint-wool-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "young-mint-wool-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "young-mint-wool-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "young-mint-wool-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "young-mint-wool-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "young-mint-wool-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "young-mint-wool-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "young-mint-wool-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "young-mint-wool-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "young-mint-wool-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "young-mint-wool-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "young-mint-wool-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "young-mint-wool-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "young-mint-shorn",
+      "sheet": "young-mint-shorn-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "young-mint-shorn-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "young-mint-shorn-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "young-mint-shorn-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "young-mint-shorn-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "young-mint-shorn-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "young-mint-shorn-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "young-mint-shorn-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "young-mint-shorn-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "young-mint-shorn-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "young-mint-shorn-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "young-mint-shorn-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "young-mint-shorn-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "young-mint-shorn-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "young-mint-shorn-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "young-mint-shorn-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "young-mint-shorn-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "young-mint-shorn-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "young-mint-shorn-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "young-peach-wool",
+      "sheet": "young-peach-wool-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "young-peach-wool-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "young-peach-wool-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "young-peach-wool-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "young-peach-wool-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "young-peach-wool-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "young-peach-wool-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "young-peach-wool-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "young-peach-wool-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "young-peach-wool-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "young-peach-wool-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "young-peach-wool-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "young-peach-wool-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "young-peach-wool-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "young-peach-wool-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "young-peach-wool-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "young-peach-wool-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "young-peach-wool-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "young-peach-wool-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "young-peach-shorn",
+      "sheet": "young-peach-shorn-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "young-peach-shorn-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "young-peach-shorn-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "young-peach-shorn-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "young-peach-shorn-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "young-peach-shorn-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "young-peach-shorn-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "young-peach-shorn-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "young-peach-shorn-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "young-peach-shorn-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "young-peach-shorn-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "young-peach-shorn-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "young-peach-shorn-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "young-peach-shorn-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "young-peach-shorn-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "young-peach-shorn-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "young-peach-shorn-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "young-peach-shorn-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "young-peach-shorn-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "young-rainbow-wool",
+      "sheet": "young-rainbow-wool-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "young-rainbow-wool-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "young-rainbow-wool-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "young-rainbow-wool-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "young-rainbow-wool-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "young-rainbow-wool-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "young-rainbow-wool-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "young-rainbow-wool-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "young-rainbow-wool-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "young-rainbow-wool-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "young-rainbow-wool-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "young-rainbow-wool-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "young-rainbow-wool-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "young-rainbow-wool-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "young-rainbow-wool-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "young-rainbow-wool-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "young-rainbow-wool-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "young-rainbow-wool-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "young-rainbow-wool-sleep-1.png"
+        }
+      ]
+    },
+    {
+      "name": "young-rainbow-shorn",
+      "sheet": "young-rainbow-shorn-sequence.png",
+      "frames": [
+        {
+          "pose": "idle",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "path": "young-rainbow-shorn-idle-0.png"
+        },
+        {
+          "pose": "idle",
+          "frame": 1,
+          "x": 32,
+          "y": 0,
+          "path": "young-rainbow-shorn-idle-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 0,
+          "x": 0,
+          "y": 32,
+          "path": "young-rainbow-shorn-walk-0.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 1,
+          "x": 32,
+          "y": 32,
+          "path": "young-rainbow-shorn-walk-1.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 2,
+          "x": 64,
+          "y": 32,
+          "path": "young-rainbow-shorn-walk-2.png"
+        },
+        {
+          "pose": "walk",
+          "frame": 3,
+          "x": 96,
+          "y": 32,
+          "path": "young-rainbow-shorn-walk-3.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 0,
+          "x": 0,
+          "y": 64,
+          "path": "young-rainbow-shorn-sit-0.png"
+        },
+        {
+          "pose": "sit",
+          "frame": 1,
+          "x": 32,
+          "y": 64,
+          "path": "young-rainbow-shorn-sit-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 0,
+          "x": 0,
+          "y": 96,
+          "path": "young-rainbow-shorn-eat-0.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 1,
+          "x": 32,
+          "y": 96,
+          "path": "young-rainbow-shorn-eat-1.png"
+        },
+        {
+          "pose": "eat",
+          "frame": 2,
+          "x": 64,
+          "y": 96,
+          "path": "young-rainbow-shorn-eat-2.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 0,
+          "x": 0,
+          "y": 128,
+          "path": "young-rainbow-shorn-drink-0.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 1,
+          "x": 32,
+          "y": 128,
+          "path": "young-rainbow-shorn-drink-1.png"
+        },
+        {
+          "pose": "drink",
+          "frame": 2,
+          "x": 64,
+          "y": 128,
+          "path": "young-rainbow-shorn-drink-2.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 0,
+          "x": 0,
+          "y": 160,
+          "path": "young-rainbow-shorn-lie-0.png"
+        },
+        {
+          "pose": "lie",
+          "frame": 1,
+          "x": 32,
+          "y": 160,
+          "path": "young-rainbow-shorn-lie-1.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 0,
+          "x": 0,
+          "y": 192,
+          "path": "young-rainbow-shorn-sleep-0.png"
+        },
+        {
+          "pose": "sleep",
+          "frame": 1,
+          "x": 32,
+          "y": 192,
+          "path": "young-rainbow-shorn-sleep-1.png"
+        }
+      ]
+    }
+  ]
+}

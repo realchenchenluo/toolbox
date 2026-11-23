@@ -1,0 +1,20 @@
+{
+  "canvas": [32, 32],
+  "sheet": [512, 32],
+  "frame_order": ["wool_idle", "wool_walk_a", "wool_walk_b", "wool_sit", "wool_eat", "wool_drink", "wool_lie", "wool_sleep", "sheared_idle", "sheared_walk_a", "sheared_walk_b", "sheared_sit", "sheared_eat", "sheared_drink", "sheared_lie", "sheared_sleep"],
+  "frame_duration_ms": 560,
+  "palette": {
+    "outline": "#263b32",
+    "deep_green": "#314138",
+    "wool_shadow": "#c1cfba",
+    "wool_mid": "#e9eedc",
+    "wool_highlight": "#faf4d9",
+    "face": "#bd8062",
+    "face_highlight": "#df9e79",
+    "leg": "#314138",
+    "sheared_body": "#bd8062",
+    "sheared_highlight": "#df9e79",
+    "sheared_shadow": "#805749"
+  },
+  "notes": "32px grid, limited palette, hard pixel edges. The standing lamb follows reference photo 1; sit/lie/sleep follow the curled resting silhouette in reference photo 2. Eating and drinking use separate lowered-head frames; every frame is a complete connected sheep with no detached head or body layers."
+}

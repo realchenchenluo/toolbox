@@ -1,0 +1,106 @@
+{
+  "starter": {
+    "firstSale": 36,
+    "events": {
+      "LV1": 4
+    },
+    "checkpoints": {
+      "60": {
+        "cash": 507,
+        "earned": 207,
+        "level": 1,
+        "sheep": 3
+      },
+      "180": {
+        "cash": 971,
+        "earned": 671,
+        "level": 1,
+        "sheep": 3
+      },
+      "300": {
+        "cash": 1472,
+        "earned": 1172,
+        "level": 1,
+        "sheep": 3
+      }
+    },
+    "cash": 2528,
+    "earned": 2252,
+    "spend": {
+      "supplies": 24,
+      "levels": 0,
+      "facilities": 0,
+      "sheep": 0,
+      "breeds": 0
+    }
+  },
+  "progression": {
+    "firstSale": 36,
+    "events": {
+      "LV1": 4,
+      "LV2": 180,
+      "LV3": 372,
+      "worker": 600,
+      "LV4": 732,
+      "mint": 996
+    },
+    "checkpoints": {
+      "60": {
+        "cash": 227,
+        "earned": 207,
+        "level": 1,
+        "sheep": 4
+      },
+      "180": {
+        "cash": 50,
+        "earned": 1070,
+        "level": 2,
+        "sheep": 6
+      },
+      "300": {
+        "cash": 464,
+        "earned": 1950,
+        "level": 2,
+        "sheep": 6
+      },
+      "600": {
+        "cash": 311,
+        "earned": 4913,
+        "level": 3,
+        "sheep": 6
+      }
+    },
+    "cash": 3576,
+    "earned": 13376,
+    "spend": {
+      "supplies": 120,
+      "levels": 3180,
+      "facilities": 3160,
+      "sheep": 1840,
+      "breeds": 1800
+    }
+  },
+  "recovery": {
+    "firstSale": 36,
+    "events": {
+      "LV1": 4
+    },
+    "checkpoints": {
+      "60": {
+        "cash": 152,
+        "earned": 206,
+        "level": 1,
+        "sheep": 3
+      }
+    },
+    "cash": 533,
+    "earned": 605,
+    "spend": {
+      "supplies": 72,
+      "levels": 0,
+      "facilities": 0,
+      "sheep": 0,
+      "breeds": 0
+    }
+  }
+}

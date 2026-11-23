@@ -1,0 +1,75 @@
+/* Fence-side troughs, original worker sprites and compact management groups. */
+.pasture-scene { background:#83b865; box-shadow:inset 0 7px #a1c97a,inset 0 -8px #689950; }
+.pasture-scene::after { inset:0; opacity:.43; pointer-events:none; background-image:linear-gradient(#a1c879 0 0),linear-gradient(#60984f 0 0),linear-gradient(#96c575 0 0),linear-gradient(#709f58 0 0); background-position:22px 56px,86px 110px,155px 32px,202px 166px; background-size:6px 3px,8px 3px,4px 5px,12px 4px; background-repeat:repeat; }
+.sun-glow,.cloud,.hill { display:none; }
+.fence-top { top:12px; opacity:1; }.fence-bottom { bottom:13px; opacity:.65; }
+.side-fence { position:absolute; z-index:2; top:12px; bottom:13px; width:9px; border-left:3px solid #756146; border-right:3px solid #bda573; background:#a28b60; }
+.side-fence-left { left:3px; }.side-fence-right { right:3px; }
+.sheep-field { position:absolute; top:0; right:0; bottom:0; left:0; inset:0; z-index:3; pointer-events:none; }
+.sheep,.farm-worker { pointer-events:none; }
+.sheep,.sheep:hover { width:52px; height:52px; transform:translate(-50%,-50%); transition:left .26s linear,top .26s linear; }
+.sheep-emoji { width:52px; height:52px; margin:0; filter:drop-shadow(1px 2px 0 rgba(47,77,44,.25)); }
+.sheep.eating .sheep-emoji,.sheep.drinking .sheep-emoji,.sheep.grazing .sheep-emoji { background-position:-208px 0; transform:scaleX(var(--flip,1)); transform-origin:center; animation:mouth-nibble .64s steps(2,end) infinite; }
+.sheep.sheared.eating .sheep-emoji,.sheep.sheared.drinking .sheep-emoji,.sheep.sheared.grazing .sheep-emoji { background-position:-468px 0; animation:mouth-nibble .64s steps(2,end) infinite; transform:scaleX(var(--flip,1)); }
+@keyframes mouth-nibble { 0%,100% { transform:translateY(0) scaleX(var(--flip,1)); } 50% { transform:translateY(1.5px) scaleX(var(--flip,1)); } }
+.station,.station:active { z-index:2; top:26%; width:35px; height:49%; min-height:148px; max-height:200px; padding:12px 3px 4px; gap:0; border:3px solid #4c5940; background:#8d8459; box-shadow:2px 3px 0 #5b7e47,inset 2px 0 #bcb076; transform:none; border-radius:0; }
+.hay-station { left:5px; }.water-station { right:5px; background:#74867a; border-color:#435e53; box-shadow:-2px 3px 0 #5b7e47,inset -2px 0 #a0b5a1; }
+.station-icon { position:absolute; top:-6px; left:-3px; width:35px; height:12px; margin:0; border:2px solid #785736; box-shadow:0 2px #4a573d; }
+.hay-symbol { background:#c59449 !important; }.water-symbol { border-color:#855335; background:#cc7543 !important; }
+.station-meter,.water-station .station-meter { width:23px; height:100%; border:2px solid #5d5c3e; background:#726b48; box-shadow:inset 2px 1px #53583c; }
+.station-meter span { background:linear-gradient(90deg,#b48d3c 0 14%,#dbb653 14% 71%,#c5a047 71%); box-shadow:inset 2px 0 #eed080,inset 0 2px #f0d27d; }
+.water-station .station-meter { background:#4b7372; border-color:#3c5d55; }
+.water-station .station-meter span { background:linear-gradient(90deg,#64b6c4 0 25%,#80cbd3 25% 77%,#61aab9 77%); box-shadow:inset 2px 0 #a0dfe2,inset 0 3px #c0e9df; }
+.station-meter::after { content:''; position:absolute; top:0; right:0; bottom:0; left:0; pointer-events:none; background:none; border-right:2px solid rgba(255,241,177,.2); }
+.station-meter { position:relative; flex-shrink:0; }
+.refill-price { position:absolute; left:50%; bottom:-19px; transform:translateX(-50%); padding:3px; border:1px solid #667147; background:#e5d29a; color:#4a4b32; font-size:8px; line-height:1; white-space:nowrap; }
+.hay-station .refill-price { left:-1px; transform:none; }.water-station .refill-price { left:auto; right:-1px; transform:none; }
+.station.full .refill-price { background:#b9d69b; }.station { overflow:visible; }.scene-banner { display:none; }
+.wool-drop { z-index:4; position:absolute; width:32px; height:28px; padding:0; border:0; background:transparent; transform:translate(-50%,-20%); cursor:pointer; pointer-events:auto; }
+.wool-drop-sprite { display:block; width:32px; height:27px; background:url('./wool-pile.png') center / contain no-repeat; image-rendering:pixelated; filter:drop-shadow(1px 2px #5e814a); }
+.wool-drop:hover .wool-drop-sprite { filter:brightness(1.16); transform:translateY(-2px); }
+.worker-depot { position:absolute; z-index:2; left:50%; bottom:9%; width:72px; height:60px; transform:translateX(-50%); background:url('./wool-shed.png') center / contain no-repeat; image-rendering:pixelated; }
+.farm-worker { position:absolute; width:36px; height:54px; transform:translate(-50%,-86%); transition:left .26s linear,top .26s linear; pointer-events:none; }
+.worker-sprite,.staff-portrait { display:block; width:36px; height:54px; background:url('./farm-worker.png') 0 0 / 180px 54px no-repeat; image-rendering:pixelated; }
+.worker-sprite { transform:scaleX(var(--flip,1)); filter:drop-shadow(1px 2px 0 rgba(39,66,40,.3)); }
+.worker-cargo { display:none; position:absolute; top:24px; right:21px; width:17px; height:18px; border:2px solid #625337; background:#b79659; box-shadow:inset 2px 0 #dfbb70; }
+.loaded .worker-cargo { display:block; }.worker-cargo::before { content:''; position:absolute; top:-7px; left:-3px; width:19px; height:12px; background:url('./wool-pile.png') center / contain no-repeat; }
+.farm-worker.facing-left .worker-cargo { right:auto; left:21px; }
+.pasture-clover { position:absolute; z-index:1; top:20%; right:19%; bottom:21%; left:19%; opacity:.85; background:url('./pasture-clover.png') repeat; background-size:80px 80px; image-rendering:pixelated; }
+.shade-tree { position:absolute; z-index:2; left:10%; top:5%; width:60px; height:72px; background:url('./shade-tree.png') center / contain no-repeat; image-rendering:pixelated; }
+.upgrade-groups { display:grid; grid-template-columns:repeat(2,1fr); grid-gap:5px; gap:5px; margin:0 14px 8px; }
+.upgrade-groups button { padding:7px 3px; border:2px solid #ac9c6d; background:#e8d5a2; color:#706344; font-size:10px; }
+.upgrade-groups button.active { border-color:#53714a; background:#b7cd8d; color:#354f36; }
+.side-view .upgrade-list { max-height:360px; overflow-y:auto; padding:0 14px 14px; }
+.upgrade-copy { min-width:0; }.upgrade-copy small { display:block; line-height:1.6; color:#7d7956; }.upgrade-symbol { flex-shrink:0; }
+.staff-status { display:flex; align-items:center; gap:8px; margin:9px 14px; padding:5px 8px; border:2px solid #acb47b; background:#d4dea4; }
+.staff-status[hidden],.worker-depot[hidden],.pasture-clover[hidden],.shade-tree[hidden] { display:none; }
+.staff-portrait { height:43px; background-position:0 0; flex-shrink:0; }.staff-status strong { display:block; font-size:11px; }.staff-status small { display:block; font-size:9px; margin-top:4px; color:#62764c; }.staff-status b { margin-left:auto; font-size:10px; }
+.trade-card { padding-bottom:14px; border-bottom:3px solid #bca77a; }
+.trade-order { display:flex; align-items:center; gap:10px; padding:12px 16px; }.trade-icon { width:32px; height:32px; padding-top:7px; text-align:center; background:#d4dcab; border:2px solid #9da977; font-weight:bold; color:#577245; }.trade-order strong { display:block; font-size:11px; }.trade-order small { display:block; margin-top:6px; color:#8e815f; font-size:10px; }.trade-order b { margin-left:auto; font-size:13px; color:#956b32; }
+.trade-deliver { display:block; width:calc(100% - 32px); margin:4px 16px 8px; padding:9px; background:#b7cf8f; border:2px solid #66804e; font-size:11px; }.trade-count { padding:0 16px; color:#8a7a56; font-size:9px; }
+@media (max-width:680px) { .sheep,.sheep:hover { transform:translate(-50%,-50%); }.station,.station:active { transform:none; }.pasture-scene { margin:0 9px; height:360px; }.upgrade-list { max-height:350px; }.worker-depot { width:60px; height:50px; } }
+.pasture-scene::after { top:0; right:0; bottom:0; left:0; background:url('./pasture-grass.png') repeat; background-size:96px 96px; opacity:.6; }
+.pixel-ambience { position:absolute; z-index:1; inset:0; width:100%; height:100%; image-rendering:pixelated; pointer-events:none; }
+.side-view .upgrade-list::-webkit-scrollbar { width:7px; background:#e3d19e; }
+.side-view .upgrade-list::-webkit-scrollbar-thumb { background:#8d9d68; border:1px solid #667c50; }
+.staff-status { gap:0; }.staff-portrait { margin-right:8px; }
+.trade-order { gap:0; }.trade-icon { margin-right:10px; }
+.inheritance-intro { display:flex; align-items:center; margin:0 0 14px; padding:10px 12px; border-top:3px solid #9a855c; border-bottom:3px solid #9a855c; background:#f3e2b6; color:#334b38; }
+.origin-mark { width:35px; height:35px; margin-right:10px; border:3px solid #596747; background:#d3b86c; color:#414d35; display:grid; place-items:center; font-weight:900; font-size:16px; flex:none; }
+.origin-copy { min-width:0; flex:1; }.origin-copy strong { display:block; font-size:15px; }.origin-copy p { margin-top:3px; color:#726444; font-size:12px; line-height:1.5; }
+.retirement-progress { width:245px; max-width:34%; margin-left:14px; flex:none; }
+.retirement-total,.retirement-meta { display:flex; align-items:center; justify-content:space-between; gap:7px; color:#716344; font-size:11px; }
+.retirement-total strong { color:#38523a; font-size:14px; }
+.retirement-meter { height:9px; margin:5px 0 4px; border:2px solid #6e7049; background:#d5c696; }
+.retirement-meter span { display:block; width:0; height:100%; background:linear-gradient(90deg,#87a75e,#d6ae55); transition:width .3s ease; }
+.retirement-meta { font-size:10px; }.retirement-meta button { padding:5px 7px; border:2px solid #586c43; background:#b9ce8c; color:#334b38; font-size:11px; }
+.retirement-meta button[hidden] { display:none; }
+.retirement-ending { display:flex; align-items:center; flex-direction:column; padding:8px 4px; text-align:center; }.ending-sheep { color:#698b4b; font-size:38px; }.retirement-ending strong { margin:8px 0; color:#466444; font-size:24px; }.retirement-ending small { color:#756c51; font-size:13px; }
+.eyebrow { font-size:11px; }.topbar .season-pill,.topbar .save-button { font-size:12px; }.stat-label { font-size:11px; }.stat-chip strong { font-size:17px; }
+.mini-title strong { font-size:18px; }.panel-header h3 { font-size:19px; }.weather { font-size:12px; }.live-dot { font-size:10px; }
+.control-tab { font-size:12px; }.side-view { font-size:13px; }.market-line strong,.warehouse-row { font-size:13px; }.market-line small,.row-meta,.trade-order small,.trade-count { font-size:11px; }
+.upgrade-groups button { font-size:12px; padding:8px 4px; }.upgrade-symbol { width:32px; height:32px; font-size:16px; }.upgrade-copy strong { font-size:13px; }.upgrade-copy small { font-size:11px; }.upgrade-button,.warehouse-row button { font-size:12px; padding:7px 6px; }
+.staff-status strong,.trade-order strong { font-size:13px; }.staff-status small { font-size:11px; }.staff-status b { font-size:12px; }.trade-order b { font-size:15px; }.trade-deliver { font-size:13px; }.trade-count { font-size:11px; }
+.refill-price { font-size:10px; }.toolbar-note { font-size:12px; }.action-button { font-size:12px; }.action-button b { font-size:11px; }.save-line,.footer-note { font-size:11px; }
+@media (max-width:680px) { .inheritance-intro { align-items:flex-start; flex-wrap:wrap; margin-bottom:12px; padding:9px; }.origin-mark { margin-right:8px; }.origin-copy { width:calc(100% - 48px); flex:auto; }.origin-copy strong { font-size:14px; }.origin-copy p { font-size:11px; }.retirement-progress { width:100%; max-width:none; margin:8px 0 0; }.retirement-total strong { font-size:13px; }.retirement-meta { font-size:10px; }.control-tab { font-size:11px; }.upgrade-groups button { font-size:11px; }.upgrade-copy strong { font-size:12px; }.upgrade-copy small { font-size:10px; }.toolbar-note { font-size:11px; }.action-button { font-size:11px; }.action-button b { font-size:10px; }.retirement-total,.retirement-ending small { font-size:12px; } }

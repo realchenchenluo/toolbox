@@ -1,0 +1,3750 @@
+{
+  "schema": 2,
+  "direction": "Original pixel sheep, warm tan face, drooping ears, complete-frame animation",
+  "assets": [
+    {
+      "path": "assets/sheep/adult-normal-wool-idle-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-wool-idle-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-wool-walk-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-wool-walk-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-wool-walk-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-wool-walk-3.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-wool-sit-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-wool-sit-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-wool-eat-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-wool-eat-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-wool-eat-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-wool-drink-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-wool-drink-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-wool-drink-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-wool-lie-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-wool-lie-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-wool-sleep-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-wool-sleep-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-shorn-idle-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-shorn-idle-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-shorn-walk-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-shorn-walk-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-shorn-walk-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-shorn-walk-3.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-shorn-sit-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-shorn-sit-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-shorn-eat-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-shorn-eat-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-shorn-eat-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-shorn-drink-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-shorn-drink-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-shorn-drink-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-shorn-lie-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-shorn-lie-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-shorn-sleep-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-normal-shorn-sleep-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-wool-idle-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-wool-idle-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-wool-walk-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-wool-walk-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-wool-walk-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-wool-walk-3.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-wool-sit-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-wool-sit-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-wool-eat-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-wool-eat-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-wool-eat-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-wool-drink-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-wool-drink-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-wool-drink-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-wool-lie-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-wool-lie-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-wool-sleep-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-wool-sleep-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-shorn-idle-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-shorn-idle-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-shorn-walk-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-shorn-walk-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-shorn-walk-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-shorn-walk-3.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-shorn-sit-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-shorn-sit-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-shorn-eat-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-shorn-eat-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-shorn-eat-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-shorn-drink-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-shorn-drink-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-shorn-drink-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-shorn-lie-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-shorn-lie-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-shorn-sleep-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-mint-shorn-sleep-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-wool-idle-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-wool-idle-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-wool-walk-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-wool-walk-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-wool-walk-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-wool-walk-3.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-wool-sit-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-wool-sit-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-wool-eat-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-wool-eat-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-wool-eat-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-wool-drink-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-wool-drink-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-wool-drink-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-wool-lie-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-wool-lie-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-wool-sleep-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-wool-sleep-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-shorn-idle-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-shorn-idle-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-shorn-walk-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-shorn-walk-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-shorn-walk-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-shorn-walk-3.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-shorn-sit-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-shorn-sit-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-shorn-eat-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-shorn-eat-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-shorn-eat-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-shorn-drink-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-shorn-drink-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-shorn-drink-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-shorn-lie-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-shorn-lie-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-shorn-sleep-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-peach-shorn-sleep-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-wool-idle-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-wool-idle-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-wool-walk-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-wool-walk-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-wool-walk-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-wool-walk-3.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-wool-sit-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-wool-sit-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-wool-eat-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-wool-eat-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-wool-eat-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-wool-drink-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-wool-drink-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-wool-drink-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-wool-lie-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-wool-lie-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-wool-sleep-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-wool-sleep-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-shorn-idle-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-shorn-idle-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-shorn-walk-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-shorn-walk-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-shorn-walk-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-shorn-walk-3.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-shorn-sit-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-shorn-sit-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-shorn-eat-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-shorn-eat-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-shorn-eat-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-shorn-drink-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-shorn-drink-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-shorn-drink-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-shorn-lie-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-shorn-lie-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-shorn-sleep-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/adult-rainbow-shorn-sleep-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-wool-idle-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-wool-idle-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-wool-walk-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-wool-walk-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-wool-walk-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-wool-walk-3.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-wool-sit-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-wool-sit-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-wool-eat-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-wool-eat-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-wool-eat-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-wool-drink-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-wool-drink-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-wool-drink-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-wool-lie-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-wool-lie-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-wool-sleep-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-wool-sleep-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-shorn-idle-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-shorn-idle-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-shorn-walk-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-shorn-walk-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-shorn-walk-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-shorn-walk-3.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-shorn-sit-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-shorn-sit-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-shorn-eat-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-shorn-eat-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-shorn-eat-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-shorn-drink-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-shorn-drink-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-shorn-drink-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-shorn-lie-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-shorn-lie-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-shorn-sleep-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-normal-shorn-sleep-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-wool-idle-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-wool-idle-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-wool-walk-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-wool-walk-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-wool-walk-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-wool-walk-3.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-wool-sit-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-wool-sit-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-wool-eat-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-wool-eat-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-wool-eat-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-wool-drink-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-wool-drink-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-wool-drink-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-wool-lie-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-wool-lie-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-wool-sleep-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-wool-sleep-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-shorn-idle-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-shorn-idle-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-shorn-walk-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-shorn-walk-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-shorn-walk-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-shorn-walk-3.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-shorn-sit-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-shorn-sit-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-shorn-eat-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-shorn-eat-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-shorn-eat-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-shorn-drink-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-shorn-drink-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-shorn-drink-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-shorn-lie-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-shorn-lie-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-shorn-sleep-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-mint-shorn-sleep-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-wool-idle-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-wool-idle-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-wool-walk-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-wool-walk-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-wool-walk-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-wool-walk-3.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-wool-sit-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-wool-sit-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-wool-eat-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-wool-eat-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-wool-eat-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-wool-drink-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-wool-drink-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-wool-drink-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-wool-lie-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-wool-lie-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-wool-sleep-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-wool-sleep-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-shorn-idle-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-shorn-idle-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-shorn-walk-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-shorn-walk-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-shorn-walk-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-shorn-walk-3.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-shorn-sit-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-shorn-sit-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-shorn-eat-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-shorn-eat-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-shorn-eat-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-shorn-drink-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-shorn-drink-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-shorn-drink-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-shorn-lie-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-shorn-lie-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-shorn-sleep-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-peach-shorn-sleep-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-wool-idle-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-wool-idle-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-wool-walk-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-wool-walk-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-wool-walk-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-wool-walk-3.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-wool-sit-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-wool-sit-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-wool-eat-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-wool-eat-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-wool-eat-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-wool-drink-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-wool-drink-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-wool-drink-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-wool-lie-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-wool-lie-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-wool-sleep-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-wool-sleep-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-shorn-idle-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-shorn-idle-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-shorn-walk-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-shorn-walk-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-shorn-walk-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-shorn-walk-3.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-shorn-sit-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-shorn-sit-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-shorn-eat-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-shorn-eat-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-shorn-eat-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-shorn-drink-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-shorn-drink-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-shorn-drink-2.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-shorn-lie-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-shorn-lie-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-shorn-sleep-0.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    },
+    {
+      "path": "assets/sheep/young-rainbow-shorn-sleep-1.png",
+      "size": [
+        32,
+        32
+      ],
+      "source": {
+        "kind": "project-authored",
+        "tool": "tools/draw-sheep-sprite.py"
+      },
+      "license": "Original project artwork",
+      "approval_status": "user-review"
+    }
+  ]
+}

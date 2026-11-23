@@ -1,0 +1,61 @@
+/* Complete pixel icons and physical button edges; no sprite interpolation. */
+.px-icon { display:inline-block; flex:none; width:24px; height:24px; background:url('./controls-atlas.png') 0 0 / 336px 24px no-repeat; image-rendering:pixelated; vertical-align:middle; }
+.icon-shear { background-position:0 0; }.icon-sheep { background-position:-24px 0; }.icon-meat { background-position:-48px 0; }.icon-market { background-position:-72px 0; }.icon-upgrade { background-position:-96px 0; }.icon-order { background-position:-120px 0; }.icon-coin { background-position:-144px 0; }.icon-save { background-position:-168px 0; }.icon-hay { background-position:-192px 0; }.icon-water { background-position:-216px 0; }.icon-worker { background-position:-240px 0; }.icon-barn { background-position:-264px 0; }.icon-clover { background-position:-288px 0; }.icon-tree { background-position:-312px 0; }
+.save-button { display:flex; align-items:center; }.save-button .px-icon { margin-right:5px; }
+.control-tab { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:64px; border-bottom:4px solid #b39a66; line-height:1.3; }
+.control-tab .px-icon { margin-bottom:4px; }.control-tab.active { border-bottom-color:#d9b15a; background:#47684c; box-shadow:inset 0 2px #6b9160; }
+.control-tab:active { padding-top:4px; box-shadow:inset 0 3px #647648; }
+.pasture-toolbar { display:block; padding:12px 14px 18px; }
+.farm-guide { display:flex; align-items:center; margin:0 0 13px; padding:8px 10px; background:#e4d6a7; border-left:4px solid #c2994c; }
+.guide-marker { display:grid; place-items:center; flex:none; width:26px; height:26px; margin-right:9px; color:#fff0b9; border:2px solid #765735; background:#b98b45; font-weight:bold; }
+.farm-guide strong { display:block; font-size:12px; color:#3e5739; }.farm-guide small { display:block; margin-top:2px; color:#82724e; font-size:10px; line-height:1.5; }
+.guide-step { margin-left:auto; padding-left:8px; color:#8d7749; font-size:10px; white-space:nowrap; }
+.action-buttons { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); grid-gap:9px; gap:9px; margin:0; }
+.action-button { position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; min-width:0; min-height:136px; margin:0; padding:12px 5px 14px; border:3px solid #68704b; border-radius:0; background:#e9d69b; color:#3c5339; box-shadow:0 5px 0 #8d7850,inset 0 3px #fff1c3,inset -3px 0 #cdb57c; transition:transform .09s ease,box-shadow .09s ease; }
+.action-button.primary { background:#b9cf8a; border-color:#547346; box-shadow:0 5px #47603b,inset 0 3px #dfedac,inset -3px 0 #9aaf6f; }
+.action-button.danger { background:#ddad83; border-color:#865c41; box-shadow:0 5px #77513b,inset 0 3px #f6d1a0,inset -3px 0 #bd895f; }
+.action-button .px-icon { margin-bottom:5px; transform:scale(1.45); transform-origin:center; }
+.action-copy strong { display:block; color:inherit; font-size:14px; }.action-copy small { display:block; margin-top:3px; font-size:9px; line-height:1.4; color:#61704b; }
+.action-button.danger .action-copy small { color:#875d43; }.action-button b { margin-top:8px; padding:3px 7px; background:rgba(255,247,201,.45); font-size:11px; color:inherit; }
+.action-button:active { transform:translateY(4px); box-shadow:0 1px #695c3f,inset 0 3px rgba(59,77,41,.12); }
+.action-button:disabled { cursor:default; filter:saturate(.5); opacity:.77; }.action-button:disabled:active { transform:none; }
+.action-button.is-ready { border-color:#8b682e; background:#e7c05f; color:#4f472b; box-shadow:0 5px #8c6a31,inset 0 3px #fff0ad; }
+.action-button.is-ready::after { content:''; position:absolute; top:6px; right:6px; width:5px; height:5px; background:#fff4c0; box-shadow:0 0 0 2px #b18c40; animation:ready-blink 1.8s steps(2,end) infinite; }
+@keyframes ready-blink { 50% { opacity:.3; } }
+.action-meter { position:absolute; right:5px; bottom:4px; left:5px; height:3px; background:rgba(67,93,48,.15); }.action-meter i { display:block; height:100%; width:0; background:#6d8e50; }
+.warehouse-row { flex-wrap:wrap; padding:13px 0; }.warehouse-row>span { line-height:1.6; }
+.warehouse-row button { display:flex; align-items:center; justify-content:center; padding:7px 10px; border:2px solid #547047; border-radius:0; background:#bfd38c; box-shadow:0 3px #758857,inset 0 2px #e7edb6; color:#3e5c39; font-size:12px; min-width:123px; }
+.warehouse-row button .px-icon { margin-right:5px; }.warehouse-row button small { display:block; font-size:10px; margin-top:2px; }.warehouse-row button:active { transform:translateY(2px); box-shadow:0 1px #758857; }
+.upgrade-item { padding:12px 0; }.upgrade-symbol { background:#ded6ac; border:2px solid #a2a173; border-radius:0; width:36px; height:36px; }
+.upgrade-copy strong { font-size:12px; }.upgrade-copy small { font-size:10px; color:#6c7752; }.upgrade-item .upgrade-button { min-width:64px; font-size:11px; background:#c8d891; box-shadow:0 3px #8c9667; }
+.upgrade-button:active { transform:translateY(2px); box-shadow:0 1px #8c9667; }.upgrade-button:disabled { box-shadow:none; }
+.level-dots i { width:7px; height:4px; border-radius:0; }.upgrade-level { float:right; font-size:9px; color:#8b7f56; margin-left:3px; }
+.cloud-save-button { display:flex; align-items:center; padding:3px 7px; border:2px solid #8e9a67; color:#e4e9ba; background:#3c5b40; font-size:11px; }.cloud-save-button .px-icon { margin-right:5px; }.cloud-save-button[hidden] { display:none; }
+.supply-attention { outline:2px solid #e8bf63; outline-offset:3px; }
+.action-pop { position:absolute; z-index:150; left:50%; top:45%; padding:5px 10px; background:#fff0ba; border:2px solid #79814e; color:#52603d; font-size:13px; pointer-events:none; animation:action-pop .9s steps(8,end) forwards; }
+@keyframes action-pop { from { opacity:1; transform:translate(-50%,0); } to { opacity:0; transform:translate(-50%,-30px); } }
+.modal-card { width:100%; max-width:440px; }
+.save-line > span:first-child { display:flex; align-items:center; }.save-line > span:first-child span { display:inline; }
+/* Merchant's goods: complete pixel illustrations and clear, separate price tags. */
+.market-lines { margin:0 14px 16px; padding:0; }
+.market-line { display:grid; grid-template-columns:64px minmax(0,1fr) auto; grid-gap:9px; align-items:center; min-height:100px; margin:0 0 10px; padding:10px 8px; border:2px solid #b5a16b; border-left:4px solid #70834e; background:#f1e1b3; box-shadow:0 3px #d0b77e,inset 0 2px #fff0cb; }
+.market-line:last-child { margin-bottom:0; border-bottom:2px solid #b5a16b; }
+.market-line.meat-offer { border-left-color:#ae7054; background:#eedab0; }
+.product-icon.wool,.product-icon.meat { display:block; flex:none; width:64px; height:64px; margin:0; border:0; border-radius:0; background-color:transparent; background-image:url('./market-goods.png'); background-repeat:no-repeat; background-size:128px 64px; background-position:0 0; image-rendering:pixelated; box-shadow:none; }
+.product-icon.meat { background-position:-64px 0; }
+.trade-order .trade-icon { flex:none; width:48px; height:48px; margin-right:10px; padding:0; background-size:96px 48px; }
+.trade-order .trade-icon.meat { background-position:-48px 0; }
+.market-line .product-copy { min-width:0; }
+.market-line .product-copy strong { display:block; font-size:16px; line-height:1.4; color:#334b35; }
+.market-line .product-copy small { display:block; margin-top:5px; font-size:10px; line-height:1.7; color:#7b704c; }
+.market-line .product-copy small span { display:inline-block; padding:0 3px; color:#507044; font-weight:900; background:#ded7a5; }
+.meat-offer .product-copy small span { color:#915740; background:#e5c399; }
+.market-line .market-price { display:block; margin:0; min-width:65px; padding:5px 5px 4px; text-align:right; border:0; background:none; color:#435b36; line-height:1.15; white-space:nowrap; }
+.market-price .price-label { display:block; margin-bottom:4px; color:#8b774d; font-size:9px; font-weight:normal; letter-spacing:1px; }
+.market-price .price-number { display:block; font-size:21px; font-family:Consolas,'Courier New',monospace; font-weight:900; letter-spacing:-1px; }
+.market-line .market-price small { display:block; margin-top:3px; color:#8a7952; font-size:10px; font-weight:normal; }
+@media(min-width:761px) and (max-width:1000px) { .market-lines { margin-right:9px; margin-left:9px; }.market-line { grid-gap:5px; padding-right:5px; padding-left:5px; }.market-line .product-copy strong { font-size:14px; }.market-line .market-price { min-width:59px; }.market-price .price-number { font-size:19px; } }
+@media(max-width:350px) { .market-lines { margin-right:9px; margin-left:9px; }.market-line { grid-gap:5px; padding-right:4px; padding-left:4px; }.market-line .product-copy strong { font-size:14px; }.market-line .market-price { min-width:58px; }.market-price .price-number { font-size:19px; } }
+@media(max-width:1000px) and (min-width:761px) { .action-buttons { grid-gap:6px; gap:6px; }.action-copy strong { font-size:12px; }.action-copy small { font-size:9px; }.action-button { min-height:134px; }.farm-guide small { font-size:9px; } }
+@media(max-width:680px) { .control-tab { font-size:12px; }.pasture-toolbar { padding:10px 10px 17px; }.action-buttons { grid-gap:7px; gap:7px; }.action-button { min-height:140px; padding:10px 3px 12px; }.action-copy strong { font-size:13px; }.action-copy small { font-size:9px; }.action-button b { font-size:10px; padding:3px 4px; }.farm-guide { padding:8px 6px; }.farm-guide small { font-size:10px; }.guide-step { display:none; }.save-line { display:flex; flex-wrap:wrap; align-items:center; }.save-line>span:last-child { width:100%; margin-top:4px; }.warehouse-row { margin:0 13px; }.warehouse-row button { min-width:128px; } }
+@media(prefers-reduced-motion:reduce) { .action-button.is-ready::after { animation:none; }.action-pop { animation:none; } }
