@@ -1,6 +1,7 @@
 {
-  "version": "20261123-neighbors-7",
-  "sourceCommit": "9bd26805042bdbbd28e08bf1a6bcc6066be5891b",
-  "artifactSha256": "6c13bbd9ffe84a834046a96da8d3c377c816e5ec8175991e91396d37fc857976",
-  "publishedAt": "2026-11-24T00:41:23+08:00"
+  "version": "20261124-compact-8",
+  "sourceCommit": "755ac530bcd35fce9d49fe84a4aec445d103d6ad",
+  "artifactSha256": "a4c60c9529c12f3210dabbe3ab5c5d382e811145538beb1a040b29d7d3ce55bd",
+  "packageFiles": 75,
+  "publishedAt": "2026-11-24T07:47:36+08:00"
 }
