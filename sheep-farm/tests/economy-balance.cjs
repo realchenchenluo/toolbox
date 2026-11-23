@@ -32,7 +32,7 @@ function simulate({seconds=1200,invest=false,empty=false}={}) {
       }
       if(s.sheep.length<6&&afford(g.breedMeta.normal.price))pay('sheep',()=>g.buySheep());
       for(const key of ['wool','shears'])if(s.level>=3&&!s.upgrades[key]&&afford(cost(key)))pay('facilities',()=>g.upgrade(key));
-      if(s.level>=3&&s.level<6){const n=g.levelMeta[s.level];if(s.earned>=n.income&&afford(n.cost))pay('levels',()=>g.levelUp());}
+      if(s.level>=3&&s.level<8){const n=g.levelMeta[s.level];if(s.earned>=n.income&&afford(n.cost))pay('levels',()=>g.levelUp());}
       for(const breed of ['mint','peach','rainbow']){
         const meta=g.breedMeta[breed];
         if(s.level<meta.level)continue;
@@ -52,7 +52,7 @@ function simulate({seconds=1200,invest=false,empty=false}={}) {
   assert.ok(Math.abs(start+s.earned-s.gold-Object.values(spend).reduce((a,b)=>a+b,0))<.00001,'no money created by purchases');
   return {firstSale,events,checkpoints,cash:Math.round(s.gold),earned:Math.round(s.earned),spend};
 }
-const report={starter:simulate({seconds:600}),progression:simulate({seconds:1800,invest:true}),recovery:simulate({seconds:180,empty:true})};
+const report={starter:simulate({seconds:600}),progression:simulate({seconds:5400,invest:true}),recovery:simulate({seconds:180,empty:true})};
 if(!process.argv.includes('--baseline')&&!process.argv.includes('--measure')){
   assert.ok(report.starter.firstSale<=40);
   assert.ok(report.starter.checkpoints[60].cash>=450);
@@ -60,7 +60,7 @@ if(!process.argv.includes('--baseline')&&!process.argv.includes('--measure')){
   assert.ok(report.progression.events.LV2<=90);
   assert.ok(report.progression.events.worker<=300);
   assert.ok(report.progression.events.LV6<=1200);
-  assert.ok(report.progression.events.rainbow<=1800);
+  assert.ok(report.progression.events.rainbow<=5400);
   assert.ok(report.recovery.cash>0);
   console.log('PASS: positive starter margin, affordable early upgrades, progressive spending, no-cash recovery, and conservation of currency.');
 }

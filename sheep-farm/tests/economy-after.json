@@ -24,16 +24,16 @@
         "sheep": 3
       },
       "600": {
-        "cash": 3034,
+        "cash": 3036,
         "earned": 2742,
         "level": 1,
         "sheep": 3
       }
     },
-    "cash": 3034,
+    "cash": 3036,
     "earned": 2742,
     "spend": {
-      "supplies": 8,
+      "supplies": 6,
       "levels": 0,
       "facilities": 0,
       "sheep": 0,
@@ -50,9 +50,11 @@
       "LV4": 272,
       "mint": 440,
       "LV5": 560,
-      "peach": 764,
-      "LV6": 992,
-      "rainbow": 1412
+      "peach": 772,
+      "LV6": 1016,
+      "LV7": 1600,
+      "LV8": 2896,
+      "rainbow": 3608
     },
     "checkpoints": {
       "60": {
@@ -62,35 +64,35 @@
         "sheep": 5
       },
       "180": {
-        "cash": 142,
+        "cash": 130,
         "earned": 1472,
         "level": 3,
         "sheep": 6
       },
       "300": {
-        "cash": 283,
+        "cash": 237,
         "earned": 3295,
         "level": 4,
         "sheep": 6
       },
       "600": {
-        "cash": 1015,
+        "cash": 851,
         "earned": 9119,
         "level": 5,
         "sheep": 7
       },
       "1200": {
-        "cash": 5696,
-        "earned": 24730,
+        "cash": 4669,
+        "earned": 24537,
         "level": 6,
         "sheep": 8
       }
     },
-    "cash": 14803,
-    "earned": 45473,
+    "cash": 70836,
+    "earned": 162314,
     "spend": {
-      "supplies": 70,
-      "levels": 11080,
+      "supplies": 10878,
+      "levels": 61080,
       "facilities": 1640,
       "sheep": 6980,
       "breeds": 11200
@@ -103,22 +105,22 @@
     },
     "checkpoints": {
       "60": {
-        "cash": 233,
+        "cash": 239,
         "earned": 251,
         "level": 1,
         "sheep": 3
       },
       "180": {
-        "cash": 791,
+        "cash": 799,
         "earned": 815,
         "level": 1,
         "sheep": 3
       }
     },
-    "cash": 791,
+    "cash": 799,
     "earned": 815,
     "spend": {
-      "supplies": 24,
+      "supplies": 16,
       "levels": 0,
       "facilities": 0,
       "sheep": 0,

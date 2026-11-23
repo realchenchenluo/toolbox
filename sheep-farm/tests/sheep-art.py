@@ -6,7 +6,7 @@ from PIL import Image, ImageChops
 root = Path(__file__).resolve().parents[1]
 folder = root / 'assets' / 'sheep'
 manifest = json.loads((folder / 'sequences.json').read_text(encoding='utf-8'))
-assert len(manifest['variants']) == 16
+assert len(manifest['variants']) == 24
 assert [x['name'] for x in manifest['sequences']] == ['idle', 'walk', 'sit', 'eat', 'drink', 'lie', 'sleep']
 for variant in manifest['variants']:
     sheet = Image.open(folder / variant['sheet']).convert('RGBA')
@@ -38,4 +38,4 @@ for variant in manifest['variants']:
         assert (24, 14) in connected, 'head must remain attached to the body'
         assert any(y >= 28 and x < 16 for x, y in connected), 'rear foot stays attached'
         assert any(y >= 28 and x >= 16 for x, y in connected), 'front foot stays attached'
-print('PASS: 288 complete frames, 16 matching sequence sheets, transparent padding, limited palette, four distinct gaits, and attached head/body/legs.')
+print('PASS: 432 complete frames, 24 matching sequence sheets, transparent padding, limited palette, four distinct gaits, and attached head/body/legs.')

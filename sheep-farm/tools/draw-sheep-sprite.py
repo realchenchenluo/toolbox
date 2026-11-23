@@ -206,8 +206,10 @@ def young_frame(pose, woolly, phase=None):
 
 def tint_wool(im, breed):
     palettes = {
+        'gift': ['#fff0c2', '#e8cf91', '#c2a775', '#fff9df'],
         'mint': ['#d7f2d4', '#b0d6b0', '#83bca4', '#eef9df'],
         'peach': ['#f7d8d0', '#e9b4b3', '#c994a5', '#fff0dc'],
+        'wish': ['#e9dff7', '#c9badf', '#9e8cbd', '#fff0fa'],
         'rainbow': ['#edafa7', '#efd38c', '#acd1a0', '#9ac7cf', '#bbb0d7', '#dfafd0']
     }
     if breed not in palettes: return im
@@ -232,7 +234,7 @@ manifest = {'schema': 2, 'frameSize': [32, 32], 'columns': 4,
                           for row, (name, count, ms) in enumerate(sequences)], 'variants': []}
 asset_manifest = {'schema': 2, 'direction': 'Original pixel sheep, warm tan face, drooping ears, complete-frame animation', 'assets': []}
 for stage in ('adult', 'young'):
-    for breed in ('normal', 'mint', 'peach', 'rainbow'):
+    for breed in ('normal', 'gift', 'mint', 'peach', 'wish', 'rainbow'):
         for woolly in (True, False):
             prefix = f"{stage}-{breed}-{'wool' if woolly else 'shorn'}"
             atlas = Image.new('RGBA', (128, 32 * len(sequences)))
@@ -260,7 +262,7 @@ for stage in ('adult', 'young'):
                     if woolly: frame = tint_wool(frame, breed)
                     elif breed != 'normal':
                         x, y = (18, 15) if stage == 'young' else (17, 11)
-                        ImageDraw.Draw(frame).rectangle((x, y, x + 1, y + 1), fill={'mint':'#83bca4','peach':'#e9b4b3','rainbow':'#bbb0d7'}[breed])
+                        ImageDraw.Draw(frame).rectangle((x, y, x + 1, y + 1), fill={'gift':'#d3a353','mint':'#83bca4','peach':'#e9b4b3','wish':'#ad91c3','rainbow':'#bbb0d7'}[breed])
                     filename = f"{prefix}-{pose}-{index}.png"
                     frame.save(out / filename)
                     if index == 0 and pose != 'walk': frame.save(out / f"{prefix}-{pose}.png")
@@ -271,4 +273,4 @@ for stage in ('adult', 'young'):
             manifest['variants'].append({'name': prefix, 'sheet': prefix + '-sequence.png', 'frames': frames})
 (out / 'sequences.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding='utf-8')
 (ASSETS.parent / 'tools' / 'sheep-asset-manifest.json').write_text(json.dumps(asset_manifest, ensure_ascii=False, indent=2), encoding='utf-8')
-print('Saved 288 complete animation frames and 16 sequence sheets; runtime never crops an atlas.')
+print('Saved 432 complete animation frames and 24 sequence sheets; runtime never crops an atlas.')

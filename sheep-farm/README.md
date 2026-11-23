@@ -1,8 +1,8 @@
 # 牧云羊场
 
-一款像素风养羊经营小游戏：回乡继承羊场，照顾小羊、剪毛拾取、售卖货物，逐步升级牧场与羊种，亲手攒够一亿元退休金。
+一款像素风养羊经营小游戏：回乡继承羊场，照顾小羊、剪毛拾取、售卖货物，逐步升级牧场与羊种，亲手攒够5000 万元退休金。
 
-[在线试玩](https://realchenchenluo.github.io/toolbox/sheep-farm/?v=20261123-meadow-6)
+[在线试玩](https://realchenchenluo.github.io/toolbox/sheep-farm/?v=20261123-neighbors-7)
 
 ## 当前玩法
 
@@ -32,10 +32,12 @@ node tests/farm-behavior.cjs
 node tests/cloud-save.cjs
 node tests/economy-balance.cjs
 node tests/interactive-grass.cjs
+node tests/orders-and-tutorial.cjs
+node tests/production-budget.cjs
 python tests/sheep-art.py
 ```
 
-Python 素材检查与绘制脚本需要 Pillow。羊动作包含 16 套年龄/羊种/毛态变体，每套 18 帧、7 个动作；序列坐标与时长在 [`assets/sheep/sequences.json`](assets/sheep/sequences.json)。游戏逐帧切换完整 PNG，并整体镜像转身。
+Python 素材检查与绘制脚本需要 Pillow。羊动作包含 24 套年龄/羊种/毛态变体，每套 18 帧、7 个动作；序列坐标与时长在 [`assets/sheep/sequences.json`](assets/sheep/sequences.json)。游戏逐帧切换完整 PNG，并整体镜像转身。
 
 详见 [经营收支模拟](ECONOMY-BALANCE.md)、[界面与动画说明](UI-DIRECTION.md)。当前验证覆盖自动测试与本机浏览器，小红书容器和 Android/iOS 真机需要单独验证。源码更新不自动生成小工具 ZIP。
 
@@ -46,3 +48,17 @@ Python 素材检查与绘制脚本需要 Pillow。羊动作包含 16 套年龄/�
 - `tools/`：项目原创素材生成与预览脚本。
 
 GitHub `main` 保存源码；`gh-pages` 的 `/sheep-farm/` 保存在线试玩静态文件。
+
+## 当前经营规则
+
+- 首次进入有三步说明与四步实操指引，老存档不强制重看。手机端主内容统一滚动。
+- 云朵羊 LV1、绒糖羊 LV2、薄荷羊 LV4、蜜桃羊 LV5、星愿羊 LV6、彩虹羊 LV8。绒糖羊首次购入永久开启礼盒，星愿羊首次购入永久开启订单特殊奖励。
+- 原料订单 LV3 同时两张，LV5 三张。满意度每点增加产毛 0.1%、长毛速度 0.05%，最多 +10% / +5%。
+- 特殊奖励在符合条件的交付刷新中抽取：羊圈名额 +2 为 0.6%，彩虹名额 +1 为 0.15%（初始 2，最高 5），LV8 后彩虹羊仔为 3%。至少先完成 15 单，同场最多一张稀有单，领奖后至少间隔 40 单。具体货物量与概率说明在游戏“玩法”中。
+- 基础羊圈可扩至 20 只，订单名额可超过 20。彩虹羊长大耗时翻倍；高价精料限时生效、同类不叠加。
+- 草、水单格费用依等级为 2 / 3 / 6 / 15 / 50 / 150 / 500 / 2000 金币，槽容量与单格补充量同步扩大。
+- 出栏支持多选批量操作，保留窗口供继续选择；无成年羊时自动关闭。
+
+## 小红书上传包
+
+运行 `python tools/package-farm.py` 后，`release/牧云羊场-小红书上传-v7.zip` 为可直接选择的代码包。入口位于 ZIP 根目录，递归包含羊动作素材；不含测试页、嵌套 ZIP、开发脚本或说明文档。上传后仍需平台模拟器及 Android/iOS 真机验证。

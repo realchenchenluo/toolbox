@@ -7,14 +7,14 @@ async function run() {
 {
   const t=boot(), g=t.game, s=g.state;
   const cash=s.gold, hay=s.hay; g.refillSupply('hay');
-  assert.equal(s.gold,cash-4); assert.equal(s.hay,hay+4);
+  assert.equal(s.gold,cash-2); assert.equal(s.hay,hay+4);
   s.hay=g.hayCapacity(); const fullCash=s.gold; g.refillSupply('hay'); assert.equal(s.gold,fullCash);
   s.gold=1; s.water=0; g.refillSupply('water'); assert.equal(s.water,0); assert.equal(s.gold,1);
-  s.gold=100000; s.level=3; g.upgrade('hayBarn'); g.upgrade('cistern'); assert.equal(g.hayCapacity(),52); assert.equal(g.waterCapacity(),52);
-  s.hay=0; g.refillSupply('hay'); assert.equal(s.hay,5.2);
+  s.gold=100000; s.level=3; g.upgrade('hayBarn'); g.upgrade('cistern'); assert.equal(g.hayCapacity(),104); assert.equal(g.waterCapacity(),104);
+  s.hay=0; g.refillSupply('hay'); assert.equal(s.hay,10.4);
   g.upgrade('shears'); s.sheep.forEach(x=>x.wool=100); g.shear();
   assert.equal(s.woolDrops.length,3); assert.ok(s.woolDrops[0].amount>1.7);
-  s.wool=3; const reward=g.tradeReward(); g.deliverTradeOrder(); assert.equal(s.tradeOrder.completed,1); assert.equal(s.tradeOrder.type,'meat'); assert.ok(reward>3*g.woolPrice());
+  s.wool=3; const reward=g.tradeReward(); g.deliverTradeOrder(); assert.equal(s.contracts.completed,1); assert.equal(s.contracts.slots.length,2); assert.equal(s.contracts.satisfaction,1); assert.ok(reward>3*g.woolPrice());
 }
 // A genuine new farm starts at day zero with no pre-sold wool or adult sheep.
 {
@@ -116,14 +116,14 @@ async function run() {
 {
   const t=boot(),g=t.game,s=g.state;s.gold=100000;
   assert.equal(g.unlockBreed('rainbow'),false);assert.equal(g.buySheep('rainbow'),false);
-  s.level=6;const start=s.gold;assert.equal(g.unlockBreed('rainbow'),true);assert.equal(s.gold,start-7200);
+  s.level=8;const start=s.gold;assert.equal(g.unlockBreed('rainbow'),true);assert.equal(s.gold,start-7200);
   assert.equal(g.unlockBreed('rainbow'),false);assert.equal(g.buySheep('rainbow'),true);assert.equal(s.gold,start-7200-4000);
   const lamb=s.sheep[s.sheep.length-1];assert.equal(lamb.age,0);assert.match(g.sheepImage(lamb),/young-rainbow/);
   const count=s.sheep.length;g.butcher(lamb.id);assert.equal(g.sellLiveSheep(lamb.id),false);assert.equal(s.sheep.length,count);
   s.sheep.forEach(x=>x.wool=0);lamb.wool=100;g.shear();assert.equal(lamb.wool,0);assert.ok(s.woolDrops[0].amount>5); // Juveniles can be sheared.
   lamb.age=60;const wallet=s.gold;assert.equal(g.sellLiveSheep(lamb.id),true);assert.equal(s.gold,wallet+18000);
   assert.equal(s.sheep.some(x=>x.id===lamb.id),false);assert.equal(s.savings,0);
-  await g.saveState(false);const restored=boot(t.saved()).game.state;assert.equal(restored.breeds.rainbow,true);assert.equal(restored.level,6);
+  await g.saveState(false);const restored=boot(t.saved()).game.state;assert.equal(restored.breeds.rainbow,true);assert.equal(restored.level,8);
 }
 // Breed bonuses apply to the whole flock and disappear when the supporting sheep leaves.
 {
@@ -231,8 +231,8 @@ function haul(boots,basket) {
   s.wool=2;const cash=s.gold;g.sellWool();assert.equal(s.earned,112);assert.equal(s.gold,cash+112);
   s.meat=1;g.sellMeat();assert.equal(s.earned,230);s.workshopUnlocked=true;s.upgrades.workshop=1;s.boxes.wool=1;g.sellBoxes();assert.equal(s.earned,450);
   s.boxes.wool=2;s.order={type:'wool',qty:2,reward:420};g.deliverOrder();assert.equal(s.earned,956);
-  s.earned=99999980;g.bookIncome(20);assert.equal(s.earned,100000000);assert.equal(s.retired,false);
-  s.gold=100000000;g.depositSavings(100000000);assert.equal(s.savings,100000000);assert.equal(s.retired,true);
+  s.earned=49999980;g.bookIncome(20);assert.equal(s.earned,50000000);assert.equal(s.retired,false);
+  s.gold=50000000;g.depositSavings(50000000);assert.equal(s.savings,50000000);assert.equal(s.retired,true);
   g.retire();assert.equal(s.retirementClaimed,true);assert.equal(t.nodes.get('modal').hidden,false);
 }
 // Both movement rates, wool growth and the game day clock are accelerated exactly as requested.
@@ -244,7 +244,7 @@ function haul(boots,basket) {
   s.upgrades.worker=1;s.sheep=[];s.worker={x:40,y:45,mode:'carrying',targetId:'',carry:1,count:1,direction:1,until:0};
   const workerBefore={x:s.worker.x,y:s.worker.y};g.animateSheep();
   const travelled=Math.hypot((s.worker.x-workerBefore.x)*field/100,(s.worker.y-workerBefore.y)*400/100);
-  assert.ok(Math.abs(travelled-6.72)<.001);
+  assert.ok(Math.abs(travelled-6.72*1.3)<.001);
   s.sheep=[sheep];sheep.wool=0;g.tick();assert.equal(sheep.wool,8.4);assert.equal(sheep.age,8.9);
 }
 {
