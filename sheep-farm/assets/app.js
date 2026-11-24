@@ -328,7 +328,7 @@
     document.getElementById('modal-title').textContent = '羊场交给下一代';
     document.getElementById('modal-copy').textContent = '你带着攒下的积蓄退休，故事停在自己亲手经营好的牧场。';
     document.getElementById('modal-body').innerHTML = '<div class="retirement-ending"><span class="ending-sheep">♧</span><strong>¥' + formatIncome(state.savings) + '</strong><small>这座羊场，会记得你回来过。</small></div>';
-    modal.hidden = false;
+    modal.hidden = false;resetModalScroll();
   }
   function capacity() { return Math.min(20,6 + state.upgrades.capacity * 2) + state.contracts.flockBonus; }
   function rainbowCount() { return state.sheep.filter(function (s) {return s.breed==='rainbow';}).length; }
@@ -567,7 +567,7 @@
     document.getElementById('modal-title').textContent = '挑一只羊仔回家';
     document.getElementById('modal-copy').textContent = '幼羊能长毛和剪毛；长到 60 日龄后才可出栏。特殊品种需先解锁，再购买羊仔。';
     document.getElementById('modal-body').innerHTML = '<div id="nursery-list">' + breedCards() + '</div>';
-    document.getElementById('modal').hidden = false;
+    document.getElementById('modal').hidden = false;resetModalScroll();
   }
   function tutorialStep() { return state.tutorial.steps.indexOf(false) < 0 ? 4 : state.tutorial.steps.indexOf(false); }
   function advanceTutorial(index) {
@@ -583,7 +583,7 @@
     document.getElementById('modal-title').textContent = '从三只小羊开始';
     document.getElementById('modal-copy').textContent = '你继承了家里的羊场。用 300 金币起步，攒够 5000 万退休。';
     document.getElementById('modal-body').innerHTML = '<div class="welcome-flock"><img src="./assets/sheep/young-normal-wool-idle.png" alt="小羊"><img src="./assets/sheep/young-normal-wool-sit.png" alt=""><img src="./assets/sheep/young-normal-wool-idle.png" alt=""></div><ol class="welcome-steps"><li><b>1</b><div><strong>添草加水</strong><small>点击草场两侧的槽，一次补一格。</small></div></li><li><b>2</b><div><strong>剪毛，再捡起来</strong><small>羊毛长满后开剪，点击地上的羊毛。</small></div></li><li><b>3</b><div><strong>到集市卖出</strong><small>先赚钱照顾羊群，再升级、买羊。</small></div></li></ol><button class="welcome-start" type="button" data-action="start-tutorial">开始放牧</button><button class="welcome-skip" type="button" data-action="skip-tutorial">我会玩了，跳过指引</button>';
-    modal.classList.add('onboarding-open');modal.hidden = false;renderClock();
+    modal.classList.add('onboarding-open');modal.hidden = false;resetModalScroll();renderClock();
     var start = modal.querySelector('.welcome-start');if (start && typeof start.focus === 'function') start.focus();
   }
   function finishTutorial() {
@@ -633,9 +633,10 @@
     document.getElementById('modal-title').textContent = '玩法说明';
     document.getElementById('modal-copy').textContent = '从照顾第一只小羊，到慢慢攒下退休金。随时点右上角“玩法”回来查看。';
     document.getElementById('modal-body').innerHTML = '<ol class="game-rules">' + rules.map(function (rule,index) { return '<li><span class="rule-number">' + (index + 1) + '</span><div><h4>' + esc(rule[0]) + '</h4><p>' + esc(rule[1]) + '</p></div></li>'; }).join('') + '</ol>';
-    modal.classList.add('rules-open'); modal.hidden = false;
+    modal.classList.add('rules-open'); modal.hidden = false;resetModalScroll();
     var close = modal.querySelector('.modal-close'); if (close && typeof close.focus === 'function') close.focus();
   }
+  function resetModalScroll() {var scroll=document.getElementById('modal-scroll');if(scroll)scroll.scrollTop=0;}
   function closeModal() {
     var modal = document.getElementById('modal'); modal.hidden = true; modal.classList.remove('rules-open');
     modal.classList.remove('sale-open');saleModalOpen=false;saleSelection=Object.create(null);
@@ -782,7 +783,7 @@
     saleModalOpen=true;saleSelection=Object.create(null);modalReturnFocus=document.activeElement;
     document.getElementById('modal-kicker').textContent='成年羊出栏';document.getElementById('modal-title').textContent='选好这一批，再出栏';
     document.getElementById('modal-copy').textContent='勾选成年羊，可卖活羊或换取羊肉。卖完可继续选择，右上角随时关闭；幼羊不会被选中。';
-    modal.classList.add('sale-open');modal.hidden=false;renderButcherChoices();
+    modal.classList.add('sale-open');modal.hidden=false;renderButcherChoices();resetModalScroll();
   }
   function meatYield(sheep) { return 1.8+Math.min(1.4,sheep.age/60*.6); }
   function renderButcherChoices() {

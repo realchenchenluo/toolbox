@@ -1,7 +1,7 @@
 {
-  "version": "20261124-compact-8",
-  "sourceCommit": "755ac530bcd35fce9d49fe84a4aec445d103d6ad",
-  "artifactSha256": "a4c60c9529c12f3210dabbe3ab5c5d382e811145538beb1a040b29d7d3ce55bd",
-  "packageFiles": 75,
-  "publishedAt": "2026-11-24T07:47:36+08:00"
+  "version": "20261124-safe-9",
+  "sourceCommit": "66ef719c8c63df1d6d6add60a4f6087cec891b48",
+  "artifactSha256": "9bb07b3ca58af11393d6c8ae8acb412c4015ba3a09033879e09a1fb21125c57a",
+  "packageFiles": 76,
+  "publishedAt": "2026-11-24T15:06:43+08:00"
 }
