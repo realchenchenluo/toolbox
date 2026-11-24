@@ -105,7 +105,8 @@ async function run(){
     st.upgrades.capacity=7;assert.equal(game.capacity(),20);const money=st.gold;game.upgrade('capacity');assert.equal(st.gold,money);
   }
   for(let i=1;i<unitCosts.length;i++)assert.ok(unitCosts[i]>=unitCosts[i-1]);
-  const retirement=boot({calendarVersion:1,gold:999,savings:50000000,sheep:s.sheep});assert.equal(retirement.game.state.retired,true);assert.equal(retirement.game.state.savings,50000000);
+  const retirement=boot({calendarVersion:1,gold:999,savings:10000000,sheep:s.sheep});assert.equal(retirement.game.state.retired,true);assert.equal(retirement.game.state.savings,10000000);
+  const older=boot({calendarVersion:1,gold:999,savings:50000000,sheep:s.sheep});assert.equal(older.game.state.retired,true);assert.equal(older.game.state.savings,50000000);
   const rich=boot({calendarVersion:1,gold:999,savings:100000000,sheep:s.sheep});assert.equal(rich.game.state.savings,100000000);
 
   // Long order simulation values even newborn rewards as fully grown sheep: still bounded.
@@ -117,7 +118,7 @@ async function run(){
     assert.ok(sim.slots.filter(orders.isRare).length<=1);assert.ok(sim.satisfaction<=100);
   }
   assert.ok(awards>0&&awards<20000/40);assert.ok((paid+awards*18000)/raw<1.35);
-  console.log('PASS: tutorial, six breeds/assets, independent orders, capped bonuses, 0.6%/0.15% expansions, durable rewards, LV8 rainbows, slower growth, paid timed feeds, batch sales, 50-million goal, and affordable supplies.');
+  console.log('PASS: tutorial, six breeds/assets, independent orders, capped bonuses, 0.6%/0.15% expansions, durable rewards, LV8 rainbows, slower growth, paid timed feeds, batch sales, 10-million goal, and affordable supplies.');
   console.log(JSON.stringify({orders:20000,rainbowAwards:awards,rewardToRawRatio:(paid+awards*18000)/raw,maxYield:sim.satisfaction*.1,maxGrowth:sim.satisfaction*.05}));
 }
 run().catch(error=>{console.error(error);process.exitCode=1;});

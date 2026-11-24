@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#e9e5da">
   <title>牧云羊场 · 轻经营模拟器</title>
-  <link rel="stylesheet" href="./assets/style.css?v=20261124-safe-9">
-  <link rel="stylesheet" href="./assets/workshop.css?v=20261124-safe-9">
-  <link rel="stylesheet" href="./assets/pixel.css?v=20261124-safe-9">
-  <link rel="stylesheet" href="./assets/layout.css?v=20261124-safe-9">
-  <link rel="stylesheet" href="./assets/farm-items.css?v=20261124-safe-9">
-  <link rel="stylesheet" href="./assets/controls.css?v=20261124-safe-9">
-  <link rel="stylesheet" href="./assets/sheep-night.css?v=20261124-safe-9">
-  <link rel="stylesheet" href="./assets/progression.css?v=20261124-safe-9">
-  <link rel="stylesheet" href="./assets/field-ui.css?v=20261124-safe-9">
-  <script src="./assets/viewport-layout.js?v=20261124-safe-9"></script>
+  <link rel="stylesheet" href="./assets/style.css?v=20261124-farm-10">
+  <link rel="stylesheet" href="./assets/workshop.css?v=20261124-farm-10">
+  <link rel="stylesheet" href="./assets/pixel.css?v=20261124-farm-10">
+  <link rel="stylesheet" href="./assets/layout.css?v=20261124-farm-10">
+  <link rel="stylesheet" href="./assets/farm-items.css?v=20261124-farm-10">
+  <link rel="stylesheet" href="./assets/controls.css?v=20261124-farm-10">
+  <link rel="stylesheet" href="./assets/sheep-night.css?v=20261124-farm-10">
+  <link rel="stylesheet" href="./assets/progression.css?v=20261124-farm-10">
+  <link rel="stylesheet" href="./assets/field-ui.css?v=20261124-farm-10">
+  <script src="./assets/viewport-layout.js?v=20261124-farm-10"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -31,7 +31,6 @@
         <div class="clock-track" aria-hidden="true"><i class="clock-daylight"></i><i class="clock-nighttime"></i><span id="clock-fill"></span><b class="clock-dusk-mark"></b></div>
         <div class="clock-caption"><span>06:00 日出 / 18:00 入夜</span><strong id="clock-countdown">48 秒后入夜</strong></div>
       </div>
-      <div class="topbar-right"><button class="rules-button" type="button" data-action="rules" aria-controls="modal" title="查看游戏规则"><span aria-hidden="true">?</span>玩法</button><button class="save-button" type="button" data-action="save" title="手动保存；游戏每 12 秒也会自动存档"><span class="px-icon icon-save" aria-hidden="true"></span><span>保存</span></button></div>
     </header>
 
     <main>
@@ -49,7 +48,8 @@
         <section class="pasture-card panel-card">
           <header class="panel-header">
             <div><h3>云朵草场</h3></div>
-            <div class="weather"><span id="weather-icon">☀</span> <span id="weather-label">白天放牧 · 夜晚休息</span></div>
+            <div class="weather" hidden><span id="weather-icon">☀</span> <span id="weather-label">白天放牧 · 夜晚休息</span></div>
+            <div class="pasture-tools" aria-label="玩法与存档"><button class="rules-button" type="button" data-action="rules" aria-controls="modal" title="查看游戏规则"><span aria-hidden="true">?</span>玩法</button><button class="save-button" type="button" data-action="save" title="手动保存；游戏每 12 秒也会自动存档"><span class="px-icon icon-save" aria-hidden="true"></span><span>保存</span></button></div>
           </header>
 
           <div class="pasture-scene" id="pasture-scene">
@@ -143,11 +143,11 @@
           </section>
 
           <section class="side-view ledger-view" data-panel-view="ledger">
-            <header class="panel-header compact"><div><h3>退休账本</h3></div><span class="small-muted">五千万退休计划</span></header>
+            <header class="panel-header compact"><div><h3>退休账本</h3></div><span class="small-muted">一千万退休计划</span></header>
       <section class="inheritance-intro" aria-label="羊场故事与退休目标">
         <span class="origin-mark" aria-hidden="true">乡</span>
-        <div class="origin-copy"><strong>回乡接手家里的养羊场</strong><p>养羊、做生意、升级牧场。亲手存下 5000 万元，就能安心退休。</p></div>
-        <div class="retirement-progress"><div class="retirement-total"><span>退休积蓄</span><strong id="retirement-income">¥0</strong></div><div class="retirement-meter" role="progressbar" aria-label="退休目标进度" aria-valuemin="0" aria-valuemax="50000000" aria-valuenow="0"><span id="retirement-fill"></span></div><div class="retirement-meta"><span>目标 ¥50,000,000</span><button id="retire-action" type="button" data-action="retire" hidden>收下退休生活</button><span id="retirement-percent">0%</span></div></div>
+        <div class="origin-copy"><strong>回乡接手家里的养羊场</strong><p>养羊、做生意、升级牧场。亲手存下 1000 万元，就能安心退休。</p></div>
+        <div class="retirement-progress"><div class="retirement-total"><span>退休积蓄</span><strong id="retirement-income">¥0</strong></div><div class="retirement-meter" role="progressbar" aria-label="退休目标进度" aria-valuemin="0" aria-valuemax="10000000" aria-valuenow="0"><span id="retirement-fill"></span></div><div class="retirement-meta"><span>目标 ¥10,000,000</span><button id="retire-action" type="button" data-action="retire" hidden>收下退休生活</button><span id="retirement-percent">0%</span></div></div>
       </section>
       <section class="savings-desk" aria-label="退休金存钱罐">
         <span class="savings-jar" aria-hidden="true">¥</span><div class="savings-copy"><strong>退休金存钱罐</strong><small id="deposit-available">钱包可用 ¥300</small></div>
@@ -177,11 +177,11 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <div class="modal-backdrop" id="modal" hidden><section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title"><header class="modal-header"><div><p class="eyebrow" id="modal-kicker">出栏管理</p><h2 id="modal-title">选择成年羊</h2></div><button class="modal-close" type="button" data-action="close-modal" aria-label="关闭窗口" title="关闭窗口">×</button></header><div class="modal-scroll" id="modal-scroll"><p id="modal-copy">成年后可出栏，获得稳定的羊肉收入。</p><div id="modal-body"></div></div></section></div>
 
-  <script defer src="./assets/cloud-save.js?v=20261124-safe-9"></script>
-  <script defer src="./assets/pixel-ambience.js?v=20261124-safe-9"></script>
-  <script defer src="./assets/interactive-grass.js?v=20261124-safe-9"></script>
-  <script defer src="./assets/farm-orders.js?v=20261124-safe-9"></script>
-  <script defer src="./assets/sheep-frames.js?v=20261124-safe-9"></script>
-  <script defer src="./assets/app.js?v=20261124-safe-9"></script>
+  <script defer src="./assets/cloud-save.js?v=20261124-farm-10"></script>
+  <script defer src="./assets/pixel-ambience.js?v=20261124-farm-10"></script>
+  <script defer src="./assets/interactive-grass.js?v=20261124-farm-10"></script>
+  <script defer src="./assets/farm-orders.js?v=20261124-farm-10"></script>
+  <script defer src="./assets/sheep-frames.js?v=20261124-farm-10"></script>
+  <script defer src="./assets/app.js?v=20261124-farm-10"></script>
 </body>
 </html>

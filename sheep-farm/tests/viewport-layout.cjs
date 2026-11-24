@@ -2,12 +2,13 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const vm=require('node:vm');
 const source=fs.readFileSync(require('node:path').join(__dirname,'../assets/viewport-layout.js'),'utf8');
+const settle=()=>new Promise(resolve=>setImmediate(resolve));
 async function boot({info,api=true,fail=false,platform=true}={}){
   const styles={},attributes={},listeners={},visualListeners={};let calls=0;
   const html={style:{setProperty(k,v){styles[k]=v;}},classList:{add(k){attributes.class=k;}},setAttribute(k,v){attributes[k]=v;}};
   const root={document:{documentElement:html,hidden:false,addEventListener(k,fn){listeners['doc:'+k]=fn;}},innerHeight:844,addEventListener(k,fn){listeners[k]=fn;},setTimeout(fn){fn();return 1;},clearTimeout(){},visualViewport:{height:844,offsetTop:0,addEventListener(k,fn){visualListeners[k]=fn;}}};
   if(platform)root.xhs={launchOptions:{miniToolEnv:{windowInfo:info}},miniTool:api?{getWindowInfo(){calls++;return fail?Promise.reject(new Error('unavailable')):Promise.resolve(info);}}:{}};
-  vm.runInNewContext(source,{window:root});await Promise.resolve();await Promise.resolve();await Promise.resolve();
+  vm.runInNewContext(source,{window:root});await settle();
   return {root,styles,attributes,listeners,visualListeners,calls:()=>calls};
 }
 (async()=>{
@@ -21,6 +22,12 @@ async function boot({info,api=true,fail=false,platform=true}={}){
   const landscape=t.root.FarmViewportLayout.measurements({windowWidth:844,windowHeight:390,safeArea:{left:44,top:0,right:800,bottom:369},menuButtons:{capsule:{top:8,bottom:40,width:100,height:32}}});assert.equal(landscape.left,44);assert.equal(landscape.right,44);assert.equal(landscape.bottom,21);
   const fallback=await boot({api:false});assert.equal(fallback.attributes.class,'platform-container');assert.equal(fallback.styles['--farm-content-top'],undefined);
   const failure=await boot({info:separate,fail:true});assert.equal(failure.styles['--farm-content-top'],'86px');
+  const early={windowWidth:390,windowHeight:844,safeArea:separate.safeArea,menuButtons:{back:null,me:null,share:null,capsule:null}};
+  const waiting=await boot({info:early});assert.equal(waiting.styles['--farm-content-top'],undefined);assert.equal(waiting.attributes['data-window-layout'],undefined);
+  waiting.root.xhs.miniTool.getWindowInfo=()=>Promise.resolve(separate);waiting.root.FarmViewportLayout.refresh();await settle();
+  assert.equal(waiting.styles['--farm-content-top'],'86px');
+  waiting.root.xhs.miniTool.getWindowInfo=()=>Promise.resolve(early);waiting.root.FarmViewportLayout.refresh();await settle();
+  assert.equal(waiting.styles['--farm-content-top'],'86px'); // An unlaid-out snapshot must not move controls back under the native buttons.
   t.root.visualViewport.height=480;t.root.visualViewport.offsetTop=20;t.visualListeners.resize();assert.equal(t.styles['--farm-viewport-height'],'480px');assert.equal(t.styles['--farm-viewport-top'],'20px');
   t.listeners.pageshow();await Promise.resolve();assert.equal(t.calls(),2);
   t.root.document.documentElement.scrollTop=32;t.root.document.body={scrollTop:90};t.listeners['doc:scroll']();assert.equal(t.root.document.documentElement.scrollTop,0);assert.equal(t.root.document.body.scrollTop,0);

@@ -49,6 +49,6 @@ GitHub 方案调研参考了 MIT 许可的 [pocketjoso/sudokuJS](https://github.
 
 像素风养羊经营小游戏位于 [`sheep-farm/`](./sheep-farm/)。包含羊群完整动作序列、互动草地、昼夜时钟、剪毛售卖、递进升级、特殊羊、退休金与自动存档；新档为第 0 天、300 金币和 3 只幼羊。
 
-在线试玩：<https://realchenchenluo.github.io/toolbox/sheep-farm/?v=20261124-safe-9>
+在线试玩：<https://realchenchenluo.github.io/toolbox/sheep-farm/?v=20261124-farm-10>
 
 玩法、运行和验证说明见 [牧云羊场 README](./sheep-farm/README.md)。

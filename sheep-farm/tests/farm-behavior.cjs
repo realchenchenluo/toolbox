@@ -156,7 +156,7 @@ async function run() {
     t.step();
     if(s.worker.count){sawPickup=true;assert.equal(s.wool,0);}
     if(s.worker.mode==='carrying'){sawCarry=true;await g.saveState(false);saveDuringCarry=t.saved();}
-    assert.ok(s.worker.count<=2);
+    assert.ok(s.worker.count<=4);
     assert.equal(s.wool+s.worker.carry+s.woolDrops.reduce((a,d)=>a+d.amount,0),3.5);
   }
   assert.ok(sawPickup&&sawCarry); assert.equal(s.wool,3.5); assert.equal(s.worker.carry,0);
@@ -166,6 +166,15 @@ async function run() {
 {
   const t=boot(),g=t.game,s=g.state;s.upgrades.worker=1;s.sheep=[];s.wool=0;s.woolDrops=[{id:'race',x:15,y:20,amount:2}];
   t.step();g.pickWool('race');for(let i=0;i<250;i++)t.step();assert.equal(s.wool,2);assert.equal(s.worker.mode,'idle');
+}
+// A pickup takes at most two nearby piles, respects remaining room, and never credits distant wool.
+for(const alreadyLoaded of [0,3]) {
+  const t=boot(),g=t.game,s=g.state;s.sheep=[];s.wool=0;s.upgrades.worker=1;
+  s.worker={x:50,y:50,mode:'picking',targetId:'near-a',carry:alreadyLoaded,count:alreadyLoaded,direction:1,until:0};
+  s.woolDrops=[{id:'near-a',x:50,y:50,amount:1},{id:'near-b',x:54,y:50,amount:2},{id:'far',x:80,y:50,amount:4}];
+  t.step();assert.equal(s.worker.count,alreadyLoaded?4:2);assert.equal(s.worker.carry,alreadyLoaded?4:3);assert.equal(s.wool,0);
+  assert.ok(s.woolDrops.some(d=>d.id==='far'));assert.equal(s.woolDrops.some(d=>d.id==='near-b'),alreadyLoaded===3);
+  assert.equal(s.worker.carry+s.woolDrops.reduce((sum,d)=>sum+d.amount,0),alreadyLoaded+7);
 }
 // Both viewports: mouths touch trough lips; eating restores only after arriving.
 for(const width of [320,640]) {
@@ -214,8 +223,8 @@ for(const width of [320,640]) {
 }
 function haul(boots,basket) {
   const t=boot(),g=t.game,s=g.state;s.sheep=[];s.wool=0;s.upgrades.worker=1;s.upgrades.boots=boots;s.upgrades.basket=basket;
-  s.woolDrops=[0,1,2].map((v)=>({id:'load'+v,x:20+v,y:28,amount:1}));
-  let steps=0,maxLoad=0;while(s.wool<3&&steps<1000){t.step();maxLoad=Math.max(maxLoad,s.worker.count);steps++;}assert.equal(s.wool,3);return {steps,maxLoad};
+  s.woolDrops=Array.from({length:12},(_,v)=>({id:'load'+v,x:20+v,y:28,amount:1}));
+  let steps=0,maxLoad=0;while(s.wool<12&&steps<1000){t.step();maxLoad=Math.max(maxLoad,s.worker.count);steps++;}assert.equal(s.wool,12);return {steps,maxLoad};
 }
 // Purchase, adult butchering and the late workshop flow all move real inventory and revenue.
 {
@@ -231,8 +240,10 @@ function haul(boots,basket) {
   s.wool=2;const cash=s.gold;g.sellWool();assert.equal(s.earned,112);assert.equal(s.gold,cash+112);
   s.meat=1;g.sellMeat();assert.equal(s.earned,230);s.workshopUnlocked=true;s.upgrades.workshop=1;s.boxes.wool=1;g.sellBoxes();assert.equal(s.earned,450);
   s.boxes.wool=2;s.order={type:'wool',qty:2,reward:420};g.deliverOrder();assert.equal(s.earned,956);
-  s.earned=49999980;g.bookIncome(20);assert.equal(s.earned,50000000);assert.equal(s.retired,false);
-  s.gold=50000000;g.depositSavings(50000000);assert.equal(s.savings,50000000);assert.equal(s.retired,true);
+  s.earned=9999980;g.bookIncome(20);assert.equal(s.earned,10000000);assert.equal(s.retired,false);
+  s.gold=10000000;g.depositSavings(9999999);assert.equal(s.savings,9999999);assert.equal(s.retired,false);
+  g.retire();assert.equal(s.retirementClaimed,false);
+  g.depositSavings(1);assert.equal(s.savings,10000000);assert.equal(s.retired,true);
   g.retire();assert.equal(s.retirementClaimed,true);assert.equal(t.nodes.get('modal').hidden,false);
 }
 // Both movement rates, wool growth and the game day clock are accelerated exactly as requested.
@@ -244,12 +255,13 @@ function haul(boots,basket) {
   s.upgrades.worker=1;s.sheep=[];s.worker={x:40,y:45,mode:'carrying',targetId:'',carry:1,count:1,direction:1,until:0};
   const workerBefore={x:s.worker.x,y:s.worker.y};g.animateSheep();
   const travelled=Math.hypot((s.worker.x-workerBefore.x)*field/100,(s.worker.y-workerBefore.y)*400/100);
-  assert.ok(Math.abs(travelled-6.72*1.3)<.001);
+  assert.ok(Math.abs(travelled-6.72*1.3*2)<.001);
   s.sheep=[sheep];sheep.wool=0;g.tick();assert.equal(sheep.wool,8.4);assert.equal(sheep.age,8.9);
 }
 {
   const slow=haul(0,0),fast=haul(3,0),big=haul(0,1);
-  assert.ok(fast.steps<slow.steps);assert.equal(slow.maxLoad,2);assert.equal(big.maxLoad,3);assert.ok(big.steps<slow.steps);
+  assert.ok(fast.steps<slow.steps);assert.equal(slow.maxLoad,4);assert.equal(big.maxLoad,6);assert.ok(big.steps<slow.steps);
+  assert.equal(haul(0,2).maxLoad,8);assert.equal(haul(0,3).maxLoad,10);
   const t=boot();t.game.state.gold=10000;t.game.upgrade('boots');assert.equal(t.game.state.upgrades.boots,0);
 }
 // Clover feeds in the field, shade benefits rest, and low troughs reserve only one place.
