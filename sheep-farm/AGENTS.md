@@ -25,3 +25,6 @@
 - 新增综合测试：node tests/orders-and-tutorial.cjs、node tests/production-budget.cjs，所有羊素材检测：python tests/sheep-art.py。打包后审计目录及ZIP，并用包内同一文件验证图片加载与手机滚动。
 
 - v8上传包精简为75文件（上限200），只打包24张sequence图集、24张idle兜底图、1张新手坐姿图与其他运行资源；原始432帧留在源码。解帧每次先清空32px画布，不改变身体位置，失败时显示完整idle羊。运行 node tests/sheep-frames.cjs 验证24次加载、432帧坐标、透明清理、缓存和兜底。
+
+- v9所有弹窗共用固定modal-header，正文仅modal-scroll滚动。getWindowInfo按safeArea与capsule（优先）或back/me/share的实际bottom取最大值，不叠加statusBarHeight；首帧读launchOptions快照，resize/返回重读。API缺失保留CSS安全区及平台顶部保守留白。页面和弹窗都用同一安全区，关闭按钮44×44px，保存按钮不能放进平台顶部遮挡带。
+- visualViewport变化调整可用高度；自动聚焦只允许main/弹窗正文滚动，外层html/body程序性滚动应归零。用node tests/viewport-layout.cjs验证原生按钮/胶囊/横屏/输入布局计算；本机模拟顶部覆盖不等于Android/iOS真机验收。

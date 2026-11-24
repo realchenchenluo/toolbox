@@ -2,7 +2,7 @@
 
 一款像素风养羊经营小游戏：回乡继承羊场，照顾小羊、剪毛拾取、售卖货物，逐步升级牧场与羊种，亲手攒够5000 万元退休金。
 
-[在线试玩](https://realchenchenluo.github.io/toolbox/sheep-farm/?v=20261124-compact-8)
+[在线试玩](https://realchenchenluo.github.io/toolbox/sheep-farm/?v=20261124-safe-9)
 
 ## 当前玩法
 
@@ -33,6 +33,7 @@ node tests/cloud-save.cjs
 node tests/economy-balance.cjs
 node tests/interactive-grass.cjs
 node tests/sheep-frames.cjs
+node tests/viewport-layout.cjs
 node tests/orders-and-tutorial.cjs
 node tests/production-budget.cjs
 python tests/sheep-art.py
@@ -62,8 +63,12 @@ GitHub `main` 保存源码；`gh-pages` 的 `/sheep-farm/` 保存在线试玩静
 
 ## 小红书上传包
 
-运行 `python tools/package-farm.py` 后，`release/牧云羊场-小红书上传-v8-精简版.zip` 为可直接选择的代码包。入口位于 ZIP 根目录，递归包含羊动作素材；不含测试页、嵌套 ZIP、开发脚本或说明文档。上传后仍需平台模拟器及 Android/iOS 真机验证。
+运行 `python tools/package-farm.py` 后，`release/牧云羊场-小红书上传-v9-适配修复.zip` 为可直接选择的代码包。入口位于 ZIP 根目录，递归包含羊动作素材；不含测试页、嵌套 ZIP、开发脚本或说明文档。上传后仍需平台模拟器及 Android/iOS 真机验证。
 
 ## v8 文件数修复
 
 上传包从625项降至75项，约156KB，打包强制检查不超过200文件。原始432帧仍保留在素材源码；上传使用24张图集，加载后以整数32px裁切还原完整PNG帧到内存，显示整只羊并整体镜像转身。图集不做CSS位置插值，图片加载或Canvas不可用时显示完整待机羊。存档、价格和玩法沿用v7。
+
+## v9手机适配
+
+页面与全部弹窗按小红书getWindowInfo实际返回的安全区、独立按钮或胶囊位置避让。关闭按钮固定44×44px，正文独立滚动；输入聚焦与可用视口变化不会把保存按钮推到顶部遮挡区。API缺失时保留安全区与顶部留白。上传包76文件，仍低于200上限。

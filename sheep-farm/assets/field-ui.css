@@ -139,3 +139,22 @@ body { height:100%; max-height:100vh; max-height:100dvh; overflow:hidden; }
   .onboarding-open .modal-card { padding:18px; }.welcome-flock { height:70px; }.welcome-flock img { width:67px; height:67px; }
   .farm-guide.learning { flex-wrap:wrap; }.farm-guide.learning>div:first-of-type { min-width:150px; }.tutorial-actions { margin-left:5px; }
 }
+
+/* All actions share the same container-safe bounds, including dialogs and keyboard resize. */
+:root { --farm-content-top:var(--safe-area-inset-top,env(safe-area-inset-top,0px)); --farm-safe-bottom:var(--safe-area-inset-bottom,env(safe-area-inset-bottom,0px)); --farm-safe-left:var(--safe-area-inset-left,env(safe-area-inset-left,0px)); --farm-safe-right:var(--safe-area-inset-right,env(safe-area-inset-right,0px)); --farm-viewport-height:100vh; --farm-viewport-top:0px; }
+body { position:fixed; top:0; right:0; bottom:0; left:0; width:100%; }
+.platform-container { --farm-content-top:calc(var(--safe-area-inset-top,env(safe-area-inset-top,0px)) + 96px); }
+.app-shell { position:relative; top:var(--farm-viewport-top); width:calc(100% - 24px - var(--farm-safe-left) - var(--farm-safe-right)); height:var(--farm-viewport-height); max-height:var(--farm-viewport-height); padding-top:calc(var(--farm-content-top) + 12px); padding-bottom:calc(var(--farm-safe-bottom) + 8px); overflow:visible; }
+.modal-backdrop { top:var(--farm-viewport-top); right:0; bottom:auto; left:0; width:100%; height:var(--farm-viewport-height); padding:16px; padding-top:calc(var(--farm-content-top) + 12px); padding-bottom:calc(var(--farm-safe-bottom) + 12px); padding-left:calc(var(--farm-safe-left) + 12px); padding-right:calc(var(--farm-safe-right) + 12px); grid-template-rows:minmax(0,1fr); align-items:center; overflow:hidden; }
+.modal-card,.rules-open .modal-card,.onboarding-open .modal-card,.sale-open .modal-card { display:flex; flex-direction:column; width:530px; min-width:0; min-height:0; max-width:100%; max-height:100%; padding:0; overflow:hidden; }
+.modal-header { display:flex; flex:none; align-items:flex-start; margin:0; padding:17px 18px 13px; border-bottom:1px solid #dce6ce; background:#f7fbef; }
+.modal-header>div { flex:1; min-width:0; padding-right:10px; }.modal-header .eyebrow { margin:0 0 6px; font-size:12px; line-height:1.5; }.modal-header h2 { margin:0; font-size:21px; line-height:1.45; letter-spacing:0; overflow-wrap:break-word; }
+.modal-card .modal-close,.rules-open .modal-close { position:static; display:flex; align-items:center; justify-content:center; flex:none; float:none; width:44px; height:44px; min-width:44px; min-height:44px; margin:0; padding:0; border-radius:8px; line-height:1; font-size:27px; z-index:1; }
+.modal-scroll { flex:1 1 auto; min-height:0; padding:14px 18px 18px; overflow-y:auto; overflow-x:hidden; overscroll-behavior-y:contain; -webkit-overflow-scrolling:touch; scrollbar-width:thin; scrollbar-color:#a8be8e #edf3e2; }
+.modal-scroll #modal-copy,.rules-open #modal-copy { margin:0 0 14px; font-size:14px; line-height:1.8; }
+.sale-summary { bottom:-18px; margin:0 -18px -18px; padding:12px 18px 18px; }
+.toast { bottom:calc(var(--farm-safe-bottom) + 20px); max-width:calc(100% - 40px - var(--farm-safe-left) - var(--farm-safe-right)); }
+.modal-card button,.modal-card input { scroll-margin-top:12px; scroll-margin-bottom:16px; }
+@media(max-width:760px) { .app-shell { padding-top:calc(var(--farm-content-top) + 10px); }.topbar { grid-template-columns:minmax(0,1fr) auto; }.brand-lockup { min-width:0; }.brand-lockup .eyebrow { font-size:9px; letter-spacing:0; }.modal-header { padding:13px 14px 11px; }.modal-header h2 { font-size:20px; }.modal-scroll { padding:12px 14px 16px; }.sale-summary { margin:0 -14px -16px; bottom:-16px; padding:12px 14px 16px; }.save-button,.rules-button { min-height:44px; } }
+@media(max-width:350px) { .brand-lockup .eyebrow { display:none; }.brand-lockup h1 { font-size:18px; letter-spacing:0; }.brand-mark { width:30px; }.brand-mark img { width:32px; height:32px; }.brand-lockup>div+div { margin-left:3px; }.topbar-right { min-width:0; }.save-button { padding:7px 8px; }.rules-button { padding:7px; }.modal-header h2 { font-size:18px; } }
+@media(max-height:480px) { .modal-header { padding:8px 12px; }.modal-header .eyebrow { display:none; }.modal-header h2 { font-size:18px; }.modal-scroll { padding-top:10px; }.topbar .brand-lockup .eyebrow { display:none; } }
