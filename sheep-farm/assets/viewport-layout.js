@@ -11,15 +11,16 @@
     var top=positive(safe.top),left=positive(safe.left),right=positive(safe.right)?Math.max(0,width-safe.right):0,bottom=positive(safe.bottom)?Math.max(0,height-safe.bottom):0;
     rects.forEach(function(rect){top=Math.max(top,positive(rect.bottom)||positive(rect.top)+positive(rect.height));});
     // Coordinates are already relative to the container: never add statusBarHeight again.
-    return {top:Math.min(top,Math.max(0,height-160)),bottom:Math.min(bottom,height/3),left:Math.min(left,width/4),right:Math.min(right,width/4)};
+    return {top:Math.min(top,Math.max(0,height-160)),bottom:Math.min(bottom,height/3),left:Math.min(left,width/4),right:Math.min(right,width/4),buttonsReady:rects.length>0};
   }
   function apply(info) {
     var area=measurements(info);if(!area)return false;
-    html.style.setProperty('--farm-content-top',area.top+'px');
+    // An early snapshot may contain no laid-out buttons. Keep the conservative gap until measured.
+    if(area.buttonsReady)html.style.setProperty('--farm-content-top',area.top+'px');
     html.style.setProperty('--farm-safe-bottom',area.bottom+'px');
     html.style.setProperty('--farm-safe-left',area.left+'px');
     html.style.setProperty('--farm-safe-right',area.right+'px');
-    html.setAttribute('data-window-layout','measured');
+    if(area.buttonsReady)html.setAttribute('data-window-layout','measured');
     return true;
   }
   function viewport() {
@@ -43,6 +44,7 @@
   var launch=root.xhs&&root.xhs.launchOptions,initial=launch&&launch.miniToolEnv&&launch.miniToolEnv.windowInfo;
   if(initial)apply(initial);
   read();
+  root.addEventListener('load',function(){read();root.setTimeout(read,350);});
   root.addEventListener('resize',schedule);root.addEventListener('orientationchange',schedule);root.addEventListener('pageshow',read);
   if(root.visualViewport){root.visualViewport.addEventListener('resize',viewport);root.visualViewport.addEventListener('scroll',viewport);}
   doc.addEventListener('visibilitychange',function(){if(!doc.hidden)read();});

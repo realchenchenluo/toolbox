@@ -4,7 +4,7 @@
   var SAVE_KEY = 'muyun-sheep-farm-v2';
   var PLATFORM_SAVE_KEY = 'muyun-sheep-farm-v3';
   var AUTO_SAVE_INTERVAL = 12000;
-  var RETIREMENT_GOAL = 50000000;
+  var RETIREMENT_GOAL = 10000000;
   var contractsEngine = window.FarmOrders;
   var supplyPrices = [2,3,6,15,50,150,500,2000];
   var supplyScales = [1,1.3,2,3,5,12,30,80];
@@ -44,9 +44,9 @@
     wool: { icon: '✦', name: '羊毛品种', desc: function (level) { return '羊毛品质提升 +' + (level * 10) + '%'; }, base: 220, max: 4 },
     growth: { icon: '↗', name: '营养配方', desc: function (level) { return '成长速度提升 +' + (level * 12) + '%'; }, base: 460, max: 4 },
     meat: { icon: '◇', name: '冷藏仓', desc: function (level) { return '羊肉售价提升 +' + (level * 15) + '%'; }, base: 620, max: 3 },
-    worker: { icon: '♙', name: '雇佣牧场工', desc: function (level) { return level ? '拾取羊毛，搬回收纳棚' : '一位会拾取、搬运的帮手'; }, base: 480, max: 1 },
+    worker: { icon: '♙', name: '雇佣牧场工', desc: function (level) { return level ? '每趟搬 4 堆起，附近每次拾 2 堆' : '自动拾取羊毛，搬回收纳棚'; }, base: 480, max: 1 },
     boots: { icon: '↟', name: '工人靴子', desc: function (level) { return '行走速度 +' + level * 25 + '%'; }, base: 280, max: 3, requires: 'worker' },
-    basket: { icon: '▤', name: '搬运背篓', desc: function (level) { return '每趟可搬 ' + (2 + level) + ' 堆羊毛'; }, base: 360, max: 3, requires: 'worker' },
+    basket: { icon: '▤', name: '搬运背篓', desc: function (level) { return '每趟可搬 ' + workerCapacity(level) + ' 堆羊毛'; }, base: 360, max: 3, requires: 'worker' },
     hayBarn: { icon: '▥', name: '草料仓', desc: function (level) { return '干草容量 +' + Math.round(level * 12 * supplyScale()); }, base: 80, max: 3 },
     cistern: { icon: '≈', name: '蓄水池', desc: function (level) { return '清水容量 +' + Math.round(level * 12 * supplyScale()); }, base: 70, max: 3 },
     clover: { icon: '♧', name: '三叶草地', desc: function (level) { return '闲逛啃草恢复 ' + level * 4 + ' 饱腹'; }, base: 440, max: 3 },
@@ -324,7 +324,7 @@
     if (state.savings < RETIREMENT_GOAL) { showToast('退休积蓄还差 ¥' + formatIncome(RETIREMENT_GOAL - state.savings) + '。'); return; }
     state.retired = true; state.retirementClaimed = true; saveState(false);
     var modal = document.getElementById('modal');
-    document.getElementById('modal-kicker').textContent = '五千万退休计划';
+    document.getElementById('modal-kicker').textContent = '一千万退休计划';
     document.getElementById('modal-title').textContent = '羊场交给下一代';
     document.getElementById('modal-copy').textContent = '你带着攒下的积蓄退休，故事停在自己亲手经营好的牧场。';
     document.getElementById('modal-body').innerHTML = '<div class="retirement-ending"><span class="ending-sheep">♧</span><strong>¥' + formatIncome(state.savings) + '</strong><small>这座羊场，会记得你回来过。</small></div>';
@@ -581,7 +581,7 @@
     var modal = document.getElementById('modal');
     document.getElementById('modal-kicker').textContent = '欢迎回家';
     document.getElementById('modal-title').textContent = '从三只小羊开始';
-    document.getElementById('modal-copy').textContent = '你继承了家里的羊场。用 300 金币起步，攒够 5000 万退休。';
+    document.getElementById('modal-copy').textContent = '你继承了家里的羊场。用 300 金币起步，攒够 1000 万退休。';
     document.getElementById('modal-body').innerHTML = '<div class="welcome-flock"><img src="./assets/sheep/young-normal-wool-idle.png" alt="小羊"><img src="./assets/sheep/young-normal-wool-sit.png" alt=""><img src="./assets/sheep/young-normal-wool-idle.png" alt=""></div><ol class="welcome-steps"><li><b>1</b><div><strong>添草加水</strong><small>点击草场两侧的槽，一次补一格。</small></div></li><li><b>2</b><div><strong>剪毛，再捡起来</strong><small>羊毛长满后开剪，点击地上的羊毛。</small></div></li><li><b>3</b><div><strong>到集市卖出</strong><small>先赚钱照顾羊群，再升级、买羊。</small></div></li></ol><button class="welcome-start" type="button" data-action="start-tutorial">开始放牧</button><button class="welcome-skip" type="button" data-action="skip-tutorial">我会玩了，跳过指引</button>';
     modal.classList.add('onboarding-open');modal.hidden = false;resetModalScroll();renderClock();
     var start = modal.querySelector('.welcome-start');if (start && typeof start.focus === 'function') start.focus();
@@ -626,12 +626,13 @@
       ['稀有订单需求', '彩虹羊仔单从羊毛 120 kg、羊肉 20 kg 起；羊圈扩容单从 350 kg、80 kg 起；彩虹名额单从 650 kg、140 kg 起，随等级再提高。彩虹羊名额已满 5 只时不再抽取对应扩容单。羊仔奖励在羊圈或彩虹名额满时暂存，到购羊或订单界面领取；领取不等于解锁品种商店。'],
       ['认识特殊羊', 'LV2 绒糖羊开启礼盒；LV4 薄荷羊每只使全场长毛 +20%；LV5 蜜桃羊每只使全场成长 +20%，这两种光环各最多 +60%，离场后减少。LV6 星愿羊开启订单特殊奖励。LV8 彩虹羊产毛 ×4，长大耗时翻倍，成年活羊基础售价 18,000 金币。首次购入的解锁效果永久保留。'],
       ['经营收支', '普通羊仔 '+breedMeta.normal.price+' 金币，当前羊毛价 '+woolPrice()+' 金币/kg。先留好补给钱，再升级扩张；雇工负责拾取，卖货由你决定。账本中存退休金会等额扣现金。出栏可勾选多只成年羊批量出售，卖完一批仍可继续选，没有成年羊时自动关闭。'],
-      ['亲手攒退休金', '售卖收入先进入钱包。打开“账本”，输入金额存入退休金，钱包会等额扣除；存入后不再用于经营。累计收入用于解锁等级，退休金存够 5000 万元才能退休。记得留些金币照顾羊群。'],
+      ['雇工搬运', 'LV3 雇佣后自动拾取羊毛，每趟可搬 4 堆；背篓升级后为 6、8、10 堆。每次可拾取脚边最多 2 堆，搬回收纳棚才入库。靴子可继续提高移动速度。'],
+      ['亲手攒退休金', '售卖收入先进入钱包。打开“账本”，输入金额存入退休金，钱包会等额扣除；存入后不再用于经营。累计收入用于解锁等级，退休金存够 1000 万元才能退休。记得留些金币照顾羊群。'],
       ['昼夜、草地和存档', '游戏时间 06:00 日出、18:00 入夜；现实中白天约 48 秒、夜晚约 12 秒，顶部时钟会倒计时。夜里羊会休息，走过草簇时草叶会弯下、回弹。进度每 12 秒自动保存，也可以手动点击“保存”；退出前留意保存状态。']
     ];
     document.getElementById('modal-kicker').textContent = '牧场手册';
     document.getElementById('modal-title').textContent = '玩法说明';
-    document.getElementById('modal-copy').textContent = '从照顾第一只小羊，到慢慢攒下退休金。随时点右上角“玩法”回来查看。';
+    document.getElementById('modal-copy').textContent = '从照顾第一只小羊，到慢慢攒下退休金。随时点草场标题旁的“玩法”回来查看。';
     document.getElementById('modal-body').innerHTML = '<ol class="game-rules">' + rules.map(function (rule,index) { return '<li><span class="rule-number">' + (index + 1) + '</span><div><h4>' + esc(rule[0]) + '</h4><p>' + esc(rule[1]) + '</p></div></li>'; }).join('') + '</ol>';
     modal.classList.add('rules-open'); modal.hidden = false;resetModalScroll();
     var close = modal.querySelector('.modal-close'); if (close && typeof close.focus === 'function') close.focus();
@@ -921,7 +922,7 @@
     worker.querySelector('.worker-sprite').style.backgroundPosition = (-frame * 36) + 'px 0';
     var labels = { idle: '等候羊毛', walking: '前往拾取', picking: '弯腰拾取', carrying: '搬回收纳棚', unloading: '卸下羊毛' };
     worker.setAttribute('aria-label', '牧场雇工 · ' + labels[w.mode]);
-    setText('staff-copy', labels[w.mode]); setText('staff-load', w.count + ' / ' + (2 + state.upgrades.basket));
+    setText('staff-copy', labels[w.mode]); setText('staff-load', w.count + ' / ' + workerCapacity());
   }
   function nearestWool(worker) {
     return state.woolDrops.slice().sort(function (a, b) {
@@ -930,12 +931,22 @@
       return distance(a) - distance(b);
     })[0];
   }
+  function workerCapacity(level) { return (2 + (level === undefined ? state.upgrades.basket : level)) * 2; }
   function animateWorker(now, size) {
     if (!state.upgrades.worker) return;
     var w = state.worker, target = state.woolDrops.filter(function (drop) { return drop.id === w.targetId; })[0];
     if (w.mode === 'picking') {
       if (now < w.until) { renderWorker(); return; }
-      if (target) { state.woolDrops = state.woolDrops.filter(function (drop) { return drop.id !== target.id; }); w.carry += target.amount; w.count += 1; renderDrops(); }
+      if (target) {
+        var nearby = state.woolDrops.filter(function (drop) {
+          var dx=(drop.x-w.x)*size.width/100,dy=(drop.y-w.y)*size.height/100;
+          return drop.id!==target.id && dx*dx+dy*dy<=40*40;
+        });
+        var picked=[target].concat(nearby).slice(0,Math.min(2,workerCapacity()-w.count));
+        picked.forEach(function(drop){w.carry+=drop.amount;w.count+=1;});
+        state.woolDrops=state.woolDrops.filter(function(drop){return !picked.some(function(item){return item.id===drop.id;});});
+        renderDrops();
+      }
       w.targetId = ''; w.mode = 'idle';
     }
     if (w.mode === 'unloading') {
@@ -945,13 +956,13 @@
     }
     if (w.mode === 'idle' || (w.mode === 'walking' && !target)) {
       target = nearestWool(w);
-      if (w.count && (!target || w.count >= 2 + state.upgrades.basket)) { w.mode = 'carrying'; w.targetId = ''; }
+      if (w.count && (!target || w.count >= workerCapacity())) { w.mode = 'carrying'; w.targetId = ''; }
       else if (target) { w.mode = 'walking'; w.targetId = target.id; }
       else { w.mode = w.carry ? 'carrying' : 'idle'; w.targetId = ''; }
     }
     if (w.mode === 'walking' || w.mode === 'carrying') {
       var tx = w.mode === 'carrying' ? 50 : target.x, ty = w.mode === 'carrying' ? 88 : target.y;
-      var dx = (tx - w.x) * size.width / 100, dy = (ty - w.y) * size.height / 100, dist = Math.sqrt(dx * dx + dy * dy), step = 6.72 * 1.3 * (1 + state.upgrades.boots * .25);
+      var dx = (tx - w.x) * size.width / 100, dy = (ty - w.y) * size.height / 100, dist = Math.sqrt(dx * dx + dy * dy), step = 6.72 * 1.3 * 2 * (1 + state.upgrades.boots * .25);
       if (dist <= step) { w.x = tx; w.y = ty; w.mode = w.mode === 'carrying' ? 'unloading' : 'picking'; w.until = now + 780; }
       else { w.x += dx / dist * step / size.width * 100; w.y += dy / dist * step / size.height * 100; if (Math.abs(dx) > .1) w.direction = dx < 0 ? -1 : 1; }
     }
