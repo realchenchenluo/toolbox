@@ -24,7 +24,7 @@ assert.equal(R.match([square],[{x:12,y:20},{x:28,y:20}],0),0,'draw inside object
 function harness(saved,storagePending) {
   const context = {save(){},restore(){},clearRect(){},fillRect(){},beginPath(){},arc(){},fill(){},moveTo(){},lineTo(){},stroke(){},drawImage(){},closePath(){}};
   class Element {
-    constructor(id) { this.id=id; this.style={setProperty(){}}; this.attrs={}; this.listeners={}; this.children=[]; this.scrollTop=0; this.clientWidth=600; this.clientHeight=600; this.width=1000; this.height=1200; this.classList={toggle(){},add(){},remove(){}}; }
+    constructor(id) { this.id=id; this.style={values:{},setProperty(k,v){this.values[k]=v;}}; this.attrs={}; this.listeners={}; this.children=[]; this.scrollTop=0; this.clientWidth=600; this.clientHeight=600; this.width=1000; this.height=1200; this.classList={toggle(){},add(){},remove(){}}; }
     addEventListener(n,f){ this.listeners[n]=f; } setAttribute(n,v){ this.attrs[n]=v; } getAttribute(n){return this.attrs[n];}
     appendChild(c){this.children.push(c);} getBoundingClientRect(){return {left:0,top:0,width:600,height:600};}
     querySelector(){return new Element('inner');} setPointerCapture(){} getContext(){return context;}
@@ -39,13 +39,13 @@ function harness(saved,storagePending) {
   if (saved) sandbox.window.xhs={launchOptions:{miniToolEnv:{buildVersion:9533000}},miniTool:{queryCloudStorage(){return storagePending ? new Promise(r => resolver=r) : Promise.resolve({items:[{id:cloudId,content:{schema:1,slot:'primary',progress:cloudSaved}}]});},addCloudStorage(){throw new Error('existing account must not add');},updateCloudStorage(v){writes.push(v);cloudSaved=v.items[0].content.progress;return Promise.resolve({data:[{id:cloudId,status:'SUCCESS'}]});}}};
   vm.runInNewContext(fs.readFileSync('hidden-object/assets/account-save.js','utf8'),sandbox);
   let source=fs.readFileSync('hidden-object/assets/game.js','utf8');
-  source=source.replace('openLevel(0); initStorage();','window.test={pointerDown,pointerMove,finishPointer,openLevel,choose,save,setMode,setExploreMode,renderLibrary,get state(){return {targets,strokes,draft,zoom,progress,current,ready}}}; openLevel(0); initStorage();');
+  source=source.replace('openLevel(0); initStorage();','window.test={pointerDown,pointerMove,finishPointer,openLevel,choose,save,setMode,setExploreMode,renderLibrary,readWindow,applyWindowInfo,get state(){return {targets,strokes,draft,zoom,progress,current,ready}}}; openLevel(0); initStorage();');
   vm.runInNewContext(source,sandbox);
   const event=(p,id=1)=>({pointerId:id,button:0,clientX:p.x,clientY:p.y,preventDefault(){}});
   const game=sandbox.window.test;
   function toEvent(point,id) {return event({x:point[0]/get('mark-layer').width*600,y:point[1]/get('mark-layer').height*600},id);}
   function tap(point){game.pointerDown(toEvent(point));game.finishPointer(toEvent(point),false);}
-  return {game,get,tap,event,toEvent,writes,imageControl,resolve(){storagePending=false;resolver({items:[{id:cloudId,content:{schema:1,slot:'primary',progress:cloudSaved}}]});},switchAccount(value,id){cloudSaved=value;cloudId=id;},resume(){docListeners.visibilitychange();}};
+  return {game,get,tap,event,toEvent,writes,imageControl,doc,resolve(){storagePending=false;resolver({items:[{id:cloudId,content:{schema:1,slot:'primary',progress:cloudSaved}}]});},switchAccount(value,id){cloudSaved=value;cloudId=id;},resume(){doc.hidden=false;docListeners.visibilitychange();},hide(){doc.hidden=true;docListeners.visibilitychange();}};
 }
 const tick=()=>new Promise(r=>setImmediate(r));
 (async()=>{
@@ -76,6 +76,11 @@ const tick=()=>new Promise(r=>setImmediate(r));
   h.imageControl.fail=['005-scene'];g.openLevel(4);await tick();assert.equal(g.state.ready,false);assert.equal(h.get('retry-scene').hidden,false,'failed scene exposes retry');
   h.imageControl.fail=[];h.get('retry-scene').listeners.click();await tick();assert(g.state.ready,'retry recovers failed scene');
   g.openLevel(4);g.renderLibrary();await tick();assert.equal(g.state.ready,false,'late load cannot reopen game over library');
+  g.applyWindowInfo({windowWidth:390,windowHeight:844,statusBarHeight:47,safeArea:{top:47,bottom:810,left:0,right:390},menuButtons:{capsule:{width:90,height:32,bottom:87}}});
+  assert.equal(h.doc.documentElement.style.values['--container-top'],'95px','capsule uses container coordinates, no duplicate status bar');assert.equal(h.doc.documentElement.style.values['--container-bottom'],'34px');
+  g.applyWindowInfo({windowWidth:844,windowHeight:390,safeArea:{top:0,bottom:369,left:47,right:797},menuButtons:{back:{width:32,height:32,bottom:38}}});
+  assert.equal(h.doc.documentElement.style.values['--container-left'],'47px');assert.equal(h.doc.documentElement.style.values['--container-right'],'47px');assert.equal(h.doc.documentElement.style.values['--container-top'],'46px');
+  let oldWindow;g.readWindow({getWindowInfo(){return new Promise(resolve=>oldWindow=resolve);}});g.readWindow({getWindowInfo(){return Promise.resolve({windowHeight:390,safeArea:{top:0,bottom:390},menuButtons:{}});}});await tick();oldWindow({safeArea:{top:100},menuButtons:{}});await tick();assert.equal(h.doc.documentElement.style.values['--container-top'],'8px','late portrait metrics cannot replace landscape metrics');
   const saved={current:0,pages:{'001':{found:[book[0].items[12].id],strokes:[]}}};
   h=harness(saved);await tick();await tick();assert(h.game.state.targets[12].found,'startup restore must not overwrite saved discoveries');
   h.game.setExploreMode(true);h.tap(h.game.state.targets[8].anchor);h.game.save(true);await tick();assert(h.writes.length>0);assert(Buffer.byteLength(JSON.stringify(h.writes.at(-1).items[0].content),'utf8') < 65536);
@@ -84,5 +89,6 @@ const tick=()=>new Promise(r=>setImmediate(r));
   assert(h.game.state.targets[12].found,'delayed account read restores the correct save');
   h.game.setExploreMode(true);h.tap(h.game.state.targets[9].anchor);assert(h.game.state.targets[9].found,'play resumes after account verification');
   h=harness(saved);await tick();h.switchAccount({current:1,pages:{}},'account-b');h.resume();await tick();assert.equal(h.game.state.current,1);assert(h.game.state.targets.every(t=>!t.found),'resume replaces A with B rather than merging');assert(!h.game.state.progress.pages['001']);h.switchAccount(saved,'account-a');h.resume();await tick();assert(h.game.state.targets[12].found,'returning to A restores only A');
+  h.game.setExploreMode(true);h.tap(h.game.state.targets[9].anchor);h.hide();assert.equal(h.writes.length,0,'background entry must not launch an account preflight');h.switchAccount({current:0,pages:{}},'account-c');h.resume();await tick();assert(h.game.state.targets.every(t=>!t.found),'background account change discards old discoveries');assert(h.get('toast').textContent.includes('未保存'),'unsaved account switch is explicit');
   console.log(`PASS: ${hits} target anchors, ${outside} polygon-vs-box negatives; all 23 chapters reverse-order completion; preview, miss, duplicate, undo, pinch, eraser, cancellation, stale loads, account restore and gated delayed storage.`);
 })().catch(e=>{console.error(e);process.exitCode=1;});
