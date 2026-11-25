@@ -1,0 +1,55 @@
+{
+  "appName": "找找找",
+  "slogan": "找到细节，收集惊喜",
+  "version": "1.1.4",
+  "description": "自由顺序寻找画里的隐藏物，发现后自动确认并点亮进度。",
+  "categorySuggestion": "益智 / 休闲游戏（请在上传页选择当前可用的实际类目）",
+  "authorizations": [],
+  "package": {
+    "file": "找找找-小工具.zip",
+    "bytes": 2977001,
+    "md5": "5358634f2250db71644e3674f03215ca",
+    "sha256": "dba5ab24d43f52ca930d815758faf9b3ba6252c737019f0a368d7c7918fba564",
+    "entries": 76,
+    "rootEntry": "index.html",
+    "integrity": true
+  },
+  "icon": {
+    "file": "icon.png",
+    "format": "PNG",
+    "width": 512,
+    "height": 512,
+    "bytes": 110162,
+    "md5": "5e8228b0571cf085e602f149272def87",
+    "sha256": "c841e58f367bce5381536959abebae7a820127f4cd8bf97938b3fc265c4765bb",
+    "limit": "PNG/JPG/JPEG，≤5 MiB，1:1"
+  },
+  "cover": {
+    "file": "cover.jpg",
+    "format": "JPEG",
+    "width": 900,
+    "height": 1200,
+    "bytes": 260024,
+    "md5": "12cc2c4de17f2ad73c1fa2bbd9629dd8",
+    "sha256": "869d93614581dc694004306457a0862d87aad000f0586ae20146315ce78764dd",
+    "limit": "PNG/JPG/JPEG，≤10 MiB，3:4"
+  },
+  "content": "23幅可玩画面，520个隐藏目标；后续88幅素材暂未开放。",
+  "localValidation": [
+    "ZIP根目录含index.html",
+    "离线包完整性通过",
+    "图标与封面尺寸通过",
+    "ui11关卡独立加载及重试、画册分页与同步导航回归测试通过",
+    "520个目标识别与23关回归测试通过",
+    "模拟账号A/B隔离、恢复与异常存档测试通过"
+  ],
+  "accountSave": "使用平台用户×小工具云存储隔离，需9.51+及云存储内测授权；未开放时仅临时游玩。旧共用设备存档不迁移。",
+  "pendingValidation": [
+    "创服平台模拟器",
+    "Android真机扫码",
+    "iOS真机扫码",
+    "真实账号A/B及跨设备恢复",
+    "Chrome 61兼容性及真机性能"
+  ],
+  "uploadState": "本地资料已准备，尚未上传"
+}

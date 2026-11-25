@@ -6,6 +6,7 @@ import shutil
 ROOT = Path(__file__).resolve().parents[1]
 RELEASE = ROOT.parent / "release"
 SCENE = ROOT / "assets/calibrated/001-scene.webp"
+APP_NAME = "找找找"
 
 
 def font(size: int, bold: bool = False):
@@ -54,10 +55,10 @@ def make_svg_fallback():
 
 
 def make_cover():
-    out = RELEASE / "图画捉迷藏-发布素材"
+    out = RELEASE / f"{APP_NAME}-发布素材"
     out.mkdir(exist_ok=True)
-    shutil.copy2(ROOT / "assets/app-icon.png", out / "图画捉迷藏-图标.png")
-    shutil.copy2(ROOT / "assets/brand.svg", out / "图画捉迷藏-图标.svg")
+    shutil.copy2(ROOT / "assets/app-icon.png", out / "icon.png")
+    shutil.copy2(ROOT / "assets/brand.svg", out / "icon.svg")
 
     cover = Image.new("RGB", (900, 1200), "#f3f0e9")
     draw = ImageDraw.Draw(cover)
@@ -69,7 +70,7 @@ def make_cover():
         width = draw.textbbox((0, 0), text, font=f)[2]
         draw.text(((900 - width) / 2, y), text, font=f, fill=color)
 
-    center("图画捉迷藏", 240, font(74, True), "#f7f0df")
+    center(APP_NAME, 240, font(74, True), "#f7f0df")
     center("真实关卡 · 细节找物 · 沉浸探索", 347, font(24), "#d8c18a")
     for key, angle, x, y, title in [("002", -7, 44, 545, "企鹅海滩"), ("004", 7, 548, 560, "人多手杂"), ("001", 0, 260, 500, "丛林健身房")]:
         card = Image.new("RGBA", (310, 462), (0, 0, 0, 0))
@@ -86,7 +87,7 @@ def make_cover():
     draw.rounded_rectangle((125, 1032, 775, 1104), radius=32, fill="#273448")
     center("23 个小世界 · 520 个隐藏目标", 1051, font(25), "#f7f0df")
     center("轻点发现  /  自由顺序  /  慢慢收集", 1137, font(20), "#937d6e")
-    cover.save(out / "图画捉迷藏-封面.jpg", quality=94, optimize=True)
+    cover.save(out / "cover.jpg", quality=94, optimize=True)
 
 
 make_icon()

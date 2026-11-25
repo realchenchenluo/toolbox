@@ -1,4 +1,4 @@
-# 图画捉迷藏
+# 找找找
 
 本次从用户提供的答案截图继续制作，开放原图前 23 页，合计 520 个寻找目标。原有后 88 页源码与图片保留在工作区，未开放为可玩关卡，也未塞入上传包。
 
@@ -30,6 +30,7 @@
 
 ```powershell
 python -X utf8 hidden-object/tools/build_recognition.py
+python -X utf8 hidden-object/tools/build_brand.py
 node hidden-object/tools/test-recognition.cjs
 node hidden-object/tools/test-account-save.cjs
 python -X utf8 hidden-object/tools/package.py

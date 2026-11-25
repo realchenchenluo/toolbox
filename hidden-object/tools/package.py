@@ -57,14 +57,14 @@ with zipfile.ZipFile(OUT) as z:
  assert z.namelist()[0]=='index.html' and z.testzip() is None
  assert len([n for n in z.namelist() if n.endswith('.html')])==1
 assert OUT.stat().st_size <= 10*1024*1024
-named=OUT.parent/'图画捉迷藏-小工具.zip'
+named=OUT.parent/'找找找-小工具.zip'
 shutil.copy2(OUT,named)
 runtime=OUT.parent/'hidden-object-runtime'
 runtime.mkdir(exist_ok=True)
 for p in ordered:
  target=runtime/p.relative_to(ROOT);target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(p,target)
 report={
- 'name':'图画捉迷藏','slogan':'找到细节，收集惊喜',
+ 'name':'找找找','slogan':'找到细节，收集惊喜',
  'playableLevels':len(playable),'reservedLevels':len(book)-len(playable),'targets':sum(len(l['items']) for l in playable),
  'files':len(files),'zipBytes':OUT.stat().st_size,'zipMiB':round(OUT.stat().st_size/1024/1024,2),
  'sha256':hashlib.sha256(OUT.read_bytes()).hexdigest(),'textBytes':sum(p.stat().st_size for p in files if p.suffix in ['.html','.js','.css','.json']),

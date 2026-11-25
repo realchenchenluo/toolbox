@@ -6,14 +6,13 @@ import zipfile
 import shutil
 
 base = Path(__file__).resolve().parents[2]
-root = base / 'release' / '图画捉迷藏-上传资料'
+root = base / 'release' / '找找找-上传资料'
 root.mkdir(exist_ok=True)
-shutil.copy2(base / 'release' / '图画捉迷藏-小工具.zip', root / '图画捉迷藏-小工具.zip')
-shutil.copy2(base / 'hidden-object' / 'assets' / 'app-icon.png', root / '图画捉迷藏-图标.png')
-pkg = root / '图画捉迷藏-小工具.zip'
+shutil.copy2(base / 'release' / '找找找-小工具.zip', root / '找找找-小工具.zip')
+shutil.copy2(base / 'hidden-object' / 'assets' / 'app-icon.png', root / 'icon.png')
+pkg = root / '找找找-小工具.zip'
 # Short ASCII filenames also work in clients that misparse Chinese attachment paths.
-shutil.copy2(root / '图画捉迷藏-图标.png', root / 'icon.png')
-shutil.copy2(root / '图画捉迷藏-封面.jpg', root / 'cover.jpg')
+shutil.copy2(base / 'release' / '找找找-发布素材' / 'cover.jpg', root / 'cover.jpg')
 icon = root / 'icon.png'
 cover = root / 'cover.jpg'
 portable = base / 'release' / 'hidden-object-upload'
@@ -33,9 +32,9 @@ with zipfile.ZipFile(pkg) as archive:
     zip_info = {**sums(pkg), 'entries': len(archive.namelist()), 'rootEntry': archive.namelist()[0], 'integrity': archive.testzip() is None}
 
 info = {
-    'appName': '图画捉迷藏',
+    'appName': '找找找',
     'slogan': '找到细节，收集惊喜',
-    'version': '1.1.3',
+    'version': '1.1.4',
     'description': '自由顺序寻找画里的隐藏物，发现后自动确认并点亮进度。',
     'categorySuggestion': '益智 / 休闲游戏（请在上传页选择当前可用的实际类目）',
     'authorizations': [],
@@ -54,7 +53,7 @@ info = {
 }
 (root / '上传填写信息.json').write_text(json.dumps(info, ensure_ascii=False, indent=2), encoding='utf-8')
 
-check = f'''# 图画捉迷藏 · 小红书上传清单
+check = f'''# 找找找 · 小红书上传清单
 
 ## 上传文件
 
@@ -64,9 +63,9 @@ check = f'''# 图画捉迷藏 · 小红书上传清单
 
 ## 表单填写
 
-- 名称：图画捉迷藏（5/14）
+- 名称：找找找（3/14）
 - 简介：找到细节，收集惊喜（9/14）
-- 版本：1.1.3
+- 版本：1.1.4
 - 类目建议：益智 / 休闲游戏；请以上传页当前实际类目为准
 - 权限：不需要设备权限
 - 代码包：ZIP 根目录直接包含 index.html
@@ -97,4 +96,4 @@ check = f'''# 图画捉迷藏 · 小红书上传清单
 (root / '上传检查清单.md').write_text(check, encoding='utf-8')
 print(json.dumps(info, ensure_ascii=False, indent=2))
 
-(portable / 'info.txt').write_text('名称：图画捉迷藏\n简介：找到细节，收集惊喜\n代码包：game.zip\n图标：icon.png\n封面：cover.jpg\n', encoding='utf-8')
+(portable / 'info.txt').write_text('名称：找找找\n简介：找到细节，收集惊喜\n代码包：game.zip\n图标：icon.png\n封面：cover.jpg\n', encoding='utf-8')

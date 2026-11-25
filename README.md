@@ -39,7 +39,7 @@ node "$env:USERPROFILE\.codex\skills\minitool-zip-builder\scripts\audit_artifact
 
 GitHub 方案调研参考了 MIT 许可的 [pocketjoso/sudokuJS](https://github.com/pocketjoso/sudokuJS) 与 [mcarbonell/sudoku-solver-js](https://github.com/mcarbonell/sudoku-solver-js)，最终使用小型无依赖实现以保持离线包轻量，不复制第三方代码。图标路径采用 [lucide-icons/lucide](https://github.com/lucide-icons/lucide) 的开源线性图标风格，项目没有打入外部图标库运行时。
 
-## 图画捉迷藏
+## 找找找
 
 隐藏物寻找小游戏位于 [`hidden-object/`](./hidden-object/)，使用离线资源运行，当前包含 23 个可玩画面和 520 个隐藏目标。小红书上传包、图标、封面和填写资料位于 [`release/`](./release/)。
 
