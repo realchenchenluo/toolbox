@@ -67,7 +67,7 @@
     worker: { x: 50, y: 88, mode: 'idle', targetId: '', carry: 0, count: 0, direction: 1, until: 0 },
     contracts: contractsEngine.normalize(null,1),
     feeds: {wool:0,growth:0},
-    tutorial: {seen:false,done:false,steps:[false,false,false,false]},
+    tutorial: {seen:false,done:false,steps:[false,false,false,false],supplies:{hay:false,water:false}},
     woolDrops: [], boxes: { wool: 0, meat: 0 }, workshopUnlocked: false, workshop: { recipe: 'wool', progress: 0, running: false }, conveyor: { wool: { progress: 0, running: false }, meat: { progress: 0, running: false } }, order: { type: 'wool', qty: 2, reward: 420 },
     sheep: [
       { id: 's1', name: '棉花糖', age: 8, hunger: 82, thirst: 91, wool: 0, zone: 0, x: 22, y: 28, tx: 22, ty: 28, direction: 1, action: 'idle', actionUntil: 0 },
@@ -93,6 +93,26 @@
   var saleModalOpen = false, saleSelection = Object.create(null);
   var sheepAnimations = {}, sheepArtCache = {};
   var sheepSequences = {idle:[2,700],walk:[4,130],sit:[2,800],eat:[3,280],drink:[3,320],lie:[2,900],sleep:[2,1000]};
+  var pressedControl = null, pendingLists = [], pressSequence=0, hydrationFlight = null, platformWritePending = null, cloudRequest = 0;
+  function deadline(work) {
+    return new Promise(function(resolve,reject){
+      var timer=setTimeout(function(){var e=new Error('存储响应超时');e.errCode='TIMEOUT';reject(e);},8000);
+      Promise.resolve().then(work).then(function(v){clearTimeout(timer);resolve(v);},function(e){clearTimeout(timer);reject(e);});
+    });
+  }
+  function listHTML(node,html) {
+    if(!node)return;
+    if(pressedControl && typeof node.contains==='function' && node.contains(pressedControl)) {
+      node._farmPendingHTML=html;if(pendingLists.indexOf(node)<0)pendingLists.push(node);return;
+    }
+    if(node._farmHTML===html){node._farmPendingHTML=null;return;}
+    node.innerHTML=html;node._farmHTML=html;node._farmPendingHTML=null;
+  }
+  function releaseControls() {
+    pressSequence+=1;
+    pressedControl=null;
+    setTimeout(function(){var nodes=pendingLists.slice();pendingLists=[];nodes.forEach(function(n){if(n._farmPendingHTML!==null)listHTML(n,n._farmPendingHTML);});},0);
+  }
 
   function cloneState() { return JSON.parse(JSON.stringify(defaultState)); }
   function isNight() { return Number(state.dayPhase) >= 12; }
@@ -149,7 +169,7 @@
   }
   function readPlatformState() {
     if (!platformStorage) return Promise.resolve({ ok: false, data: null });
-    return Promise.resolve().then(function () { return miniTool.getStorage({ key: platformStorageKey() }); }).then(function (result) {
+    return deadline(function () { return miniTool.getStorage({ key: platformStorageKey() }); }).then(function (result) {
       if (!result || !Object.prototype.hasOwnProperty.call(result, 'data') || (result.errMsg && result.errMsg !== 'getStorage:ok')) throw new Error('save read failed');
       var data = parseStorageData(result);
       if (data !== null && (!data || !Array.isArray(data.sheep))) throw new Error('invalid save');
@@ -158,11 +178,18 @@
   }
   function writePlatformState(snapshot) {
     if (!platformStorage) return Promise.resolve(false);
-    return Promise.resolve().then(function () { return miniTool.setStorage({ key: platformStorageKey(), data: snapshot }); }).then(function (result) { return !!result && result.errMsg === 'setStorage:ok'; }).catch(function () { return false; });
+    // A timed-out native write may still finish: never overlap it with a newer write.
+    if(platformWritePending)return Promise.resolve(false);
+    var nativeWrite=Promise.resolve().then(function(){return miniTool.setStorage({key:platformStorageKey(),data:snapshot});});
+    platformWritePending=nativeWrite;
+    nativeWrite.then(function(){if(platformWritePending===nativeWrite)platformWritePending=null;},function(){if(platformWritePending===nativeWrite)platformWritePending=null;});
+    return deadline(function(){return nativeWrite;}).then(function(result){return !!result&&result.errMsg==='setStorage:ok';}).catch(function(){return false;});
   }
   function hydratePlatformState() {
     if (!platformStorage) return;
-    return readPlatformState().then(function (result) {
+    if(storageHydrated)return Promise.resolve(true);
+    if(hydrationFlight)return hydrationFlight;
+    hydrationFlight=readPlatformState().then(function (result) {
       if (!result.ok) { saveStatus = '存档读取失败'; render(); showToast('账号存档读取失败，已暂停保存，避免覆盖原进度。'); return; }
       if (result.data && Array.isArray(result.data.sheep)) state = mergeState(cloneState(), result.data);
       storageHydrated = true;
@@ -172,7 +199,8 @@
       setupCloudStorage();
       maybeStartTutorial();
       if (pendingPlatformSave) { pendingPlatformSave = false; showToast('账号存档已加载，请再操作一次保存。'); }
-    });
+    }).then(function(){hydrationFlight=null;},function(){hydrationFlight=null;saveStatus='存档读取失败';render();});
+    return hydrationFlight;
   }
   function setupCloudStorage() {
     if (!miniTool || typeof window.createFarmCloudSave !== 'function') return;
@@ -186,15 +214,17 @@
   }
   function syncCloudStorage(manual) {
     if (!cloudStore || cloudBusy) return Promise.resolve(false);
-    cloudBusy = true; setText('save-status', '正在同步云存档');
-    var ready = cloudEnabled && !manual ? Promise.resolve(null) : cloudStore.load();
+    cloudBusy = true; setText('save-status', '正在同步云存档');render();
+    var token=++cloudRequest;
+    var ready = cloudEnabled && !manual ? Promise.resolve(null) : deadline(function(){return cloudStore.load();});
     return ready.then(function (remote) {
+      if(token!==cloudRequest)throw new Error('过期同步');
       if (remote && (Number(remote.savedAt) || 0) > state.savedAt) {
         state = mergeState(cloneState(), remote); clockPhaseStartedAt = Date.now(); render();
         return saveState(false).then(function (ok) { if (!ok) throw new Error('云端已读取，本机保存失败'); return true; });
       }
       var copy = JSON.parse(JSON.stringify(state)); copy.savedAt = Date.now();
-      return cloudStore.save(copy);
+      return deadline(function(){return cloudStore.save(copy);});
     }).then(function () {
       cloudEnabled = true; lastCloudSave = Date.now(); setText('save-status', '云端已同步');
       if (manual) showToast('云存档已同步，同账号换设备可以恢复。'); return true;
@@ -204,7 +234,7 @@
       setText('save-status', unauthorized ? '本机存档 · 云端待开通' : '本机存档 · 云同步未完成');
       if (manual) showToast(unauthorized ? '云存档尚未开通，请先申请平台权限；本机进度仍可保存。' : '云存档未同步成功，本机进度保留；请稍后重试。');
       return false;
-    }).then(function (ok) { cloudBusy = false; return ok; });
+    }).then(function (ok) { cloudBusy = false;cloudRequest+=1;render();return ok; });
   }
   function mergeState(base, saved) {
     Object.keys(base).forEach(function (key) { if (saved[key] !== undefined && ['upgrades', 'sheep', 'worker', 'contracts', 'tutorial', 'breeds','feeds'].indexOf(key) < 0) base[key] = saved[key]; });
@@ -234,6 +264,7 @@
     base.contracts = contractsEngine.normalize(saved.contracts,base.level,saved.tradeOrder);
     ['wool','growth'].forEach(function (kind) {base.feeds[kind] = Math.max(0,Math.min(kind==='wool'?30:45,Math.floor(Number(saved.feeds && saved.feeds[kind]) || 0)));});
     base.tutorial = saved.tutorial ? {seen:!!saved.tutorial.seen,done:!!saved.tutorial.done,steps:[0,1,2,3].map(function (i) {return !!(saved.tutorial.steps && saved.tutorial.steps[i]);})} : {seen:true,done:true,steps:[true,true,true,true]};
+    base.tutorial.supplies={hay:!!(base.tutorial.steps[0] || saved.tutorial&&saved.tutorial.supplies&&saved.tutorial.supplies.hay),water:!!(base.tutorial.steps[0] || saved.tutorial&&saved.tutorial.supplies&&saved.tutorial.supplies.water)};
     base.sheep = saved.sheep.map(function (sheep, index) {
       var positions = [{ x: 16, y: 24 }, { x: 78, y: 20 }, { x: 41, y: 58 }, { x: 68, y: 68 }], pos = positions[index % positions.length];
       var breed = breedMeta[sheep.breed] ? sheep.breed : 'normal';
@@ -424,6 +455,9 @@
     var ready = readySheep().length, adults = readyAdults().length, free = capacity() - state.sheep.length;
     var nextWool = state.sheep.reduce(function (max, sheep) { return Math.max(max, sheep.wool); }, 0);
     var loading = platformStorage && !storageHydrated;
+    var notice=document.getElementById('storage-notice');if(notice)notice.hidden=!(loading||cloudBusy);
+    var retry=document.querySelector('[data-action="retry-storage"]');if(retry)retry.disabled=cloudBusy;
+    setText('storage-notice-copy',cloudBusy?'正在同步云存档，请稍候；超时会自动恢复操作。':saveStatus==='存档读取失败'?'读档未完成，经营已暂停以保护旧进度。请点重试。':'正在读取账号进度，完成后即可经营。');
     var shearButton = document.querySelector('[data-action="shear"]'), buyButton = document.querySelector('[data-action="buy"]'), butcherButton = document.querySelector('[data-action="butcher"]');
     shearButton.disabled = loading || !ready; shearButton.classList.toggle('is-ready', ready > 0);
     shearButton.title = ready ? '剪下羊毛后，点击草地上的羊毛拾取' : '羊毛生长到 100% 后可剪';
@@ -501,15 +535,21 @@
     var height = field.getBoundingClientRect().height;
     var alive = {}; state.sheep.forEach(function (sheep) { alive[sheep.id] = true; preloadSheepArt(sheep); });
     Object.keys(sheepAnimations).forEach(function (id) { if (!alive[id]) delete sheepAnimations[id]; });
-    field.innerHTML = state.sheep.map(function (sheep, index) {
-      return '<div class="' + sheepClass(sheep) + '" style="left:' + sheep.x.toFixed(2) + '%;top:' + sheep.y.toFixed(2) + '%;z-index:' + Math.round(sheep.y * height / 100 + sheepFeet(sheep) - 1) + ';--flip:' + sheep.direction + ';" data-sheep-id="' + esc(sheep.id) + '" title="' + breedMeta[sheep.breed || 'normal'].name + (isAdult(sheep) ? ' · 成年可出栏' : ' · 幼羊成长中') + '"><span class="sheep-emoji" aria-hidden="true"><img class="sheep-art" src="' + sheepArtSource(sheep) + '" width="52" height="52" alt="" draggable="false"></span><span class="sleep-z" aria-hidden="true">💤</span></div>';
-    }).join('');
+    var nodes=Object.create(null);
+    Array.prototype.forEach.call(field.querySelectorAll('[data-sheep-id]'),function(n){var id=n.getAttribute('data-sheep-id');if(!alive[id])n.remove();else nodes[id]=n;});
+    state.sheep.forEach(function(sheep){
+      var node=nodes[sheep.id];
+      if(!node){node=document.createElement('div');node.setAttribute('data-sheep-id',sheep.id);node.innerHTML='<span class="sheep-emoji" aria-hidden="true"><img class="sheep-art" width="52" height="52" alt="" draggable="false"></span><span class="sleep-z" aria-hidden="true">💤</span>';field.appendChild(node);}
+      node.className=sheepClass(sheep);node.style.left=sheep.x.toFixed(2)+'%';node.style.top=sheep.y.toFixed(2)+'%';node.style.zIndex=Math.round(sheep.y*height/100+sheepFeet(sheep)-1);node.style.setProperty('--flip',sheep.direction);
+      var img=node.querySelector('.sheep-art'),src=sheepArtSource(sheep);if(img.getAttribute('src')!==src)img.setAttribute('src',src);
+    });
   }
   function renderDrops() {
     var field = document.getElementById('sheep-field');
-    var oldDrops = field.querySelectorAll('.wool-drop'); for (var i = 0; i < oldDrops.length; i += 1) oldDrops[i].remove();
+    var nodes=Object.create(null);
+    Array.prototype.forEach.call(field.querySelectorAll('.wool-drop'),function(n){var id=n.getAttribute('data-drop-id');if(!state.woolDrops.some(function(d){return d.id===id;}))n.remove();else nodes[id]=n;});
     state.woolDrops.forEach(function (drop) {
-      var button = document.createElement('button'); button.type = 'button'; button.className = 'wool-drop'; button.setAttribute('data-drop-id', drop.id); button.style.left = drop.x.toFixed(1) + '%'; button.style.top = drop.y.toFixed(1) + '%'; button.setAttribute('aria-label', '拾取 ' + number(drop.amount, 1) + ' kg 羊毛'); button.innerHTML = '<span class="wool-drop-sprite"></span>'; field.appendChild(button);
+      var button = nodes[drop.id];if(!button){button=document.createElement('button');button.type='button';button.className='wool-drop';button.setAttribute('data-drop-id',drop.id);button.innerHTML='<span class="wool-drop-sprite"></span>';field.appendChild(button);}button.style.left=drop.x.toFixed(1)+'%';button.style.top=drop.y.toFixed(1)+'%';button.setAttribute('aria-label','拾取 '+number(drop.amount,1)+' kg 羊毛');
     });
   }
   function renderTable() {
@@ -522,7 +562,7 @@
   }
   function renderUpgrades() {
     var list = document.getElementById('upgrade-list');
-    list.innerHTML = upgradeGroups[activeUpgradeGroup].map(function (key) {
+    var html = upgradeGroups[activeUpgradeGroup].map(function (key) {
       var meta = upgradeMeta[key], level = state.upgrades[key], cost = upgradeCost(key), maxed = level >= meta.max, required = featureLevel(key), locked = farmLevel() < required && !level;
       if (locked) return required === farmLevel() + 1 ? '<div class="locked-feature"><span>▣</span><div><strong>' + meta.name + '</strong><small>牧场 LV' + required + ' 后开放 · 再花费 ¥' + cost + ' 解锁</small></div></div>' : '';
       var prerequisite = meta.requires && !state.upgrades[meta.requires];
@@ -531,6 +571,7 @@
       var unaffordable = state.gold < cost;
       return '<div class="upgrade-item"><span class="upgrade-symbol"><span class="px-icon icon-' + symbols[key] + '" aria-hidden="true"></span></span><div class="upgrade-copy"><strong>' + meta.name + '<span class="upgrade-level">' + level + '/' + meta.max + '</span></strong><small>' + (maxed ? meta.desc(level) : '下一级：' + meta.desc(level + 1)) + '</small><span class="level-dots">' + dots + '</span></div><button class="upgrade-button" type="button" data-upgrade="' + key + '" ' + (maxed || locked || prerequisite || unaffordable ? 'disabled' : '') + ' title="' + (unaffordable && !maxed ? '还差 ¥' + gold(cost - state.gold) : '升级立即生效') + '">' + (maxed ? (meta.max === 1 ? '已解锁' : '已满级') : prerequisite ? '先雇工' : locked ? '需 LV' + meta.unlockAt : '升级<br>¥' + gold(cost)) + '</button></div>';
     }).join('') || '<p class="progression-note">继续提升牧场等级，逐步开放这里的新设施。</p>';
+    listHTML(list,html);
     document.getElementById('staff-status').hidden = activeUpgradeGroup !== 'staff' || !state.upgrades.worker;
   }
   function renderProgression() {
@@ -549,18 +590,19 @@
     setText('flock-bonus', '羊种光环：长毛 +' + Math.round((flockBonus('mint') - 1) * 100) + '% · 成长 +' + Math.round((flockBonus('peach') - 1) * 100) + '%；客户加成：产毛 +' + number((customerBonuses().yield-1)*100,1) + '% · 长毛 +' + number((customerBonuses().growth-1)*100,2) + '%');
   }
   function breedCards() {
+    var loading=platformStorage && !storageHydrated;
     var html = Object.keys(breedMeta).map(function (key) {
-      var meta = breedMeta[key], unlocked = state.breeds[key], locked = farmLevel() < meta.level, loading = platformStorage && !storageHydrated;
+      var meta = breedMeta[key], unlocked = state.breeds[key], locked = farmLevel() < meta.level;
       var canBuy = state.gold >= meta.price && state.sheep.length < capacity() && (key!=='rainbow'||rainbowCount()<state.contracts.rainbowLimit);
-      return '<div class="breed-card breed-' + key + (locked ? ' future-breed' : '') + '"><img src="./assets/sheep/young-' + key + '-wool-idle.png" width="64" height="64" alt="' + meta.name + '羊仔"><div><strong>' + meta.name + '</strong><small>' + meta.desc + (key==='rainbow'?'<br>当前名额 '+rainbowCount()+'/'+state.contracts.rainbowLimit+'（订单最多扩至 5 只）':'') + '</small><em>LV' + meta.level + (meta.unlock ? ' · 解锁 ¥' + gold(meta.unlock) : ' · 无需解锁') + '<br>羊仔 ¥' + gold(meta.price) + ' / 只</em></div><button type="button" ' + (unlocked ? 'data-buy-breed="' + key + '"' : 'data-unlock-breed="' + key + '"') + (loading || locked || (unlocked ? !canBuy : state.gold < meta.unlock) ? ' disabled' : '') + '>' + (locked ? 'LV' + meta.level + '开放' : unlocked ? key==='rainbow'&&rainbowCount()>=state.contracts.rainbowLimit?'彩虹羊名额已满':'购买羊仔<br>¥' + gold(meta.price) : '解锁品种<br>¥' + gold(meta.unlock)) + '</button></div>';
+      var reason=loading?'存档读取中':locked?'需要牧场 LV'+meta.level:unlocked?state.sheep.length>=capacity()?'羊圈已满':key==='rainbow'&&rainbowCount()>=state.contracts.rainbowLimit?'彩虹名额已满':state.gold<meta.price?'还差 ¥'+gold(meta.price-state.gold):'':state.gold<meta.unlock?'解锁还差 ¥'+gold(meta.unlock-state.gold):'';
+      return '<div class="breed-card breed-' + key + (locked ? ' future-breed' : '') + '"><img src="./assets/sheep/young-' + key + '-wool-idle.png" width="64" height="64" alt="' + meta.name + '羊仔"><div><strong>' + meta.name + '</strong><small>' + meta.desc + (key==='rainbow'?'<br>当前名额 '+rainbowCount()+'/'+state.contracts.rainbowLimit+'（订单最多扩至 5 只）':'') + '</small><details class="breed-tip"><summary>什么时候值得买？</summary><p>'+esc(window.FarmHelp.breedTip(key))+'</p></details><em>LV' + meta.level + (meta.unlock ? ' · 解锁 ¥' + gold(meta.unlock) : ' · 无需解锁') + '<br>羊仔 ¥' + gold(meta.price) + ' / 只</em>'+(reason?'<span class="purchase-reason">'+reason+'</span>':'')+'</div><button type="button" ' + (unlocked ? 'data-buy-breed="' + key + '"' : 'data-unlock-breed="' + key + '"') + (loading || locked || (unlocked ? !canBuy : state.gold < meta.unlock) ? ' disabled' : '') + '>' + (locked ? 'LV' + meta.level + '开放' : unlocked ? key==='rainbow'&&rainbowCount()>=state.contracts.rainbowLimit?'彩虹羊名额已满':'购买羊仔<br>¥' + gold(meta.price) : '解锁品种<br>¥' + gold(meta.unlock)) + '</button></div>';
     }).join('');
     if (state.contracts.pendingRainbow) html = '<div class="rainbow-claim"><img src="./assets/sheep/young-rainbow-wool-idle.png" alt="彩虹羊仔"><div><strong>订单奖励 · 彩虹羊仔 ×1</strong><small>' + (farmLevel()<8?'奖励已保留，达到 LV8 后领取。':rainbowCount()>=state.contracts.rainbowLimit?'彩虹羊名额已满，先扩容或腾出名额。':state.sheep.length >= capacity() ? '羊圈已满，扩建或腾出空位后领取。' : '已为你保留，领取后加入羊群。') + '</small></div><button type="button" data-action="claim-rainbow"' + (farmLevel()<8 || rainbowCount()>=state.contracts.rainbowLimit || state.sheep.length >= capacity() || loading ? ' disabled' : '') + '>领取羊仔</button></div>' + html;
     return html;
   }
   function renderBreeds() {
     var html = breedCards(), inline = document.getElementById('breed-list'), nursery = document.getElementById('nursery-list');
-    if (inline) inline.innerHTML = html;
-    if (nursery) nursery.innerHTML = html;
+    listHTML(inline,html);listHTML(nursery,html);
   }
   function openNursery() {
     document.getElementById('modal-kicker').textContent = '羊种商店 · LV' + farmLevel();
@@ -570,8 +612,9 @@
     document.getElementById('modal').hidden = false;resetModalScroll();
   }
   function tutorialStep() { return state.tutorial.steps.indexOf(false) < 0 ? 4 : state.tutorial.steps.indexOf(false); }
-  function advanceTutorial(index) {
+  function advanceTutorial(index,supply) {
     if (state.tutorial.done) return;
+    if(index===0){state.tutorial.supplies[supply]=true;if(!state.tutorial.supplies.hay||!state.tutorial.supplies.water)return;}
     state.tutorial.steps[index] = true;
     if (tutorialStep() === 4) {state.tutorial.done = true;state.tutorial.seen = true;}
   }
@@ -582,7 +625,7 @@
     document.getElementById('modal-kicker').textContent = '欢迎回家';
     document.getElementById('modal-title').textContent = '从三只小羊开始';
     document.getElementById('modal-copy').textContent = '你继承了家里的羊场。用 300 金币起步，攒够 1000 万退休。';
-    document.getElementById('modal-body').innerHTML = '<div class="welcome-flock"><img src="./assets/sheep/young-normal-wool-idle.png" alt="小羊"><img src="./assets/sheep/young-normal-wool-sit.png" alt=""><img src="./assets/sheep/young-normal-wool-idle.png" alt=""></div><ol class="welcome-steps"><li><b>1</b><div><strong>添草加水</strong><small>点击草场两侧的槽，一次补一格。</small></div></li><li><b>2</b><div><strong>剪毛，再捡起来</strong><small>羊毛长满后开剪，点击地上的羊毛。</small></div></li><li><b>3</b><div><strong>到集市卖出</strong><small>先赚钱照顾羊群，再升级、买羊。</small></div></li></ol><button class="welcome-start" type="button" data-action="start-tutorial">开始放牧</button><button class="welcome-skip" type="button" data-action="skip-tutorial">我会玩了，跳过指引</button>';
+    document.getElementById('modal-body').innerHTML = '<div class="welcome-flock"><img src="./assets/sheep/young-normal-wool-idle.png" alt="小羊"><img src="./assets/sheep/young-normal-wool-sit.png" alt=""><img src="./assets/sheep/young-normal-wool-idle.png" alt=""></div><ol class="welcome-steps"><li><b>1</b><div><strong>左边添草，右边加水</strong><small>各点一次就够，每次补一格，花 2 金币。</small></div></li><li><b>2</b><div><strong>毛满 100% 后点“剪羊毛”</strong><small>幼羊也能剪，不用等成年；等按钮亮起。</small></div></li><li><b>3</b><div><strong>点草地上的羊毛，把它捡起来</strong><small>剪完只是掉在地上，捡起才进入仓库。</small></div></li><li><b>4</b><div><strong>去集市，出售羊毛</strong><small>卖出才有现金。先留补给钱，再升级或买羊。</small></div></li></ol><button class="welcome-start" type="button" data-action="start-tutorial">带我赚第一笔金币</button><button class="welcome-skip" type="button" data-action="skip-tutorial">我会玩了，跳过指引</button>';
     modal.classList.add('onboarding-open');modal.hidden = false;resetModalScroll();renderClock();
     var start = modal.querySelector('.welcome-start');if (start && typeof start.focus === 'function') start.focus();
   }
@@ -590,17 +633,23 @@
     state.tutorial.done = true;state.tutorial.seen = true;
     if (onboardingOpen) closeModal(); else {render();saveState(false);}
   }
+  function restartTutorial() {
+    state.tutorial={seen:true,done:false,steps:[false,false,false,false],supplies:{hay:false,water:false}};
+    closeModal();render();pointTutorial();saveState(false);
+  }
   function renderTutorialGuide() {
     var active = state.tutorial.seen && !state.tutorial.done, step = tutorialStep(), guide = document.querySelector('.farm-guide');
     guide.classList.toggle('learning',active);
     var actions = document.getElementById('tutorial-actions');if (actions) actions.hidden = !active;
-    var targets = ['.hay-station','.water-station','[data-action="shear"]','[data-panel-tab="market"]','[data-action="sell-wool"]'];
+    var targets = ['.hay-station','.water-station','[data-action="shear"]','[data-panel-tab="market"]','[data-action="sell-wool"]','.wool-drop'];
     targets.forEach(function (selector) {var node = document.querySelector(selector);if(node) node.classList.toggle('tutorial-focus',active && (step === 0 ? selector.indexOf('station') >= 0 : step === 1 ? selector.indexOf('shear') >= 0 : step === 3 ? selector.indexOf('market') >= 0 || selector.indexOf('sell-wool') >= 0 : false));});
     if (!active) return;
-    var titles = ['添一次草或水','等羊毛长满，点击剪羊毛','点击草地上的羊毛','去集市，出售羊毛'];
-    var copies = ['当前补一格 ' + refillPrice() + ' 金币，槽内高度代表余量。','羊毛到 100% 按钮会亮起，幼羊也能剪。','捡进仓库后才能卖出。','金币进入钱包，可升级、买羊或存退休金。'];
+    var maxWool=state.sheep.reduce(function(max,s){return Math.max(max,s.wool);},0);
+    var titles = [state.tutorial.supplies.hay?'再点右边的蓝色水槽':'先点左边的黄色草槽',readySheep().length?'毛满了，点“剪羊毛”':'等羊毛长满 · '+Math.floor(maxWool)+'%','点击草地上的奶白色毛团','去集市，点“出售羊毛”'];
+    var copies = ['草和水各补一次；每次 ' + refillPrice() + ' 金币，不用反复补满。','长到 100% 按钮会亮起；羊会自己吃喝，幼羊也能剪。','捡起后才进仓库。羊毛都被雇工捡走时，等它搬回收纳棚。','在草场下方找到“集市”，卖出才会增加现金。'];
     setText('guide-title',(step+1) + '/4 · ' + titles[step]);setText('guide-copy',copies[step]);
-    setText('tutorial-go',step === 3 ? '去集市' : '找到按钮');
+    setText('tutorial-go',step === 3 ? '去卖羊毛' : '带我操作');
+    document.querySelectorAll('.wool-drop').forEach(function(n){n.classList.toggle('tutorial-focus',step===2);});
   }
   function showPanel(name) {
     document.querySelectorAll('[data-panel-tab]').forEach(function (tab) {tab.classList.toggle('active',tab.getAttribute('data-panel-tab') === name);});
@@ -608,10 +657,13 @@
   }
   function pointTutorial() {
     var step = tutorialStep();if (step === 3) showPanel('market');
-    var target = document.querySelector(step === 0 ? '.hay-station' : step === 1 ? '[data-action="shear"]' : step === 2 ? '.wool-drop' : '[data-action="sell-wool"]');
-    if (target && typeof target.scrollIntoView === 'function') target.scrollIntoView({block:'center',inline:'nearest'});
+    var target = document.querySelector(step === 0 ? state.tutorial.supplies.hay?'.water-station':'.hay-station' : step === 1 ? '[data-action="shear"]' : step === 2 ? '.wool-drop' : '[data-action="sell-wool"]');
+    if (target && typeof target.scrollIntoView === 'function') target.scrollIntoView({block:'nearest',inline:'nearest'});
   }
-  function openRules() {
+  function helpContext(){return {level:farmLevel(),breeds:breedMeta,levels:levelMeta,workerCost:upgradeMeta.worker.base};}
+  function helpTabs(tab){return '<nav class="help-tabs" aria-label="玩法分类">'+[['quick','四步入门'],['route','发育路线'],['breeds','羊种能力'],['rules','详细规则']].map(function(t){return '<button type="button" data-help-tab="'+t[0]+'" aria-pressed="'+(tab===t[0])+'">'+t[1]+'</button>';}).join('')+'</nav>';}
+  function openRules(tab) {
+    tab=typeof tab==='string'?tab:'quick';
     var modal = document.getElementById('modal');
     modalReturnFocus = document.activeElement;
     var rules = [
@@ -633,11 +685,18 @@
     document.getElementById('modal-kicker').textContent = '牧场手册';
     document.getElementById('modal-title').textContent = '玩法说明';
     document.getElementById('modal-copy').textContent = '从照顾第一只小羊，到慢慢攒下退休金。随时点草场标题旁的“玩法”回来查看。';
-    document.getElementById('modal-body').innerHTML = '<ol class="game-rules">' + rules.map(function (rule,index) { return '<li><span class="rule-number">' + (index + 1) + '</span><div><h4>' + esc(rule[0]) + '</h4><p>' + esc(rule[1]) + '</p></div></li>'; }).join('') + '</ol>';
+    var content=tab==='rules'?null:window.FarmHelp.render(tab,helpContext());
+    if(content){setText('modal-copy',content.copy);}
+    document.getElementById('modal-body').innerHTML = helpTabs(tab)+(content?content.html:'<ol class="game-rules">' + rules.map(function (rule,index) { return '<li><span class="rule-number">' + (index + 1) + '</span><div><h4>' + esc(rule[0]) + '</h4><p>' + esc(rule[1]) + '</p></div></li>'; }).join('') + '</ol>');
     modal.classList.add('rules-open'); modal.hidden = false;resetModalScroll();
     var close = modal.querySelector('.modal-close'); if (close && typeof close.focus === 'function') close.focus();
   }
-  function resetModalScroll() {var scroll=document.getElementById('modal-scroll');if(scroll)scroll.scrollTop=0;}
+  function resetModalScroll() {
+    var scroll=document.getElementById('modal-scroll'),body=document.getElementById('modal-body');
+    if(scroll)scroll.scrollTop=0;
+    // Discard an older list update when a different dialog takes over this body.
+    body._farmHTML=null;body._farmPendingHTML=null;
+  }
   function closeModal() {
     var modal = document.getElementById('modal'); modal.hidden = true; modal.classList.remove('rules-open');
     modal.classList.remove('sale-open');saleModalOpen=false;saleSelection=Object.create(null);
@@ -652,13 +711,14 @@
     setText('trade-count',book.completed);setText('customer-score',book.satisfaction + '/100');
     setText('customer-yield','+' + number((bonus.yield-1)*100,1) + '%');setText('customer-growth','+' + number((bonus.growth-1)*100,2) + '%');
     document.getElementById('customer-fill').style.width = book.satisfaction + '%';
-    document.getElementById('contract-list').innerHTML = book.slots.slice(0,contractsEngine.slotsForLevel(farmLevel())).map(function (order,index) {
+    var contractsHTML = book.slots.slice(0,contractsEngine.slotsForLevel(farmLevel())).map(function (order,index) {
       var rare = contractsEngine.isRare(order), ready = Object.keys(order.goods).every(function (key) {return state[key]+1e-9 >= order.goods[key];});
       var specialTitle = order.kind==='flock-cap'?'扩建委托 · 草场合作社':order.kind==='rainbow-cap'?'珍稀委托 · 彩虹牧场':'稀有委托 · 彩虹牧场';
       var specialReward = order.kind==='flock-cap'?'永久羊圈名额 +2':order.kind==='rainbow-cap'?'彩虹羊名额 +1（最高5只）':'彩虹羊仔 ×1';
       var goods = Object.keys(order.goods).map(function (key) {var label=key==='wool'?'羊毛':'羊肉',enough=state[key]+1e-9>=order.goods[key];return '<div class="contract-goods'+(enough?' enough':'')+'"><span class="product-icon '+key+'" aria-hidden="true"></span><span>'+label+' <strong>'+number(order.goods[key],1)+' kg</strong><small>仓库 '+number(state[key],1)+' kg</small></span><b>'+(enough?'✓':'待备货')+'</b></div>';}).join('');
       return '<article class="contract-card'+(rare?' rainbow-contract':'')+'"><header><span>'+(rare?specialTitle:order.lane==='mixed'?'邻里合购':order.lane==='meat'?'山谷餐馆':'织物小铺')+'</span><small>NO. '+(index+1)+'</small></header>'+goods+'<footer><div><strong>¥'+gold(tradeReward(order))+'</strong><small>'+(rare?specialReward+' · 满意度 +2':'客户满意度 +1')+'</small></div><button type="button" data-contract-id="'+esc(order.id)+'"'+(locked||loading||!ready?' disabled':'')+'>'+(locked?'LV3 开放':ready?'交付订单':'备货中')+'</button></footer>'+(rare?'<p class="rare-order-note">高额交付，返还八成货款，另获上述奖励。</p>':'')+'</article>';
     }).join('') + (farmLevel()<5?'<p class="contract-slot-note">牧场 LV5 开放第 3 张合购订单</p>':'')+'<p class="contract-slot-note">羊圈 '+capacity()+' 只（订单扩容 +'+book.flockBonus+'） · 彩虹名额 '+book.rainbowLimit+'/5</p><p class="contract-slot-note">'+(book.specialUnlocked?'特殊奖励已开启 · 羊圈扩容 0.6% / 彩虹名额 0.15%<br>LV8 起另有彩虹羊仔 3%。满足交付次数、40单间隔且无其他稀有单时才会抽取。':'购入星愿羊后，开启订单特殊奖励。')+'</p>';
+    listHTML(document.getElementById('contract-list'),contractsHTML);
     var pending = document.getElementById('pending-rainbow');if(pending) pending.hidden = !book.pendingRainbow;
     if(pending){var claim=pending.querySelector('button');if(claim){claim.disabled=farmLevel()<8||rainbowCount()>=book.rainbowLimit||state.sheep.length>=capacity()||loading;claim.textContent=farmLevel()<8?'LV8 领取':'领取';}}
   }
@@ -702,12 +762,12 @@
     var limit = type === 'hay' ? hayCapacity() : waterCapacity();
     var label = type === 'hay' ? '干草' : '清水';
     var price = refillPrice();
-    if (state[type] >= limit) { showToast(label + '槽已满。'); return; }
+    if (state[type] >= limit) { advanceTutorial(0,type);renderControls();showToast(label + '槽已满，无需补充。'); return; }
     if (state.gold < price) { showToast('补充一格' + label + '需要 ' + price + ' 金币。'); return; }
     state.gold -= price;
     state[type] = Math.min(limit, state[type] + limit / 10);
     state.careDone = true;
-    advanceTutorial(0);
+    advanceTutorial(0,type);
     render(); saveState(false);
     showToast(label + '补充一格 · −¥' + price);
   }
@@ -790,7 +850,8 @@
   function renderButcherChoices() {
     var adults=readyAdults();
     Object.keys(saleSelection).forEach(function(id){if(!adults.some(function(s){return s.id===id;}))delete saleSelection[id];});
-    document.getElementById('modal-body').innerHTML='<div class="sale-tools"><span>可出栏 '+adults.length+' 只</span><button type="button" data-action="sale-select-all">全选 / 取消</button></div><div class="sale-flock-list">'+adults.map(function(sheep,index){return '<label class="sale-sheep"><input type="checkbox" data-sale-id="'+esc(sheep.id)+'"'+(saleSelection[sheep.id]?' checked':'')+'><img src="'+sheepArtSource(sheep)+'" alt=""><span><strong>'+breedMeta[sheep.breed||'normal'].name+' #'+(index+1)+'</strong><small>'+Math.floor(sheep.age)+' 日龄 · 肉品 '+number(meatYield(sheep),1)+' kg</small></span><b>¥'+gold(liveSheepPrice(sheep))+'</b></label>';}).join('')+'</div><div class="sale-summary"><p id="sale-total"></p><div><button type="button" data-action="sale-live-selected">卖出选中活羊</button><button type="button" data-action="sale-meat-selected">选中羊换肉品</button></div><small>薄荷羊、蜜桃羊离场后，其加成也会减少。</small></div>';
+    var saleHTML='<div class="sale-tools"><span>可出栏 '+adults.length+' 只</span><button type="button" data-action="sale-select-all">全选 / 取消</button></div><div class="sale-flock-list">'+adults.map(function(sheep,index){return '<label class="sale-sheep"><input type="checkbox" data-sale-id="'+esc(sheep.id)+'"'+(saleSelection[sheep.id]?' checked':'')+'><img src="'+sheepArtSource(sheep)+'" alt=""><span><strong>'+breedMeta[sheep.breed||'normal'].name+' #'+(index+1)+'</strong><small>'+Math.floor(sheep.age)+' 日龄 · 肉品 '+number(meatYield(sheep),1)+' kg</small></span><b>¥'+gold(liveSheepPrice(sheep))+'</b></label>';}).join('')+'</div><div class="sale-summary"><p id="sale-total"></p><div><button type="button" data-action="sale-live-selected">卖出选中活羊</button><button type="button" data-action="sale-meat-selected">选中羊换肉品</button></div><small>薄荷羊、蜜桃羊离场后，其加成也会减少。</small></div>';
+    listHTML(document.getElementById('modal-body'),saleHTML);
     renderSaleSummary();
   }
   function selectSaleSheep(id,checked) {if(find(id)&&isAdult(find(id))) {if(checked)saleSelection[id]=true;else delete saleSelection[id];}renderSaleSummary();}
@@ -952,6 +1013,7 @@
     if (w.mode === 'unloading') {
       if (now < w.until) { renderWorker(); return; }
       state.wool += w.carry; var collected = w.carry; w.carry = 0; w.count = 0; w.mode = 'idle';
+      if(collected>0)advanceTutorial(2);
       saveState(false); showToast('雇工入库 ' + number(collected, 1) + ' kg 羊毛。');
     }
     if (w.mode === 'idle' || (w.mode === 'walking' && !target)) {
@@ -984,7 +1046,27 @@
     render(); if (state.cycle % 3 === 0) autoSave();
   }
 
+  function holdControl(event){pressSequence+=1;pressedControl=event.target.closest?event.target.closest('button,input,summary,label'):null;}
+  ['pointerdown','mousedown','touchstart'].forEach(function(name){document.addEventListener(name,holdControl,true);});
+  ['pointerup','mouseup','touchend'].forEach(function(name){document.addEventListener(name,function(){var sequence=pressSequence;setTimeout(function(){if(sequence===pressSequence)releaseControls();},450);},true);});
+  ['pointercancel','touchcancel'].forEach(function(name){document.addEventListener(name,releaseControls,true);});
+  document.addEventListener('click',function(){var sequence=pressSequence;setTimeout(function(){if(sequence===pressSequence)releaseControls();},0);},true);
+  window.addEventListener('blur',releaseControls);
+  document.addEventListener('visibilitychange',function(){if(document.hidden)releaseControls();});
+  var lastPaidAction='',lastPaidAt=0;
   document.addEventListener('click', function (event) {
+    var helpTab=event.target.closest?event.target.closest('[data-help-tab]'):null;
+    if(helpTab){openRules(helpTab.getAttribute('data-help-tab'));return;}
+    var helpGo=event.target.closest?event.target.closest('[data-help-go]'):null;
+    if(helpGo){
+      var destination=helpGo.getAttribute('data-help-go');
+      if(destination==='route'){openRules('route');return;}
+      closeModal();if(destination==='nursery'){openNursery();return;}
+      var panelName=destination==='staff'||destination==='upgrades'?'upgrade':destination==='orders'?'order':destination;showPanel(panelName);
+      if(destination==='staff'){activeUpgradeGroup='staff';renderUpgrades();}
+      var panel=document.querySelector('[data-panel-view="'+panelName+'"]');
+      if(panel&&panel.scrollIntoView)panel.scrollIntoView({block:'start',inline:'nearest'});return;
+    }
     var actionButton = event.target.closest ? event.target.closest('[data-action]') : null;
     var upgradeButton = event.target.closest ? event.target.closest('[data-upgrade]') : null;
     var butcherButton = event.target.closest ? event.target.closest('[data-butcher-id]') : null;
@@ -995,13 +1077,17 @@
     var contractButton = event.target.closest ? event.target.closest('[data-contract-id]') : null;
     var feedButton = event.target.closest ? event.target.closest('[data-feed-kind]') : null;
     if (actionButton && actionButton.getAttribute('data-action') === 'rules') { openRules(); return; }
+    if (actionButton && actionButton.getAttribute('data-action') === 'retry-storage') { hydratePlatformState();return; }
+    if (actionButton && actionButton.getAttribute('data-action') === 'replay-tutorial') {restartTutorial();return;}
     if (actionButton && actionButton.getAttribute('data-action') === 'close-modal') { closeModal(); return; }
-    if (actionButton && actionButton.getAttribute('data-action') === 'start-tutorial') {closeModal();return;}
+    if (actionButton && actionButton.getAttribute('data-action') === 'start-tutorial') {closeModal();pointTutorial();return;}
     if (actionButton && actionButton.getAttribute('data-action') === 'skip-tutorial') {finishTutorial();return;}
     if ((actionButton || upgradeButton || butcherButton || dropButton || breedButton || unlockButton || liveButton || contractButton || feedButton) && ((platformStorage && !storageHydrated) || cloudBusy)) {
       if (actionButton && actionButton.getAttribute('data-action') === 'save' && !cloudBusy) hydratePlatformState();
       showToast('正在读取存档，请稍候再操作。'); return;
     }
+    var paidKey=breedButton?'buy:'+breedButton.getAttribute('data-buy-breed'):unlockButton?'breed:'+unlockButton.getAttribute('data-unlock-breed'):upgradeButton?'upgrade:'+upgradeButton.getAttribute('data-upgrade'):contractButton?'order:'+contractButton.getAttribute('data-contract-id'):feedButton?'feed:'+feedButton.getAttribute('data-feed-kind'):actionButton&&['deposit','deposit-all','level-up','sale-live-selected','sale-meat-selected','retire'].indexOf(actionButton.getAttribute('data-action'))>=0?actionButton.getAttribute('data-action'):'';
+    if(paidKey){if(lastPaidAction===paidKey&&Date.now()-lastPaidAt<300)return;lastPaidAction=paidKey;lastPaidAt=Date.now();}
     if (actionButton) {
       var action = actionButton.getAttribute('data-action');
       if (action === 'feed') refillSupply('hay'); else if (action === 'water') refillSupply('water'); else if (action === 'shear') shear(); else if (action === 'buy') openNursery(); else if (action === 'sell-wool') sellWool(); else if (action === 'sell-meat') sellMeat(); else if (action === 'butcher') openButcher(); else if (action === 'start-workshop') startWorkshop(); else if (action === 'sell-boxes') sellBoxes(); else if (action === 'deliver-order') deliverOrder(); else if (action === 'retire') retire(); else if (action === 'close-modal') document.getElementById('modal').hidden = true; else if (action === 'save') saveState(true);

@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#e9e5da">
   <title>牧云羊场 · 轻经营模拟器</title>
-  <link rel="stylesheet" href="./assets/style.css?v=20261124-farm-10">
-  <link rel="stylesheet" href="./assets/workshop.css?v=20261124-farm-10">
-  <link rel="stylesheet" href="./assets/pixel.css?v=20261124-farm-10">
-  <link rel="stylesheet" href="./assets/layout.css?v=20261124-farm-10">
-  <link rel="stylesheet" href="./assets/farm-items.css?v=20261124-farm-10">
-  <link rel="stylesheet" href="./assets/controls.css?v=20261124-farm-10">
-  <link rel="stylesheet" href="./assets/sheep-night.css?v=20261124-farm-10">
-  <link rel="stylesheet" href="./assets/progression.css?v=20261124-farm-10">
-  <link rel="stylesheet" href="./assets/field-ui.css?v=20261124-farm-10">
-  <script src="./assets/viewport-layout.js?v=20261124-farm-10"></script>
+  <link rel="stylesheet" href="./assets/style.css?v=20261125-guide-11">
+  <link rel="stylesheet" href="./assets/workshop.css?v=20261125-guide-11">
+  <link rel="stylesheet" href="./assets/pixel.css?v=20261125-guide-11">
+  <link rel="stylesheet" href="./assets/layout.css?v=20261125-guide-11">
+  <link rel="stylesheet" href="./assets/farm-items.css?v=20261125-guide-11">
+  <link rel="stylesheet" href="./assets/controls.css?v=20261125-guide-11">
+  <link rel="stylesheet" href="./assets/sheep-night.css?v=20261125-guide-11">
+  <link rel="stylesheet" href="./assets/progression.css?v=20261125-guide-11">
+  <link rel="stylesheet" href="./assets/field-ui.css?v=20261125-guide-11">
+  <script src="./assets/viewport-layout.js?v=20261125-guide-11"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -33,6 +33,7 @@
       </div>
     </header>
 
+    <div class="storage-notice" id="storage-notice" role="status" hidden><span id="storage-notice-copy">正在读取账号进度…</span><button type="button" data-action="retry-storage">重试读档</button></div>
     <main>
       <section class="overview-row compact-overview" aria-label="牧场总览">
         <div class="mini-title"><span class="eyebrow">牧场等级</span><strong id="current-level">LV1</strong></div>
@@ -49,8 +50,10 @@
           <header class="panel-header">
             <div><h3>云朵草场</h3></div>
             <div class="weather" hidden><span id="weather-icon">☀</span> <span id="weather-label">白天放牧 · 夜晚休息</span></div>
-            <div class="pasture-tools" aria-label="玩法与存档"><button class="rules-button" type="button" data-action="rules" aria-controls="modal" title="查看游戏规则"><span aria-hidden="true">?</span>玩法</button><button class="save-button" type="button" data-action="save" title="手动保存；游戏每 12 秒也会自动存档"><span class="px-icon icon-save" aria-hidden="true"></span><span>保存</span></button></div>
+            <div class="pasture-tools" aria-label="玩法与存档"><button class="rules-button" type="button" data-action="rules" aria-controls="modal" title="查看四步入门、发育路线与羊种能力"><span aria-hidden="true">?</span>玩法</button><button class="save-button" type="button" data-action="save" title="手动保存；游戏每 12 秒也会自动存档"><span class="px-icon icon-save" aria-hidden="true"></span><span>保存</span></button></div>
           </header>
+
+            <div class="farm-guide"><span class="guide-marker" aria-hidden="true">!</span><div><strong id="guide-title">先添草，再加水</strong><small id="guide-copy">点击两侧槽位补充，羊毛长满后再剪。</small></div><span class="guide-step" id="guide-step">01 / 04</span><div class="tutorial-actions" id="tutorial-actions" hidden><button type="button" data-action="tutorial-go" id="tutorial-go">带我操作</button><button type="button" data-action="skip-tutorial">跳过</button></div></div>
 
           <div class="pasture-scene" id="pasture-scene">
             <div class="night-sky" aria-hidden="true"><span class="night-moon"></span><span class="night-stars"></span></div>
@@ -74,7 +77,6 @@
 
 
           <div class="pasture-toolbar">
-            <div class="farm-guide"><span class="guide-marker" aria-hidden="true">!</span><div><strong id="guide-title">先给羊添草加水</strong><small id="guide-copy">点击两侧槽位补充，羊毛长满后再剪。</small></div><span class="guide-step" id="guide-step">01 / 04</span><div class="tutorial-actions" id="tutorial-actions" hidden><button type="button" data-action="tutorial-go" id="tutorial-go">找到按钮</button><button type="button" data-action="skip-tutorial">跳过</button></div></div>
             <div class="action-buttons" aria-label="羊场操作">
               <button class="action-button primary" type="button" data-action="shear"><span class="px-icon icon-shear" aria-hidden="true"></span><span class="action-copy"><strong>剪羊毛</strong><small id="shear-hint">羊毛长满后可剪</small></span><b id="shear-ready">等待长毛</b><span class="action-meter" aria-hidden="true"><i id="shear-progress"></i></span></button>
               <button class="action-button" type="button" data-action="buy"><span class="px-icon icon-sheep" aria-hidden="true"></span><span class="action-copy"><strong>购入羊仔</strong><small id="buy-hint">羊圈还有 3 个空位</small></span><b id="buy-price">选羊种 · ¥160 起</b></button>
@@ -171,17 +173,18 @@
       <div class="save-line"><span><span id="save-status">本机存档</span> · <span id="last-save">尚未保存</span> · <span id="autosave-label">自动存档已开启</span></span><button type="button" class="cloud-save-button" data-action="cloud-save" id="cloud-save-button" hidden><span class="px-icon icon-save" aria-hidden="true"></span>同步云存档</button><span id="tip-text">羊群会自己寻找干草和水槽。</span></div>
     </main>
 
-    <footer class="footer-note"><span>预览版 · 2026.11.24 · 手机安全区适配</span><span>点击槽位补给 · 点击落地羊毛拾取</span></footer>
+    <footer class="footer-note"><span>预览版 · v11 · 指引与操作修复</span><span>点击槽位补给 · 点击落地羊毛拾取</span></footer>
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <div class="modal-backdrop" id="modal" hidden><section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title"><header class="modal-header"><div><p class="eyebrow" id="modal-kicker">出栏管理</p><h2 id="modal-title">选择成年羊</h2></div><button class="modal-close" type="button" data-action="close-modal" aria-label="关闭窗口" title="关闭窗口">×</button></header><div class="modal-scroll" id="modal-scroll"><p id="modal-copy">成年后可出栏，获得稳定的羊肉收入。</p><div id="modal-body"></div></div></section></div>
 
-  <script defer src="./assets/cloud-save.js?v=20261124-farm-10"></script>
-  <script defer src="./assets/pixel-ambience.js?v=20261124-farm-10"></script>
-  <script defer src="./assets/interactive-grass.js?v=20261124-farm-10"></script>
-  <script defer src="./assets/farm-orders.js?v=20261124-farm-10"></script>
-  <script defer src="./assets/sheep-frames.js?v=20261124-farm-10"></script>
-  <script defer src="./assets/app.js?v=20261124-farm-10"></script>
+  <script defer src="./assets/cloud-save.js?v=20261125-guide-11"></script>
+  <script defer src="./assets/pixel-ambience.js?v=20261125-guide-11"></script>
+  <script defer src="./assets/interactive-grass.js?v=20261125-guide-11"></script>
+  <script defer src="./assets/farm-orders.js?v=20261125-guide-11"></script>
+  <script defer src="./assets/sheep-frames.js?v=20261125-guide-11"></script>
+  <script defer src="./assets/farm-help.js?v=20261125-guide-11"></script>
+  <script defer src="./assets/app.js?v=20261125-guide-11"></script>
 </body>
 </html>

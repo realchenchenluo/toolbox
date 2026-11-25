@@ -1,7 +1,7 @@
 {
-  "version": "20261124-farm-10",
-  "sourceCommit": "2f687d0816b2500e44dd17ece583d4c53f81c8c7",
-  "artifactSha256": "fdc6e185e5758f1dc8f6c210e2b10e531062474dda1ac3a51f0877945a5b6b1f",
-  "packageFiles": 76,
-  "publishedAt": "2026-11-24T19:25:19+08:00"
+  "version": "20261125-guide-11",
+  "sourceCommit": "33e03ff3da76862873c8faf7c29005de052623a6",
+  "artifactSha256": "baf82f4dfd2fc7ba78ca9a6739b6e118be65d2c74ccb8f40b55fbcf8d25ccb7e",
+  "packageFiles": 77,
+  "publishedAt": "2026-11-25T23:16:11+08:00"
 }
