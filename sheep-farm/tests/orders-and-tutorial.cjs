@@ -13,7 +13,7 @@ async function run(){
   assert.equal(fresh.nodes.get('modal').hidden,false);assert.match(fresh.nodes.get('modal-body').innerHTML,/300|welcome-steps/);
   const before=JSON.stringify(s);g.tick();g.animateSheep();assert.equal(JSON.stringify(s),before);
   g.closeModal();assert.equal(s.tutorial.seen,true);assert.equal(g.tutorialStep(),0);
-  g.refillSupply('hay');assert.equal(s.gold,298);assert.equal(g.tutorialStep(),1);
+  g.refillSupply('hay');assert.equal(s.gold,298);assert.equal(g.tutorialStep(),0);g.refillSupply('water');assert.equal(s.gold,296);assert.equal(g.tutorialStep(),1);
   s.sheep[0].wool=100;g.shear();assert.equal(g.tutorialStep(),2);g.pickWool(s.woolDrops[0].id);assert.equal(g.tutorialStep(),3);g.sellWool();assert.equal(s.tutorial.done,true);
   await g.saveState(false);const restored=boot(fresh.saved());restored.game.maybeStartTutorial();assert.notEqual(restored.nodes.get('modal')&&restored.nodes.get('modal').hidden,false);
   const old=boot({calendarVersion:1,day:9,gold:987,sheep:s.sheep});old.game.maybeStartTutorial();assert.equal(old.game.state.tutorial.done,true);assert.equal(old.game.state.gold,987);

@@ -2,7 +2,7 @@
 
 一款像素风养羊经营小游戏：回乡继承羊场，照顾小羊、剪毛拾取、售卖货物，逐步升级牧场与羊种，亲手攒够1000 万元退休金。
 
-[在线试玩](https://realchenchenluo.github.io/toolbox/sheep-farm/?v=20261124-farm-10)
+[在线试玩](https://realchenchenluo.github.io/toolbox/sheep-farm/?v=20261125-guide-11)
 
 ## 当前玩法
 
@@ -34,6 +34,7 @@ node tests/economy-balance.cjs
 node tests/interactive-grass.cjs
 node tests/sheep-frames.cjs
 node tests/viewport-layout.cjs
+node tests/interaction-safety.cjs
 node tests/orders-and-tutorial.cjs
 node tests/production-budget.cjs
 python tests/sheep-art.py
@@ -53,7 +54,7 @@ GitHub `main` 保存源码；`gh-pages` 的 `/sheep-farm/` 保存在线试玩静
 
 ## 当前经营规则
 
-- 首次进入有三步说明与四步实操指引，老存档不强制重看。手机端主内容统一滚动。
+- 首次进入有四步说明与四步实操指引，老存档不强制重看。手机端主内容统一滚动。
 - 云朵羊 LV1、绒糖羊 LV2、薄荷羊 LV4、蜜桃羊 LV5、星愿羊 LV6、彩虹羊 LV8。绒糖羊首次购入永久开启礼盒，星愿羊首次购入永久开启订单特殊奖励。
 - 原料订单 LV3 同时两张，LV5 三张。满意度每点增加产毛 0.1%、长毛速度 0.05%，最多 +10% / +5%。
 - 特殊奖励在符合条件的交付刷新中抽取：羊圈名额 +2 为 0.6%，彩虹名额 +1 为 0.15%（初始 2，最高 5），LV8 后彩虹羊仔为 3%。至少先完成 15 单，同场最多一张稀有单，领奖后至少间隔 40 单。具体货物量与概率说明在游戏“玩法”中。
@@ -63,7 +64,7 @@ GitHub `main` 保存源码；`gh-pages` 的 `/sheep-farm/` 保存在线试玩静
 
 ## 小红书上传包
 
-运行 `python tools/package-farm.py` 后，`release/牧云羊场-小红书上传-v10-界面与雇工.zip` 为可直接选择的代码包。入口位于 ZIP 根目录，递归包含羊动作素材；不含测试页、嵌套 ZIP、开发脚本或说明文档。上传后仍需平台模拟器及 Android/iOS 真机验证。
+运行 `python tools/package-farm.py` 后，`release/牧云羊场-小红书上传-v11-指引与操作修复.zip` 为可直接选择的代码包。入口位于 ZIP 根目录，递归包含羊动作素材；不含测试页、嵌套 ZIP、开发脚本或说明文档。上传后仍需平台模拟器及 Android/iOS 真机验证。
 
 ## v8 文件数修复
 
@@ -76,3 +77,11 @@ GitHub `main` 保存源码；`gh-pages` 的 `/sheep-farm/` 保存在线试玩静
 ## v10布局与搬运
 
 页面和所有弹窗统一增加32px顶部间距，玩法与保存移动到草场标题栏。窗口按钮尚未完成布局时保留安全留白，页面加载后重测。退休目标调整到实际存入1000万，旧存款全额保留。雇工移动速度翻倍，每趟容量4/6/8/10堆，每次可拾脚边40px内最多2堆羊毛，入棚后才入库。
+
+## v11引导与操作修复
+
+玩法分为四步入门、发育路线、羊种能力、详细规则，可重播实际操作指引。指导文字移到草场上方，羊种商店可展开使用建议。手机品牌与时钟合并一行，主界面额外顶部间距减到10px；弹窗仍保留32px安全间距和固定44px关闭键。
+
+购羊、升级、订单、出栏列表保留未变化的DOM，按住期间延迟更新；羊毛节点不再随定时刷新销毁。购入双击去重，待领取彩虹羊不再触发loading变量异常。读/写/云存储响应超时返回明确反馈，可重试读档，未读档不覆盖旧档；原生写入未结束时不发起重叠写入。经济参数、奖励概率和目标保持v10。
+
+`python tools/prepare-ui-check.py`生成只供本机的浏览器测试页；运行本地服务后访问给出的URL，点击“运行按钮回归测试”，覆盖60个UI检查。测试夹具与测试羊场不进入代码包。

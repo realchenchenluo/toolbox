@@ -12,12 +12,12 @@ import tempfile
 
 root = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
-parser.add_argument('--output',type=Path,default=root.parent/'release'/'牧云羊场-小红书上传-v10-界面与雇工.zip')
+parser.add_argument('--output',type=Path,default=root.parent/'release'/'牧云羊场-小红书上传-v11-指引与操作修复.zip')
 args = parser.parse_args()
 target = args.output.resolve()
 target.parent.mkdir(parents=True,exist_ok=True)
 work = root/'.work';work.mkdir(exist_ok=True)
-stage = Path(tempfile.mkdtemp(prefix='upload-v10-',dir=work)).resolve()
+stage = Path(tempfile.mkdtemp(prefix='upload-v11-',dir=work)).resolve()
 assert stage.parent == work.resolve()
 allowed = {'.html','.js','.css','.jpg','.jpeg','.png','.gif','.svg','.webp','.woff','.woff2'}
 def runtime_asset(file):

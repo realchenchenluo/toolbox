@@ -32,7 +32,8 @@ async function run() {
   const t=boot(null,640,400,'rules-reader',{}, {readError:true}),g=t.game;
   const before=JSON.stringify(g.state);g.openRules();
   assert.equal(t.nodes.get('modal').hidden,false);assert.equal(t.nodes.get('modal-title').textContent,'玩法说明');
-  assert.match(t.nodes.get('modal-body').innerHTML,/300 金币和 3 只/);assert.match(t.nodes.get('modal-body').innerHTML,/经营收支/);
+  assert.match(t.nodes.get('modal-body').innerHTML,/300 金币、3 只/);assert.match(t.nodes.get('modal-body').innerHTML,/四步入门/);
+  g.openRules('rules');assert.match(t.nodes.get('modal-body').innerHTML,/经营收支/);
   assert.equal(JSON.stringify(g.state),before);g.closeModal();assert.equal(t.nodes.get('modal').hidden,true);
 }
 // New defaults do not replace an established four-sheep save.

@@ -30,3 +30,6 @@
 - visualViewport变化调整可用高度；自动聚焦只允许main/弹窗正文滚动，外层html/body程序性滚动应归零。用node tests/viewport-layout.cjs验证原生按钮/胶囊/横屏/输入布局计算；本机模拟顶部覆盖不等于Android/iOS真机验收。
 
 - 每次完成并验证的改动须同步 GitHub main 和 gh-pages，回复提供已核验的最新在线入口。v10退休目标1000万；雇工移动为v9的2倍、背篓容量4/6/8/10堆，每次仅能拾脚边40px内最多2堆，不复制羊毛。玩法和保存位于草场标题栏。页面与弹窗共用32px额外顶部间距；按钮矩形未布局时不得取消保守留白。
+
+- v11手机主界面在实测安全区下方额外留10px，品牌和时钟同排；弹窗仍额外留32px，不得为压缩天空挪动关闭键进入原生区域。玩法/保存继续位于草场标题栏。
+- 动态列表用listHTML避免周期性销毁按钮，按压至click完成期间延迟重建；羊和羊毛按ID复用节点。待领取奖励的loading变量必须在breedCards外层声明。运行node tests/interaction-safety.cjs覆盖双击、按压、超时和只读帮助；浏览器60项动作测试生成器为tools/prepare-ui-check.py。
