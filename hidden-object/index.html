@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f3f0e9">
+<meta name="theme-color" content="#f7efe3">
 <title>图画捉迷藏 · 找到细节，收集惊喜</title>
 <link rel="icon" href="./assets/app-icon.png">
-<link rel="stylesheet" href="./assets/game.css?v=ui9">
+<link rel="stylesheet" href="./assets/game.css?v=ui10">
 <script defer src="./assets/levels.js"></script>
 <script defer src="./assets/recognition.js"></script>
-<script defer src="./assets/account-save.js?v=ui9"></script>
-<script defer src="./assets/game.js?v=ui9"></script>
+<script defer src="./assets/account-save.js?v=ui10"></script>
+<script defer src="./assets/game.js?v=ui10"></script>
 </head>
 <body>
 <svg class="icon-definitions" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
@@ -44,11 +44,11 @@
      <button id="retry-scene" class="retry-button" type="button" hidden>重新加载</button>
     </div>
     <div class="scene-actions"><button id="enter-explore" class="enter-explore" type="button"><svg class="ui-icon" aria-hidden="true"><use href="#i-search"/></svg><span>展开画面</span></button><button id="exit-explore" class="exit-explore" type="button" hidden>← 返回全图</button><span id="workspace-progress" class="workspace-progress">0 / 40</span><button id="workspace-save" class="workspace-save" type="button" aria-label="保存当前账号进度" hidden>保存</button><div class="zoom-pill"><button id="zoom-out" type="button" aria-label="缩小">−</button><span id="zoom-status">100%</span><button id="zoom-in" type="button" aria-label="放大">＋</button><button id="zoom-reset" type="button" aria-label="还原完整图片">↺</button></div></div>
-    <div class="drawing-bar"><div class="tool-controls"><button id="brush-tool" class="tool active" type="button" aria-pressed="true"><svg class="ui-icon" aria-hidden="true"><use href="#i-pen"/></svg>画笔</button><button id="move-tool" class="tool" type="button" aria-pressed="false"><svg class="ui-icon" aria-hidden="true"><use href="#i-move"/></svg>移动</button><button id="eraser-tool" class="tool" type="button" aria-pressed="false"><svg class="ui-icon" aria-hidden="true"><use href="#i-eraser"/></svg>橡皮</button><button id="undo-button" class="tool" type="button" disabled><svg class="ui-icon" aria-hidden="true"><use href="#i-undo"/></svg>撤销</button></div><div class="ink-controls" role="group" aria-label="涂色颜色"><button class="ink-dot active" data-color="#ed9271" style="--ink:#ed9271" aria-label="珊瑚红" type="button"></button><button class="ink-dot" data-color="#e5b956" style="--ink:#e5b956" aria-label="暖黄色" type="button"></button><button class="ink-dot" data-color="#72a9b3" style="--ink:#72a9b3" aria-label="天空蓝" type="button"></button></div></div>
+
     <p class="board-footnote">点画面展开 · 双指放大细节 · 画笔点选或涂色</p>
    </section>
   </div>
-  <aside class="collection-panel" aria-label="本关全部寻找目标"><div class="collection-heading"><div><span class="micro-label">藏在画里的线索</span><h2>今天找这些</h2></div><svg class="ui-icon collection-icon" aria-hidden="true"><use href="#i-search"/></svg></div><p class="collection-instruction">不用按顺序，看到就点亮。<span>点小图放大看，找到后自动亮起来。</span></p><div class="target-filter" role="group" aria-label="目标显示"><button id="filter-all" class="active" type="button">全部目标 <span id="all-count">40</span></button><button id="filter-left" type="button">还没找到 <span id="left-count">40</span></button></div><div id="target-grid" class="target-grid" aria-label="全部目标卡片"></div><p id="empty-targets" class="empty-targets" hidden>这一页的小惊喜，都被你找到了！</p><div class="collection-bottom"><p id="collection-status" role="status">看到一个，点亮一个，慢慢收集</p><button id="next-level-button" class="primary-button" type="button" disabled><span>找齐后，解锁下一页</span><svg class="ui-icon" aria-hidden="true"><use href="#i-arrow"/></svg></button></div></aside>
+  <aside class="collection-panel" aria-label="本关全部寻找目标"><div class="collection-heading"><div><span class="micro-label">藏在画里的线索</span><h2>今天找这些</h2></div><svg class="ui-icon collection-icon" aria-hidden="true"><use href="#i-search"/></svg></div><p class="collection-instruction">不用按顺序，看到就点亮。<span>点小图放大看，找到后自动亮起来。</span></p><div class="drawing-bar"><div class="tool-controls"><button id="brush-tool" class="tool active" type="button" aria-pressed="true"><svg class="ui-icon" aria-hidden="true"><use href="#i-pen"/></svg><span>画笔</span></button><button id="move-tool" class="tool" type="button" aria-pressed="false"><svg class="ui-icon" aria-hidden="true"><use href="#i-move"/></svg><span>移动</span></button><button id="eraser-tool" class="tool" type="button" aria-pressed="false"><svg class="ui-icon" aria-hidden="true"><use href="#i-eraser"/></svg><span>橡皮</span></button><button id="undo-button" class="tool" type="button" disabled><svg class="ui-icon" aria-hidden="true"><use href="#i-undo"/></svg><span>撤销</span></button></div><div class="ink-controls" role="group" aria-label="涂色颜色"><button class="ink-dot active" data-color="#ed9271" style="--ink:#ed9271" aria-label="珊瑚红" type="button"></button><button class="ink-dot" data-color="#e5b956" style="--ink:#e5b956" aria-label="暖黄色" type="button"></button><button class="ink-dot" data-color="#72a9b3" style="--ink:#72a9b3" aria-label="天空蓝" type="button"></button></div></div><div class="target-filter" role="group" aria-label="目标显示"><button id="filter-all" class="active" type="button">全部 <span id="all-count">40</span></button><button id="filter-left" type="button">未找 <span id="left-count">40</span></button></div><div id="target-grid" class="target-grid" aria-label="全部目标卡片"></div><p id="empty-targets" class="empty-targets" hidden>这一页的小惊喜，都被你找到了！</p><div class="collection-bottom"><p id="collection-status" role="status">看到一个，点亮一个，慢慢收集</p><button id="next-level-button" class="primary-button" type="button" disabled><span>找齐后，解锁下一页</span><svg class="ui-icon" aria-hidden="true"><use href="#i-arrow"/></svg></button></div></aside>
  </div>
  <div class="page-footer"><button id="previous-button" class="page-link" type="button">← 上一幅</button><div><span id="page-counter">01 / 23</span><button id="sync-save" class="save-button" type="button" hidden>保存</button><small id="save-status" role="status">本次游玩进度</small></div><button id="skip-button" class="page-link" type="button">换一幅 →</button></div>
 </section>
