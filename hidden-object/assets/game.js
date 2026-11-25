@@ -9,20 +9,26 @@ var fit = 1, zoom = 1, pan = {x:0,y:0}, mode = 'brush', color = '#ed9271', filte
 var pointers = {}, gesture, paintingId = null, generation = 0, toastTimer, fadeHandle = 0, levelCelebrated = false;
 var progress = {pages:{},current:0}, account, accountId = null, accountPending = false, saveTimer, interacted = false;
 var dirty = false, writing = false, saveRevision = 0, accountEpoch = 0, lastWrite = 0;
-var ASSET_VERSION = 'ui8';
+var containerTool = null, windowInfoTimer = 0, clientVersion = 0, windowRequest = 0;
+var ASSET_VERSION = 'ui9';
 function count() { return targets.filter(function(t) { return t.found; }).length; }
 function toast(text) { $('toast').textContent = text; $('toast').hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(function() { $('toast').hidden = true; },2200); }
+function applyWindowInfo(info) {
+  if (!info) return;
+  var safe = info.safeArea || {}, top = Math.max(0,Number(safe.top) || 0), menus = info.menuButtons || {};
+  function visible(r) { return r && r.width > 0 && r.height > 0; }
+  var rects = visible(menus.capsule) ? [menus.capsule] : [menus.back,menus.me,menus.share];
+  rects.forEach(function(r) { if (visible(r)) top = Math.max(top,Number(r.bottom) || 0); });
+  var bottom = info.windowHeight && Number.isFinite(safe.bottom) ? Math.max(0,Number(info.windowHeight) - safe.bottom) : 0;
+  var left = Math.max(0,Number(safe.left) || 0), right = info.windowWidth && Number.isFinite(safe.right) ? Math.max(0,Number(info.windowWidth) - safe.right) : 0;
+  var style = document.documentElement.style;
+  style.setProperty('--container-left',left + 'px'); style.setProperty('--container-right',right + 'px');
+  style.setProperty('--container-top',(top + 8) + 'px'); style.setProperty('--container-bottom',bottom + 'px'); resize();
+}
 function readWindow(tool) {
   if (typeof tool.getWindowInfo !== 'function') return;
-  try { Promise.resolve(tool.getWindowInfo()).then(function(info) {
-    if (!info) return;
-    var top = Number(info.safeArea && info.safeArea.top) || 0, menus = info.menuButtons || {};
-    var rects = menus.capsule && menus.capsule.width > 0 ? [menus.capsule] : [menus.back,menus.me,menus.share];
-    rects.forEach(function(r) { if (r && r.width > 0 && r.height > 0) top = Math.max(top,Number(r.bottom) || 0); });
-    var bottom = info.safeArea && info.windowHeight ? Math.max(0,Number(info.windowHeight) - Number(info.safeArea.bottom)) : 0;
-    document.documentElement.style.setProperty('--container-top',(top + 8) + 'px');
-    document.documentElement.style.setProperty('--container-bottom',bottom + 'px'); resize();
-  }).catch(function() {}); } catch (error) {}
+  var request = ++windowRequest;
+  try { Promise.resolve(tool.getWindowInfo()).then(function(info) { if (request === windowRequest) applyWindowInfo(info); }).catch(function() {}); } catch (error) {}
 }
 function cleanProgress(saved) {
   var result = {pages:{},current:Math.min(playable.length - 1,Math.max(0,Math.floor(Number(saved && saved.current) || 0)))};
@@ -37,20 +43,24 @@ function cleanProgress(saved) {
 function setAccountPending(on) { accountPending = on; document.body.classList.toggle('account-checking',on); }
 function sessionOnly(message) {
   setAccountPending(false); $('save-status').textContent = '临时游玩 · 关闭后不保留';
-  $('account-notice').textContent = message; $('account-notice').hidden = false; $('sync-save').hidden = true;
+  $('account-notice').textContent = message; $('account-banner').hidden = false; $('sync-save').hidden = true; $('workspace-save').hidden = true;
+  $('retry-account').hidden = !(account && account.enabled);
 }
-function applyAccount(saved) {
+function applyAccount(saved,discardedProgress) {
   accountId = saved.id; progress = cleanProgress(saved.progress); dirty = false; saveRevision++;
   openLevel(progress.current,true);
+  if (discardedProgress) toast('已切换账号，原账号未保存的进度不会带入');
 }
 function refreshAccount() {
   if (!account || !account.enabled) return Promise.resolve();
+  account.suspend();
   var epoch = ++accountEpoch, previous = accountId; clearTimeout(saveTimer); setAccountPending(true);
   $('save-status').textContent = '正在读取账号存档…';
   return account.load().then(function(saved) {
     if (epoch !== accountEpoch) return;
-    if (!previous || previous !== saved.id || !dirty) applyAccount(saved);
-    setAccountPending(false); $('account-notice').hidden = true; $('sync-save').hidden = false;
+    var changedAccount = !!(previous && previous !== saved.id);
+    if (!previous || changedAccount || !dirty) applyAccount(saved,changedAccount && dirty);
+    setAccountPending(false); $('account-banner').hidden = true; $('sync-save').hidden = false; $('workspace-save').hidden = false;
     $('save-status').textContent = dirty ? '有新进度待保存' : '当前账号的专属存档';
     if (dirty) scheduleSave();
   }).catch(function(error) {
@@ -63,12 +73,13 @@ function refreshAccount() {
 function initStorage() {
   var xhs = window.xhs, tool = xhs && xhs.miniTool;
   if (!tool) { sessionOnly('网页预览为临时游玩；账号存档需在支持的小红书中打开。'); return; }
-  document.body.classList.add('in-container'); setAccountPending(true);
+  containerTool = tool; document.body.classList.add('in-container'); setAccountPending(true);
   var launch;
-  try { launch = xhs.launchOptions || (typeof tool.getLaunchOptions === 'function' ? tool.getLaunchOptions() : null); } catch (error) { launch = null; }
+  try { launch = xhs.launchOptions && xhs.launchOptions.miniToolEnv && Number(xhs.launchOptions.miniToolEnv.buildVersion) ? xhs.launchOptions : (typeof tool.getLaunchOptions === 'function' ? tool.getLaunchOptions() : null); } catch (error) { launch = null; }
   Promise.race([Promise.resolve(launch),new Promise(function(r) { setTimeout(function() { r(null); },3000); })]).then(function(info) {
     var version = Math.floor(Number(info && info.miniToolEnv && info.miniToolEnv.buildVersion) / 1000);
-    if (version >= 9490) readWindow(tool);
+    clientVersion = version;
+    if (version >= 9490) { applyWindowInfo(info && info.miniToolEnv && info.miniToolEnv.windowInfo); readWindow(tool); }
     account = window.PictureAccountSave.create(tool,version);
     if (!account.enabled) { sessionOnly('当前版本暂不支持账号存档，本次可临时游玩。'); return; }
     return refreshAccount();
@@ -80,14 +91,15 @@ function scheduleSave() {
   saveTimer = setTimeout(persist,Math.max(1500,60000 - (Date.now() - lastWrite)));
 }
 function persist() {
-  if (!accountId || accountPending || !dirty || writing) return;
+  if (!accountId || accountPending || document.hidden || !dirty || writing) return;
   writing = true; lastWrite = Date.now(); var revision = saveRevision, epoch = accountEpoch, failed = false;
   $('save-status').textContent = '正在保存到当前账号…';
   account.write(progress).then(function(result) {
     if (epoch !== accountEpoch) return;
-    if (result.changed) { applyAccount(result.save); toast('已切换为当前账号的存档'); }
+    if (result.changed) applyAccount(result.save,true);
     else if (revision === saveRevision) dirty = false;
     lastWrite = Date.now(); $('save-status').textContent = dirty ? '有新进度待保存' : '已保存到当前账号';
+    if (!dirty) toast('已保存到当前账号');
   }).catch(function(error) {
     if (epoch !== accountEpoch) return;
     failed = true; $('save-status').textContent = error && error.errCode === 'UNKNOWN' ? '存档结果待确认，请稍后重试' : '暂未保存，请点保存重试';
@@ -192,6 +204,7 @@ function pointerMove(e) {
   else if (draft && paintingId === e.pointerId) { var p = point(e), last = draft.points[draft.points.length - 1]; if (Math.hypot(p.x - last.x,p.y - last.y) > 2 && draft.points.length < 500) { draft.points.push(p); renderInk(); } } e.preventDefault();
 }
 function finishPointer(e,cancel) {
+  if (accountPending || document.hidden) { cancelDraft(); delete pointers[e.pointerId]; return; }
   if (draft && paintingId === e.pointerId) {
     if (cancel) cancelDraft();
     else {
@@ -290,7 +303,7 @@ stage.addEventListener('wheel',function(e) { if (!ready || (!e.ctrlKey && !e.met
 $('target-grid').addEventListener('click',function(e) { var b = e.target.closest('[data-target]'); if (b) choose(Number(b.getAttribute('data-target'))); });
 ['brush','eraser','move'].forEach(function(m) { $(m + '-tool').addEventListener('click',function() { setMode(m); }); });
 document.querySelectorAll('.ink-dot').forEach(function(b) { b.addEventListener('click',function() { color = b.getAttribute('data-color'); setMode('brush'); document.querySelectorAll('.ink-dot').forEach(function(v) { v.classList.toggle('active',v === b); }); }); });
-$('undo-button').addEventListener('click',function() { var s = strokes.pop(); if (!s) return; if (s.target) targets.forEach(function(t) { if (t.id === s.target) { t.found = false; toast('已撤销「' + t.label + '」'); } }); renderInk(); renderTargets(); updateProgress(); save(); });
+$('undo-button').addEventListener('click',function() { if (accountPending) return; var s = strokes.pop(); if (!s) return; if (s.target) targets.forEach(function(t) { if (t.id === s.target) { t.found = false; toast('已撤销「' + t.label + '」'); } }); renderInk(); renderTargets(); updateProgress(); save(); });
 $('zoom-in').addEventListener('click',function() { if (!exploreMode) setExploreMode(true); setZoom(zoom + .5); }); $('zoom-out').addEventListener('click',function() { setZoom(zoom - .5); }); $('zoom-reset').addEventListener('click',function() { setZoom(1); });
 $('enter-explore').addEventListener('click',function() { setExploreMode(true); }); $('exit-explore').addEventListener('click',function() { setExploreMode(false); });
 ['all','left'].forEach(function(f) { $('filter-' + f).addEventListener('click',function() { filter = f; $('filter-all').classList.toggle('active',f === 'all'); $('filter-left').classList.toggle('active',f === 'left'); renderTargets(); }); });
@@ -298,8 +311,21 @@ $('library-button').addEventListener('click',renderLibrary); $('back-to-game').a
 $('previous-button').addEventListener('click',function() { openLevel(Math.max(0,current - 1)); }); $('skip-button').addEventListener('click',nextLevel); $('next-level-button').addEventListener('click',nextLevel); $('success-next').addEventListener('click',nextLevel);
 $('retry-scene').addEventListener('click',function() { openLevel(current); }); $('help-button').addEventListener('click',function() { $('help-modal').hidden = false; }); document.querySelectorAll('[data-close]').forEach(function(b) { b.addEventListener('click',function() { $(b.getAttribute('data-close')).hidden = true; }); });
 $('sync-save').addEventListener('click',function() { save(true); });
-window.addEventListener('resize',resize); if (window.visualViewport) window.visualViewport.addEventListener('resize',resize);
-document.addEventListener('visibilitychange',function() { if (document.hidden) { pointers = {}; gesture = null; cancelDraft(); save(true); } else { if (account && account.enabled) refreshAccount(); if (ready) { resize(); renderInk(); } } });
+$('workspace-save').addEventListener('click',function() { save(true); });
+$('retry-account').addEventListener('click',function() { refreshAccount(); });
+function onWindowResize() {
+  resize(); clearTimeout(windowInfoTimer);
+  if (containerTool && clientVersion >= 9490) windowInfoTimer = setTimeout(function() { readWindow(containerTool); },180);
+}
+window.addEventListener('resize',onWindowResize); if (window.visualViewport) window.visualViewport.addEventListener('resize',onWindowResize);
+document.addEventListener('visibilitychange',function() { if (document.hidden) {
+  pointers = {}; gesture = null; cancelDraft(); save(); clearTimeout(saveTimer);
+  if (account && account.enabled) { account.suspend(); accountEpoch++; setAccountPending(true); }
+} else {
+  if (account && account.enabled) refreshAccount();
+  if (containerTool && clientVersion >= 9490) readWindow(containerTool);
+  if (ready) { resize(); renderInk(); }
+} });
 document.addEventListener('keydown',function(e) { if (e.key === 'Escape') { var modalOpen = ['help-modal','success-modal','target-modal'].some(function(id) { return !$(id).hidden; }); ['help-modal','success-modal','target-modal'].forEach(function(id) { $(id).hidden = true; }); if (!modalOpen && exploreMode) setExploreMode(false); } });
 openLevel(0); initStorage();
 }());
