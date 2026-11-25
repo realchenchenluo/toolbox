@@ -32,10 +32,10 @@ function harness(saved,storagePending) {
   const elements={}, get=id => elements[id] || (elements[id]=new Element(id));
   const doc={getElementById:get,querySelectorAll(){return [];},createElement(tag){return new Element(tag);},createDocumentFragment(){return new Element('fragment');},addEventListener(){},body:new Element('body'),documentElement:new Element('html'),hidden:false};
   const docListeners={};doc.addEventListener=(name,callback)=>{docListeners[name]=callback;};
-  const imageControl={fail:[]};
-  class FakeImage {set src(s){this._src=s; this.naturalWidth=1000; this.naturalHeight=1200; queueMicrotask(() => { if(imageControl.fail.some(x=>s.includes(x))) { if(this.onerror)this.onerror(); } else if(this.onload)this.onload(); });} get src(){return this._src;}}
+  const imageControl={fail:[],hang:[],requests:[]},timers=new Map();let timerId=0;
+  class FakeImage {set src(s){this._src=s; imageControl.requests.push(s); this.naturalWidth=1000; this.naturalHeight=1200; queueMicrotask(() => { if(imageControl.hang.some(x=>s.includes(x)))return; if(imageControl.fail.some(x=>s.includes(x))) { if(this.onerror)this.onerror(); } else if(this.onload)this.onload(); });} get src(){return this._src;}}
   let writes=[], resolver, cloudSaved=saved, cloudId='account-a';
-  const sandbox={document:doc,Image:FakeImage,Date,Promise,Math,console,setTimeout(){return 1;},clearTimeout(){},requestAnimationFrame(){return 1;},window:{HIDDEN_BOOK:data.window.HIDDEN_BOOK,HiddenRecognition:R,innerWidth:390,innerHeight:844,scrollTo(){},addEventListener(){}}};
+  const sandbox={document:doc,Image:FakeImage,Date,Promise,Math,console,setTimeout(f,ms){const id=++timerId;timers.set(id,{f,ms});return id;},clearTimeout(id){timers.delete(id);},requestAnimationFrame(){return 1;},window:{HIDDEN_BOOK:data.window.HIDDEN_BOOK,HiddenRecognition:R,innerWidth:390,innerHeight:844,scrollTo(){},addEventListener(){}}};
   if (saved) sandbox.window.xhs={launchOptions:{miniToolEnv:{buildVersion:9533000}},miniTool:{queryCloudStorage(){return storagePending ? new Promise(r => resolver=r) : Promise.resolve({items:[{id:cloudId,content:{schema:1,slot:'primary',progress:cloudSaved}}]});},addCloudStorage(){throw new Error('existing account must not add');},updateCloudStorage(v){writes.push(v);cloudSaved=v.items[0].content.progress;return Promise.resolve({data:[{id:cloudId,status:'SUCCESS'}]});}}};
   vm.runInNewContext(fs.readFileSync('hidden-object/assets/account-save.js','utf8'),sandbox);
   let source=fs.readFileSync('hidden-object/assets/game.js','utf8');
@@ -45,7 +45,7 @@ function harness(saved,storagePending) {
   const game=sandbox.window.test;
   function toEvent(point,id) {return event({x:point[0]/get('mark-layer').width*600,y:point[1]/get('mark-layer').height*600},id);}
   function tap(point){game.pointerDown(toEvent(point));game.finishPointer(toEvent(point),false);}
-  return {game,get,tap,event,toEvent,writes,imageControl,doc,resolve(){storagePending=false;resolver({items:[{id:cloudId,content:{schema:1,slot:'primary',progress:cloudSaved}}]});},switchAccount(value,id){cloudSaved=value;cloudId=id;},resume(){doc.hidden=false;docListeners.visibilitychange();},hide(){doc.hidden=true;docListeners.visibilitychange();}};
+  return {game,get,tap,event,toEvent,writes,imageControl,doc,expireImages(){for(const [id,timer] of [...timers])if(timer.ms===15000){timers.delete(id);timer.f();}},resolve(){storagePending=false;resolver({items:[{id:cloudId,content:{schema:1,slot:'primary',progress:cloudSaved}}]});},switchAccount(value,id){cloudSaved=value;cloudId=id;},resume(){doc.hidden=false;docListeners.visibilitychange();},hide(){doc.hidden=true;docListeners.visibilitychange();}};
 }
 const tick=()=>new Promise(r=>setImmediate(r));
 (async()=>{
@@ -75,7 +75,20 @@ const tick=()=>new Promise(r=>setImmediate(r));
   g.openLevel(1);g.openLevel(2);await tick();assert.equal(g.state.current,2,'late image loads ignored');
   h.imageControl.fail=['005-scene'];g.openLevel(4);await tick();assert.equal(g.state.ready,false);assert.equal(h.get('retry-scene').hidden,false,'failed scene exposes retry');
   h.imageControl.fail=[];h.get('retry-scene').listeners.click();await tick();assert(g.state.ready,'retry recovers failed scene');
+  h=harness();g=h.game;await tick();h.imageControl.fail=[book[1].sprite];g.openLevel(1);await tick();
+  assert(g.state.ready,'target sprite failure must not block the scene');assert.equal(h.get('scene-loading').hidden,true);assert.equal(h.get('retry-targets').hidden,false);
+  g.setExploreMode(true);h.tap(g.state.targets[3].anchor);assert(g.state.targets[3].found,'scene remains playable without sprite');
+  const sceneRequests=h.imageControl.requests.filter(s=>s.includes(book[1].scene)).length;
+  h.imageControl.fail=[];h.get('retry-targets').listeners.click();await tick();assert.equal(h.get('target-loading-note').hidden,true);assert(g.state.targets[3].found,'sprite retry keeps discoveries');
+  assert.equal(h.imageControl.requests.filter(s=>s.includes(book[1].scene)).length,sceneRequests,'sprite retry does not reload scene');
+  h.imageControl.hang=[book[2].scene];g.openLevel(2);await tick();h.expireImages();await tick();h.expireImages();await tick();
+  assert.equal(g.state.ready,false);assert.equal(h.get('retry-scene').hidden,false,'a stalled image ends with an actionable retry');
+  assert.equal(h.imageControl.requests.filter(s=>s.includes(book[2].scene)).length,2,'automatic retries are bounded');
+  h.imageControl.hang=[];h.get('retry-scene').listeners.click();await tick();assert(g.state.ready,'manual retry recovers stalled request');
   g.openLevel(4);g.renderLibrary();await tick();assert.equal(g.state.ready,false,'late load cannot reopen game over library');
+  let cards=h.get('level-grid').children.at(-1).children;assert.equal(cards.length,6);assert(cards.every((c,i)=>c.children[0].src==='./'+book[i].thumb),'album uses thumbnails');
+  h.get('more-levels').listeners.click();cards=h.get('level-grid').children.at(-1).children;assert.equal(cards.length,12);
+  h.get('more-levels').listeners.click();h.get('more-levels').listeners.click();assert.equal(h.get('level-grid').children.at(-1).children.length,23);assert.equal(h.get('more-levels').hidden,true);
   g.applyWindowInfo({windowWidth:390,windowHeight:844,statusBarHeight:47,safeArea:{top:47,bottom:810,left:0,right:390},menuButtons:{capsule:{width:90,height:32,bottom:87}}});
   assert.equal(h.doc.documentElement.style.values['--container-top'],'95px','capsule uses container coordinates, no duplicate status bar');assert.equal(h.doc.documentElement.style.values['--container-bottom'],'34px');
   g.applyWindowInfo({windowWidth:844,windowHeight:390,safeArea:{top:0,bottom:369,left:47,right:797},menuButtons:{back:{width:32,height:32,bottom:38}}});
@@ -88,7 +101,9 @@ const tick=()=>new Promise(r=>setImmediate(r));
   assert(!h.game.state.targets[9].found,'input is gated until the current account is verified');
   assert(h.game.state.targets[12].found,'delayed account read restores the correct save');
   h.game.setExploreMode(true);h.tap(h.game.state.targets[9].anchor);assert(h.game.state.targets[9].found,'play resumes after account verification');
+  h=harness(saved,true);await tick();h.game.renderLibrary();h.resolve();await tick();assert.equal(h.get('library-view').hidden,false,'album request opens after pending account load');
+  h.resume();await tick();assert.equal(h.get('library-view').hidden,false,'account refresh preserves album navigation');
   h=harness(saved);await tick();h.switchAccount({current:1,pages:{}},'account-b');h.resume();await tick();assert.equal(h.game.state.current,1);assert(h.game.state.targets.every(t=>!t.found),'resume replaces A with B rather than merging');assert(!h.game.state.progress.pages['001']);h.switchAccount(saved,'account-a');h.resume();await tick();assert(h.game.state.targets[12].found,'returning to A restores only A');
   h.game.setExploreMode(true);h.tap(h.game.state.targets[9].anchor);h.hide();assert.equal(h.writes.length,0,'background entry must not launch an account preflight');h.switchAccount({current:0,pages:{}},'account-c');h.resume();await tick();assert(h.game.state.targets.every(t=>!t.found),'background account change discards old discoveries');assert(h.get('toast').textContent.includes('未保存'),'unsaved account switch is explicit');
-  console.log(`PASS: ${hits} target anchors, ${outside} polygon-vs-box negatives; all 23 chapters reverse-order completion; preview, miss, duplicate, undo, pinch, eraser, cancellation, stale loads, account restore and gated delayed storage.`);
+  console.log(`PASS: ${hits} target anchors, ${outside} polygon-vs-box negatives; all 23 chapters reverse-order completion; independent scene/sprite failures, bounded stalled-image retries, album thumbnails/pagination/navigation, account restore and gated delayed storage.`);
 })().catch(e=>{console.error(e);process.exitCode=1;});

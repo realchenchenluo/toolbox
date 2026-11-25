@@ -1,21 +1,21 @@
 {
   "appName": "图画捉迷藏",
   "slogan": "找到细节，收集惊喜",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "自由顺序寻找画里的隐藏物，发现后自动确认并点亮进度。",
   "categorySuggestion": "益智 / 休闲游戏（请在上传页选择当前可用的实际类目）",
   "authorizations": [],
   "package": {
     "file": "图画捉迷藏-小工具.zip",
-    "bytes": 2976067,
-    "md5": "8d91a0ad4c6ef74695dcd6e79c0c3368",
-    "sha256": "cb4a7b6c827eb0431b33b9da8f2572bb18a6b936d13a765ed1561c51128245d9",
+    "bytes": 2977006,
+    "md5": "324dd96a8712174563cabe2875c84187",
+    "sha256": "bdf77bbec3e51064bb8eb02c2bc7a994c424d9f128d27cd52296b64eb19d8d59",
     "entries": 76,
     "rootEntry": "index.html",
     "integrity": true
   },
   "icon": {
-    "file": "图画捉迷藏-图标.png",
+    "file": "icon.png",
     "format": "PNG",
     "width": 512,
     "height": 512,
@@ -25,7 +25,7 @@
     "limit": "PNG/JPG/JPEG，≤5 MiB，1:1"
   },
   "cover": {
-    "file": "图画捉迷藏-封面.jpg",
+    "file": "cover.jpg",
     "format": "JPEG",
     "width": 900,
     "height": 1200,
@@ -39,7 +39,7 @@
     "ZIP根目录含index.html",
     "离线包完整性通过",
     "图标与封面尺寸通过",
-    "ui10本地浏览器390×700、320×667、844×390、1280×900检查通过；实际找物、撤销、预览和缩放通过",
+    "ui11关卡独立加载及重试、画册分页与同步导航回归测试通过",
     "520个目标识别与23关回归测试通过",
     "模拟账号A/B隔离、恢复与异常存档测试通过"
   ],

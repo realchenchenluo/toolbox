@@ -11,8 +11,15 @@ root.mkdir(exist_ok=True)
 shutil.copy2(base / 'release' / '图画捉迷藏-小工具.zip', root / '图画捉迷藏-小工具.zip')
 shutil.copy2(base / 'hidden-object' / 'assets' / 'app-icon.png', root / '图画捉迷藏-图标.png')
 pkg = root / '图画捉迷藏-小工具.zip'
-icon = root / '图画捉迷藏-图标.png'
-cover = root / '图画捉迷藏-封面.jpg'
+# Short ASCII filenames also work in clients that misparse Chinese attachment paths.
+shutil.copy2(root / '图画捉迷藏-图标.png', root / 'icon.png')
+shutil.copy2(root / '图画捉迷藏-封面.jpg', root / 'cover.jpg')
+icon = root / 'icon.png'
+cover = root / 'cover.jpg'
+portable = base / 'release' / 'hidden-object-upload'
+portable.mkdir(exist_ok=True)
+for src, name in [(icon, 'icon.png'), (cover, 'cover.jpg'), (pkg, 'game.zip')]:
+    shutil.copy2(src, portable / name)
 
 def sums(path):
     data = path.read_bytes()
@@ -28,7 +35,7 @@ with zipfile.ZipFile(pkg) as archive:
 info = {
     'appName': '图画捉迷藏',
     'slogan': '找到细节，收集惊喜',
-    'version': '1.1.2',
+    'version': '1.1.3',
     'description': '自由顺序寻找画里的隐藏物，发现后自动确认并点亮进度。',
     'categorySuggestion': '益智 / 休闲游戏（请在上传页选择当前可用的实际类目）',
     'authorizations': [],
@@ -38,7 +45,7 @@ info = {
     'content': '23幅可玩画面，520个隐藏目标；后续88幅素材暂未开放。',
     'localValidation': [
         'ZIP根目录含index.html', '离线包完整性通过', '图标与封面尺寸通过',
-        'ui10本地浏览器390×700、320×667、844×390、1280×900检查通过；实际找物、撤销、预览和缩放通过',
+        'ui11关卡独立加载及重试、画册分页与同步导航回归测试通过',
         '520个目标识别与23关回归测试通过', '模拟账号A/B隔离、恢复与异常存档测试通过'
     ],
     'accountSave': '使用平台用户×小工具云存储隔离，需9.51+及云存储内测授权；未开放时仅临时游玩。旧共用设备存档不迁移。',
@@ -59,7 +66,7 @@ check = f'''# 图画捉迷藏 · 小红书上传清单
 
 - 名称：图画捉迷藏（5/14）
 - 简介：找到细节，收集惊喜（9/14）
-- 版本：1.1.2
+- 版本：1.1.3
 - 类目建议：益智 / 休闲游戏；请以上传页当前实际类目为准
 - 权限：不需要设备权限
 - 代码包：ZIP 根目录直接包含 index.html
@@ -70,6 +77,8 @@ check = f'''# 图画捉迷藏 · 小红书上传清单
 - 图标：{icon_info['format']} {icon_info['width']}×{icon_info['height']}，{icon_info['bytes']} bytes
 - 封面：{cover_info['format']} {cover_info['width']}×{cover_info['height']}，{cover_info['bytes']} bytes
 - 本次UI：暖色配色、单排工具筛选、深色高亮；本地浏览器390×700、320×667、844×390、1280×900检查通过，实际找物、撤销、预览和缩放通过；不代表小红书容器或真机验收
+- ui11加载修复：场景与目标图独立加载、各自重试；超时自动重试一次，仍失败显示手动重试。画册每次展示6幅缩略图，首次图片约114KiB，旧版全部大图约2MiB；账号读取完成保留画册导航。新增故障、超时、分页与同步导航回归通过；本地390×700确认关卡与40个目标正常显示，无控制台错误。
+- 英文短文件名：release/hidden-object-upload内提供icon.png、cover.jpg和game.zip，内容与命名版相同
 - 模拟账号：A/B隔离、新用户空档、重新打开恢复、读取失败不覆盖、写入UNKNOWN对账、进入后台后未完成的读档不能继续发起写入
 - 代码包：离线资源检查和目标识别回归测试通过
 
@@ -87,3 +96,5 @@ check = f'''# 图画捉迷藏 · 小红书上传清单
 '''
 (root / '上传检查清单.md').write_text(check, encoding='utf-8')
 print(json.dumps(info, ensure_ascii=False, indent=2))
+
+(portable / 'info.txt').write_text('名称：图画捉迷藏\n简介：找到细节，收集惊喜\n代码包：game.zip\n图标：icon.png\n封面：cover.jpg\n', encoding='utf-8')
