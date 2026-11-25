@@ -69,7 +69,7 @@ report={
  'files':len(files),'zipBytes':OUT.stat().st_size,'zipMiB':round(OUT.stat().st_size/1024/1024,2),
  'sha256':hashlib.sha256(OUT.read_bytes()).hexdigest(),'textBytes':sum(p.stat().st_size for p in files if p.suffix in ['.html','.js','.css','.json']),
  'recognition':'Offline position matching against answer-derived object polygons. Any target order; no target selection required.',
- 'validation':'ui9 Node geometry, game, account isolation/cancellation and native-inset tests. Simulator service ready; ui9 visual browser/device acceptance pending.',
+ 'validation':'ui10 Node game and account isolation tests; local browser checks at 390x700, 320x667, 844x390 and 1280x900, with discovery/undo/preview/zoom. Platform and device acceptance pending.',
  'accountSave':'Platform user × mini-tool cloud storage, client 9.51+ and beta entitlement required. No shared-device save migration or persistent fallback.',
  'pending':['Creator platform simulator','Android device','iOS device','Real account switching and cross-device restore','Chrome 61 compatibility and performance on devices'],
  'contentReview':'Supplied answer components reviewed as contact sheets; labels are short visual descriptions. This is not a general-purpose semantic image classifier.'}
