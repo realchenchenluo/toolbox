@@ -10,7 +10,7 @@ var pointers = {}, gesture, paintingId = null, generation = 0, toastTimer, fadeH
 var progress = {pages:{},current:0}, account, accountId = null, accountPending = false, saveTimer, interacted = false;
 var dirty = false, writing = false, saveRevision = 0, accountEpoch = 0, lastWrite = 0;
 var containerTool = null, windowInfoTimer = 0, clientVersion = 0, windowRequest = 0;
-var ASSET_VERSION = 'ui9';
+var ASSET_VERSION = 'ui10';
 function count() { return targets.filter(function(t) { return t.found; }).length; }
 function toast(text) { $('toast').textContent = text; $('toast').hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(function() { $('toast').hidden = true; },2200); }
 function applyWindowInfo(info) {
@@ -176,7 +176,7 @@ function renderInk() {
   strokes.forEach(function(s) { var opacity = s.time ? Math.max(.55,1 - (now - s.time) / 520 * .45) : .55; if (opacity > .55) animate = true; drawStroke(s,opacity); }); if (draft) drawStroke(draft,1);
   targets.forEach(function(t) {
     if (!t.found) return;
-    ctx.save(); ctx.fillStyle = 'rgba(102,156,94,.24)'; ctx.strokeStyle = 'rgba(49,112,69,.75)'; ctx.lineWidth = 2;
+    ctx.save(); ctx.fillStyle = 'rgba(88,148,76,.48)'; ctx.strokeStyle = 'rgba(43,102,51,.96)'; ctx.lineWidth = 3;
     t.polygons.forEach(function(poly) { ctx.beginPath(); poly.forEach(function(p,i) { if (!i) ctx.moveTo(p[0],p[1]); else ctx.lineTo(p[0],p[1]); }); ctx.closePath(); ctx.fill(); ctx.stroke(); }); ctx.restore();
   });
   if (animate && !fadeHandle && !document.hidden) fadeHandle = requestAnimationFrame(function() { fadeHandle = 0; renderInk(); });
