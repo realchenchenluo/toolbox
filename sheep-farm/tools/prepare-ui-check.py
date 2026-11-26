@@ -7,7 +7,7 @@ base='/sheep-farm/'
 testbase=base+'.work/ui-check/'
 entry=(root/'index.html').read_text(encoding='utf-8')
 entry=entry.replace('<head>','<head>\n<base href="'+base+'">\n<script src="'+testbase+'native.js"></script>')
-entry=entry.replace('./assets/app.js?v=20261125-guide-11',testbase+'app-qa.js')
+entry=entry.replace('./assets/app.js?v=20261126-rainbow-12',testbase+'app-qa.js')
 entry=entry.replace('</body>','<script defer src="'+testbase+'checks.js"></script>\n</body>')
 (qa/'index.html').write_text(entry,encoding='utf-8')
 (qa/'native.js').write_text((root/'tests/fixtures/native-window.js').read_text(encoding='utf-8'),encoding='utf-8')

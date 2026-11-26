@@ -41,6 +41,11 @@
    action('rules');action('replay-tutorial');assert(!s().tutorial.done,'重新体验引导');action('tutorial-go');action('skip-tutorial');assert(s().tutorial.done,'跳过引导');
    q.reset(1);s().tutorial.seen=false;s().tutorial.done=false;action('rules');action('close-modal');
    q.render();assert(getComputedStyle(document.querySelector('#modal')).display==='none','隐藏弹窗不拦截页面');
+   q.reset(8);s().breeds.rainbow=true;action('buy');cash=s().gold;
+   for(var n=0;n<7;n++){await pause();click('[data-buy-breed="rainbow"]');assert(s().sheep.filter(function(x){return x.breed==='rainbow';}).length===n+1,'彩虹羊连续购买 '+(n+1));}
+   assert(s().gold===cash-28000,'7只彩虹羊逐笔正确扣费');
+   assert(document.querySelector('#nursery-list .breed-card.breed-rainbow').textContent.includes('品种数量不限'),'商店取消旧数量限制说明');
+   s().contracts.pendingRainbow=1;q.render();action('claim-rainbow');assert(s().sheep.filter(function(x){return x.breed==='rainbow';}).length===8,'第8只彩虹奖励可领取');action('close-modal');
    out.textContent=JSON.stringify({ok:true,count:reports.length,checks:reports});run.textContent='PASS · '+reports.length+' 项';
   }catch(error){out.textContent=JSON.stringify({ok:false,error:error.message,checks:reports});run.textContent='FAIL · '+error.message;}
  });

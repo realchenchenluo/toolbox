@@ -22,7 +22,7 @@ async function run(){
   assert.equal(JSON.stringify({gold:s.gold,sheep:s.sheep,upgrades:s.upgrades,contracts:s.contracts}),resources);
   g.restartTutorial();assert.equal(g.tutorialStep(),0);assert.equal(s.gold,cash-160);
   g.closeModal();g.openRules('route');assert.match(t.nodes.get('modal-body').innerHTML,/累计收入达到 ¥120/);
-  g.openRules('breeds');assert.match(t.nodes.get('modal-body').innerHTML,/只解锁品种/);assert.match(t.nodes.get('modal-body').innerHTML,/0.15%/);
+  g.openRules('breeds');assert.match(t.nodes.get('modal-body').innerHTML,/只解锁品种/);assert.match(t.nodes.get('modal-body').innerHTML,/3.15%/);
   s.contracts.pendingRainbow=1;g.render();g.openNursery();assert.match(t.nodes.get('modal-body').innerHTML,/订单奖励/);g.closeModal();
   // Native read timeouts expose retry, never enable overwriting an unread save.
   const behavior={readHang:true},shared={},read=boot(null,640,400,'timeout-reader',shared,behavior);

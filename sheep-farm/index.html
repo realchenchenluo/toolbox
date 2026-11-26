@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#e9e5da">
   <title>牧云羊场 · 轻经营模拟器</title>
-  <link rel="stylesheet" href="./assets/style.css?v=20261125-guide-11">
-  <link rel="stylesheet" href="./assets/workshop.css?v=20261125-guide-11">
-  <link rel="stylesheet" href="./assets/pixel.css?v=20261125-guide-11">
-  <link rel="stylesheet" href="./assets/layout.css?v=20261125-guide-11">
-  <link rel="stylesheet" href="./assets/farm-items.css?v=20261125-guide-11">
-  <link rel="stylesheet" href="./assets/controls.css?v=20261125-guide-11">
-  <link rel="stylesheet" href="./assets/sheep-night.css?v=20261125-guide-11">
-  <link rel="stylesheet" href="./assets/progression.css?v=20261125-guide-11">
-  <link rel="stylesheet" href="./assets/field-ui.css?v=20261125-guide-11">
-  <script src="./assets/viewport-layout.js?v=20261125-guide-11"></script>
+  <link rel="stylesheet" href="./assets/style.css?v=20261126-rainbow-12">
+  <link rel="stylesheet" href="./assets/workshop.css?v=20261126-rainbow-12">
+  <link rel="stylesheet" href="./assets/pixel.css?v=20261126-rainbow-12">
+  <link rel="stylesheet" href="./assets/layout.css?v=20261126-rainbow-12">
+  <link rel="stylesheet" href="./assets/farm-items.css?v=20261126-rainbow-12">
+  <link rel="stylesheet" href="./assets/controls.css?v=20261126-rainbow-12">
+  <link rel="stylesheet" href="./assets/sheep-night.css?v=20261126-rainbow-12">
+  <link rel="stylesheet" href="./assets/progression.css?v=20261126-rainbow-12">
+  <link rel="stylesheet" href="./assets/field-ui.css?v=20261126-rainbow-12">
+  <script src="./assets/viewport-layout.js?v=20261126-rainbow-12"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -116,7 +116,7 @@
               <header class="panel-header compact"><div><p class="eyebrow">牧场委托</p><h3>山谷收购站</h3></div><span class="market-up">随时交付</span></header>
               <div class="customer-desk"><div><strong>客户满意度</strong><b id="customer-score">0/100</b></div><div class="customer-track"><i id="customer-fill"></i></div><p>产毛 <b id="customer-yield">+0.0%</b> · 长毛速度 <b id="customer-growth">+0.00%</b></p><small>每单 +1 · 产毛最多 +10%，速度最多 +5%</small></div>
               <div id="contract-list" class="contract-list"></div>
-              <div class="pending-rainbow" id="pending-rainbow" hidden><img src="./assets/sheep/young-rainbow-wool-idle.png" alt="彩虹羊仔"><span>奖励羊仔已保留</span><button type="button" data-action="claim-rainbow">领取</button></div>
+              <div class="pending-rainbow" id="pending-rainbow" hidden><img src="./assets/sheep/young-rainbow-wool-idle.png" alt="彩虹羊仔"><span id="pending-rainbow-copy">奖励羊仔已保留</span><button type="button" data-action="claim-rainbow">领取</button></div>
               <p class="trade-count">已完成 <span id="trade-count">0</span> 笔 · 交付仅刷新该张订单</p>
             </section>
             <section class="panel-card workshop-card" id="late-workshop" hidden>
@@ -173,18 +173,18 @@
       <div class="save-line"><span><span id="save-status">本机存档</span> · <span id="last-save">尚未保存</span> · <span id="autosave-label">自动存档已开启</span></span><button type="button" class="cloud-save-button" data-action="cloud-save" id="cloud-save-button" hidden><span class="px-icon icon-save" aria-hidden="true"></span>同步云存档</button><span id="tip-text">羊群会自己寻找干草和水槽。</span></div>
     </main>
 
-    <footer class="footer-note"><span>预览版 · v11 · 指引与操作修复</span><span>点击槽位补给 · 点击落地羊毛拾取</span></footer>
+    <footer class="footer-note"><span>预览版 · v12 · 彩虹羊自由养</span><span>点击槽位补给 · 点击落地羊毛拾取</span></footer>
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <div class="modal-backdrop" id="modal" hidden><section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title"><header class="modal-header"><div><p class="eyebrow" id="modal-kicker">出栏管理</p><h2 id="modal-title">选择成年羊</h2></div><button class="modal-close" type="button" data-action="close-modal" aria-label="关闭窗口" title="关闭窗口">×</button></header><div class="modal-scroll" id="modal-scroll"><p id="modal-copy">成年后可出栏，获得稳定的羊肉收入。</p><div id="modal-body"></div></div></section></div>
 
-  <script defer src="./assets/cloud-save.js?v=20261125-guide-11"></script>
-  <script defer src="./assets/pixel-ambience.js?v=20261125-guide-11"></script>
-  <script defer src="./assets/interactive-grass.js?v=20261125-guide-11"></script>
-  <script defer src="./assets/farm-orders.js?v=20261125-guide-11"></script>
-  <script defer src="./assets/sheep-frames.js?v=20261125-guide-11"></script>
-  <script defer src="./assets/farm-help.js?v=20261125-guide-11"></script>
-  <script defer src="./assets/app.js?v=20261125-guide-11"></script>
+  <script defer src="./assets/cloud-save.js?v=20261126-rainbow-12"></script>
+  <script defer src="./assets/pixel-ambience.js?v=20261126-rainbow-12"></script>
+  <script defer src="./assets/interactive-grass.js?v=20261126-rainbow-12"></script>
+  <script defer src="./assets/farm-orders.js?v=20261126-rainbow-12"></script>
+  <script defer src="./assets/sheep-frames.js?v=20261126-rainbow-12"></script>
+  <script defer src="./assets/farm-help.js?v=20261126-rainbow-12"></script>
+  <script defer src="./assets/app.js?v=20261126-rainbow-12"></script>
 </body>
 </html>

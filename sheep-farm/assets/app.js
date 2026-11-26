@@ -273,8 +273,7 @@
     });
     if(base.sheep.some(function (s) {return s.breed==='gift';})) base.workshopUnlocked = true;
     if(base.sheep.some(function (s) {return s.breed==='wish';})) base.contracts.specialUnlocked = true;
-    // Existing flocks keep their rainbow sheep; future purchases still respect the new cap.
-    base.contracts.rainbowLimit = Math.min(5,Math.max(base.contracts.rainbowLimit,base.sheep.filter(function (s) {return s.breed==='rainbow';}).length));
+    // rainbowLimit is retained inside old save data for compatibility; it no longer gates play.
     return base;
   }
   function saveState(showMessage, reason) {
@@ -593,11 +592,11 @@
     var loading=platformStorage && !storageHydrated;
     var html = Object.keys(breedMeta).map(function (key) {
       var meta = breedMeta[key], unlocked = state.breeds[key], locked = farmLevel() < meta.level;
-      var canBuy = state.gold >= meta.price && state.sheep.length < capacity() && (key!=='rainbow'||rainbowCount()<state.contracts.rainbowLimit);
-      var reason=loading?'存档读取中':locked?'需要牧场 LV'+meta.level:unlocked?state.sheep.length>=capacity()?'羊圈已满':key==='rainbow'&&rainbowCount()>=state.contracts.rainbowLimit?'彩虹名额已满':state.gold<meta.price?'还差 ¥'+gold(meta.price-state.gold):'':state.gold<meta.unlock?'解锁还差 ¥'+gold(meta.unlock-state.gold):'';
-      return '<div class="breed-card breed-' + key + (locked ? ' future-breed' : '') + '"><img src="./assets/sheep/young-' + key + '-wool-idle.png" width="64" height="64" alt="' + meta.name + '羊仔"><div><strong>' + meta.name + '</strong><small>' + meta.desc + (key==='rainbow'?'<br>当前名额 '+rainbowCount()+'/'+state.contracts.rainbowLimit+'（订单最多扩至 5 只）':'') + '</small><details class="breed-tip"><summary>什么时候值得买？</summary><p>'+esc(window.FarmHelp.breedTip(key))+'</p></details><em>LV' + meta.level + (meta.unlock ? ' · 解锁 ¥' + gold(meta.unlock) : ' · 无需解锁') + '<br>羊仔 ¥' + gold(meta.price) + ' / 只</em>'+(reason?'<span class="purchase-reason">'+reason+'</span>':'')+'</div><button type="button" ' + (unlocked ? 'data-buy-breed="' + key + '"' : 'data-unlock-breed="' + key + '"') + (loading || locked || (unlocked ? !canBuy : state.gold < meta.unlock) ? ' disabled' : '') + '>' + (locked ? 'LV' + meta.level + '开放' : unlocked ? key==='rainbow'&&rainbowCount()>=state.contracts.rainbowLimit?'彩虹羊名额已满':'购买羊仔<br>¥' + gold(meta.price) : '解锁品种<br>¥' + gold(meta.unlock)) + '</button></div>';
+      var canBuy = state.gold >= meta.price && state.sheep.length < capacity();
+      var reason=loading?'存档读取中':locked?'需要牧场 LV'+meta.level:unlocked?state.sheep.length>=capacity()?'羊圈已满':state.gold<meta.price?'还差 ¥'+gold(meta.price-state.gold):'':state.gold<meta.unlock?'解锁还差 ¥'+gold(meta.unlock-state.gold):'';
+      return '<div class="breed-card breed-' + key + (locked ? ' future-breed' : '') + '"><img src="./assets/sheep/young-' + key + '-wool-idle.png" width="64" height="64" alt="' + meta.name + '羊仔"><div><strong>' + meta.name + '</strong><small>' + meta.desc + (key==='rainbow'?'<br>品种数量不限，仍受羊圈总容量限制':'') + '</small><details class="breed-tip"><summary>什么时候值得买？</summary><p>'+esc(window.FarmHelp.breedTip(key))+'</p></details><em>LV' + meta.level + (meta.unlock ? ' · 解锁 ¥' + gold(meta.unlock) : ' · 无需解锁') + '<br>羊仔 ¥' + gold(meta.price) + ' / 只</em>'+(reason?'<span class="purchase-reason">'+reason+'</span>':'')+'</div><button type="button" ' + (unlocked ? 'data-buy-breed="' + key + '"' : 'data-unlock-breed="' + key + '"') + (loading || locked || (unlocked ? !canBuy : state.gold < meta.unlock) ? ' disabled' : '') + '>' + (locked ? 'LV' + meta.level + '开放' : unlocked ? '购买羊仔<br>¥' + gold(meta.price) : '解锁品种<br>¥' + gold(meta.unlock)) + '</button></div>';
     }).join('');
-    if (state.contracts.pendingRainbow) html = '<div class="rainbow-claim"><img src="./assets/sheep/young-rainbow-wool-idle.png" alt="彩虹羊仔"><div><strong>订单奖励 · 彩虹羊仔 ×1</strong><small>' + (farmLevel()<8?'奖励已保留，达到 LV8 后领取。':rainbowCount()>=state.contracts.rainbowLimit?'彩虹羊名额已满，先扩容或腾出名额。':state.sheep.length >= capacity() ? '羊圈已满，扩建或腾出空位后领取。' : '已为你保留，领取后加入羊群。') + '</small></div><button type="button" data-action="claim-rainbow"' + (farmLevel()<8 || rainbowCount()>=state.contracts.rainbowLimit || state.sheep.length >= capacity() || loading ? ' disabled' : '') + '>领取羊仔</button></div>' + html;
+    if (state.contracts.pendingRainbow) html = '<div class="rainbow-claim"><img src="./assets/sheep/young-rainbow-wool-idle.png" alt="彩虹羊仔"><div><strong>订单奖励 · 彩虹羊仔 ×'+state.contracts.pendingRainbow+'</strong><small>' + (farmLevel()<8?'奖励已保留，达到 LV8 后领取。':state.sheep.length >= capacity() ? '羊圈已满，扩建或腾出空位后领取。' : '已为你保留，每次领取 1 只加入羊群。') + '</small></div><button type="button" data-action="claim-rainbow"' + (farmLevel()<8 || state.sheep.length >= capacity() || loading ? ' disabled' : '') + '>领取羊仔</button></div>' + html;
     return html;
   }
   function renderBreeds() {
@@ -674,9 +673,9 @@
       ['一步步升级牧场', '累计营业收入达标后，花金币提升牧场等级，再付费购买设施和羊种。基础羊圈最多扩建到 20 只，订单扩容可继续增加名额。购羊界面从开局就能查看全部羊种的等级、效果和价格。'],
       ['礼盒与精料', 'LV2 购入绒糖羊，永久开启礼盒工坊；礼盒随等级和原料价提高，至少比直接卖原料多赚 25%。LV3 可购买长绒精料（长毛 +20%，120 秒）或成长精料（幼羊成长 +30%，180 秒）。初始价格 500/800 金币，随等级提高。立即生效、同类不叠加，剩余时间随存档保留。'],
       ['订单与客户满意度', 'LV3 同时有 2 单，LV5 增加第 3 单。普通订单满意度 +1，每点使产毛量 +0.1%、长毛速度 +0.05%，最多 +10% 和 +5%。普通原料订单按货物市价加 15%（合购单 18%）付款；稀有单返还八成货款，另给特殊奖励。'],
-      ['稀有订单概率', '购入 LV6 星愿羊，且累计完成至少 15 单后，符合条件的交付刷新才会抽取：羊圈扩容 +2 概率 0.6%；彩虹羊名额 +1 概率 0.15%（初始 2 只，最多 5 只）；LV8 起另有彩虹羊仔 ×1 概率 3%。同一时间最多 1 张稀有单；领奖后至少再交付 40 单，才有机会再出现。刷新或读档不重新抽取。'],
-      ['稀有订单需求', '彩虹羊仔单从羊毛 120 kg、羊肉 20 kg 起；羊圈扩容单从 350 kg、80 kg 起；彩虹名额单从 650 kg、140 kg 起，随等级再提高。彩虹羊名额已满 5 只时不再抽取对应扩容单。羊仔奖励在羊圈或彩虹名额满时暂存，到购羊或订单界面领取；领取不等于解锁品种商店。'],
-      ['认识特殊羊', 'LV2 绒糖羊开启礼盒；LV4 薄荷羊每只使全场长毛 +20%；LV5 蜜桃羊每只使全场成长 +20%，这两种光环各最多 +60%，离场后减少。LV6 星愿羊开启订单特殊奖励。LV8 彩虹羊产毛 ×4，长大耗时翻倍，成年活羊基础售价 18,000 金币。首次购入的解锁效果永久保留。'],
+      ['稀有订单概率', '购入 LV6 星愿羊，且累计完成至少 15 单后，符合条件的交付刷新才会抽取：羊圈扩容 +2 概率 0.6%；LV8 起彩虹羊仔 ×1 概率 3.15%。彩虹羊不设品种数量上限，但仍受羊圈总容量限制。同一时间最多 1 张稀有单；领奖后至少再交付 40 单，才有机会再出现。更新前的彩虹名额订单会保留原货物要求，奖励改为彩虹羊仔。刷新或读档不重新抽取。'],
+      ['稀有订单需求', '彩虹羊仔单从羊毛 120 kg、羊肉 20 kg 起；羊圈扩容单从 350 kg、80 kg 起，随等级再提高。羊仔奖励在羊圈已满时暂存，到购羊或订单界面腾出空位后领取；领取不等于解锁品种商店。'],
+      ['认识特殊羊', 'LV2 绒糖羊开启礼盒；LV4 薄荷羊每只使全场长毛 +20%；LV5 蜜桃羊每只使全场成长 +20%，这两种光环各最多 +60%，离场后减少。LV6 星愿羊开启订单特殊奖励。LV8 彩虹羊不设品种数量上限，产毛 ×4、长大耗时翻倍，仍受羊圈总容量和金币限制，成年活羊基础售价 18,000 金币。首次购入的解锁效果永久保留。'],
       ['经营收支', '普通羊仔 '+breedMeta.normal.price+' 金币，当前羊毛价 '+woolPrice()+' 金币/kg。先留好补给钱，再升级扩张；雇工负责拾取，卖货由你决定。账本中存退休金会等额扣现金。出栏可勾选多只成年羊批量出售，卖完一批仍可继续选，没有成年羊时自动关闭。'],
       ['雇工搬运', 'LV3 雇佣后自动拾取羊毛，每趟可搬 4 堆；背篓升级后为 6、8、10 堆。每次可拾取脚边最多 2 堆，搬回收纳棚才入库。靴子可继续提高移动速度。'],
       ['亲手攒退休金', '售卖收入先进入钱包。打开“账本”，输入金额存入退休金，钱包会等额扣除；存入后不再用于经营。累计收入用于解锁等级，退休金存够 1000 万元才能退休。记得留些金币照顾羊群。'],
@@ -713,23 +712,24 @@
     document.getElementById('customer-fill').style.width = book.satisfaction + '%';
     var contractsHTML = book.slots.slice(0,contractsEngine.slotsForLevel(farmLevel())).map(function (order,index) {
       var rare = contractsEngine.isRare(order), ready = Object.keys(order.goods).every(function (key) {return state[key]+1e-9 >= order.goods[key];});
-      var specialTitle = order.kind==='flock-cap'?'扩建委托 · 草场合作社':order.kind==='rainbow-cap'?'珍稀委托 · 彩虹牧场':'稀有委托 · 彩虹牧场';
-      var specialReward = order.kind==='flock-cap'?'永久羊圈名额 +2':order.kind==='rainbow-cap'?'彩虹羊名额 +1（最高5只）':'彩虹羊仔 ×1';
+      var specialTitle = order.kind==='flock-cap'?'扩建委托 · 草场合作社':'稀有委托 · 彩虹牧场';
+      var specialReward = order.kind==='flock-cap'?'永久羊圈名额 +2':'彩虹羊仔 ×1';
       var goods = Object.keys(order.goods).map(function (key) {var label=key==='wool'?'羊毛':'羊肉',enough=state[key]+1e-9>=order.goods[key];return '<div class="contract-goods'+(enough?' enough':'')+'"><span class="product-icon '+key+'" aria-hidden="true"></span><span>'+label+' <strong>'+number(order.goods[key],1)+' kg</strong><small>仓库 '+number(state[key],1)+' kg</small></span><b>'+(enough?'✓':'待备货')+'</b></div>';}).join('');
       return '<article class="contract-card'+(rare?' rainbow-contract':'')+'"><header><span>'+(rare?specialTitle:order.lane==='mixed'?'邻里合购':order.lane==='meat'?'山谷餐馆':'织物小铺')+'</span><small>NO. '+(index+1)+'</small></header>'+goods+'<footer><div><strong>¥'+gold(tradeReward(order))+'</strong><small>'+(rare?specialReward+' · 满意度 +2':'客户满意度 +1')+'</small></div><button type="button" data-contract-id="'+esc(order.id)+'"'+(locked||loading||!ready?' disabled':'')+'>'+(locked?'LV3 开放':ready?'交付订单':'备货中')+'</button></footer>'+(rare?'<p class="rare-order-note">高额交付，返还八成货款，另获上述奖励。</p>':'')+'</article>';
-    }).join('') + (farmLevel()<5?'<p class="contract-slot-note">牧场 LV5 开放第 3 张合购订单</p>':'')+'<p class="contract-slot-note">羊圈 '+capacity()+' 只（订单扩容 +'+book.flockBonus+'） · 彩虹名额 '+book.rainbowLimit+'/5</p><p class="contract-slot-note">'+(book.specialUnlocked?'特殊奖励已开启 · 羊圈扩容 0.6% / 彩虹名额 0.15%<br>LV8 起另有彩虹羊仔 3%。满足交付次数、40单间隔且无其他稀有单时才会抽取。':'购入星愿羊后，开启订单特殊奖励。')+'</p>';
+    }).join('') + (farmLevel()<5?'<p class="contract-slot-note">牧场 LV5 开放第 3 张合购订单</p>':'')+'<p class="contract-slot-note">羊圈 '+capacity()+' 只（订单扩容 +'+book.flockBonus+'） · 彩虹羊不限品种数量</p><p class="contract-slot-note">'+(book.specialUnlocked?'特殊奖励已开启 · 羊圈扩容 0.6%<br>LV8 起彩虹羊仔订单 3.15%。满足交付次数、40单间隔且无其他稀有单时才会抽取。':'购入星愿羊后，开启订单特殊奖励。')+'</p>';
     listHTML(document.getElementById('contract-list'),contractsHTML);
     var pending = document.getElementById('pending-rainbow');if(pending) pending.hidden = !book.pendingRainbow;
-    if(pending){var claim=pending.querySelector('button');if(claim){claim.disabled=farmLevel()<8||rainbowCount()>=book.rainbowLimit||state.sheep.length>=capacity()||loading;claim.textContent=farmLevel()<8?'LV8 领取':'领取';}}
+    setText('pending-rainbow-copy','奖励羊仔 ×'+book.pendingRainbow+' 已保留');
+    if(pending){var claim=pending.querySelector('button');if(claim){claim.disabled=farmLevel()<8||state.sheep.length>=capacity()||loading;claim.textContent=farmLevel()<8?'LV8 领取':'领取';}}
   }
   function tradeReward(order) { return contractsEngine.reward(order || state.contracts.slots[0],{wool:woolPrice(),meat:meatPrice()}); }
   function placeRainbowReward() {
-    if (!state.contracts.pendingRainbow || farmLevel()<8 || state.sheep.length>=capacity() || rainbowCount()>=state.contracts.rainbowLimit) return false;
+    if (!state.contracts.pendingRainbow || farmLevel()<8 || state.sheep.length>=capacity()) return false;
     state.contracts.pendingRainbow -= 1;addSheep('rainbow');return true;
   }
   function claimRainbowReward() {
     if(farmLevel()<8){showToast('彩虹羊仔奖励已保留，牧场 LV8 后可领取。');return false;}
-    if (!placeRainbowReward()) {showToast(rainbowCount()>=state.contracts.rainbowLimit?'彩虹羊名额已满，先扩容或腾出彩虹羊名额。':'先给彩虹羊仔腾一个羊圈空位。');return false;}
+    if (!placeRainbowReward()) {showToast('先给彩虹羊仔腾一个羊圈空位。');return false;}
     render();saveState(false);showToast('彩虹羊仔加入羊群，继续长大吧！');return true;
   }
   function deliverTradeOrder(id) {
@@ -738,7 +738,7 @@
     if (!result.ok) {if(result.reason==='level')showToast('牧场 LV3 后开放山谷订单。');else if(result.reason==='stock')showToast('仓库原料不足，先准备这张订单的货物。');return false;}
     Object.keys(result.goods).forEach(function (key) {state[key]=Math.max(0,state[key]-result.goods[key]);});
     state.contracts=result.book;bookIncome(result.cash);var placed=result.rainbow&&placeRainbowReward();
-    var extra=result.rewardKind==='flock-cap'?' · 永久羊圈名额 +2！':result.rewardKind==='rainbow-cap'?' · 彩虹羊名额提升至 '+state.contracts.rainbowLimit+' 只！':result.rainbow?placed?' · 彩虹羊仔已入住！':' · 彩虹羊仔已暂存，可到购羊界面领取。':' · 客户满意度 +1';
+    var extra=result.rewardKind==='flock-cap'?' · 永久羊圈名额 +2！':result.rainbow?placed?' · 彩虹羊仔已入住！':' · 彩虹羊仔已暂存，可到购羊界面领取。':' · 客户满意度 +1';
     render();saveState(false);showToast('订单完成 · +¥'+gold(result.cash)+extra);return true;
   }
   function renderWorkshop() {
@@ -787,7 +787,6 @@
     var meta = breedMeta[key];
     if (!meta || !state.breeds[key] || farmLevel() < meta.level) { showToast('先提升牧场等级并解锁这个品种。'); return false; }
     if (state.sheep.length >= capacity()) { showToast('羊圈已经满啦，先升级羊圈扩建。'); return; }
-    if (key==='rainbow' && rainbowCount()>=state.contracts.rainbowLimit) {showToast('彩虹羊名额已满，特殊订单可扩至最多 5 只。');return false;}
     if (state.gold < meta.price) { showToast('购买' + meta.name + '羊仔需要 ¥' + gold(meta.price) + '。'); return false; }
     state.gold -= meta.price;addSheep(key);
     if(key==='gift')state.workshopUnlocked=true;

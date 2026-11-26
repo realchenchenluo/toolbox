@@ -58,15 +58,14 @@ async function run(){
   const awarded=orders.complete(rare,rare.slots[0].id,8,{wool:1000,meat:1000},{wool:56,meat:118},()=>0);assert.equal(awarded.book.pendingRainbow,1);assert.equal(orders.eligible(awarded.book,8),false);
   awarded.book.pendingRainbow=0;assert.equal(orders.eligible(awarded.book,8),false);awarded.book.completed+=40;assert.equal(orders.eligible(awarded.book,8),true);
   const blocked=orders.normalize(null,8);blocked.completed=100;assert.equal(orders.eligible(blocked,8),false);blocked.specialUnlocked=true;
-  const capOrder=orders.complete(blocked,blocked.slots[0].id,8,{wool:9999,meat:9999},{wool:56,meat:118},()=>.001).book;
-  assert.equal(capOrder.slots[0].kind,'rainbow-cap');assert.ok(capOrder.slots[0].goods.wool>=650&&capOrder.slots[0].goods.meat>=140);
-  const capReward=orders.complete(capOrder,capOrder.slots[0].id,8,{wool:9999,meat:9999},{wool:56,meat:118},()=>.5);assert.equal(capReward.book.rainbowLimit,3);
-  blocked.rainbowLimit=5;assert.equal(orders.complete(blocked,blocked.slots[0].id,8,{wool:9999,meat:9999},{wool:56,meat:118},()=>.001).book.slots[0].kind,'wool');
+  const rainbowOrder=orders.complete(blocked,blocked.slots[0].id,8,{wool:9999,meat:9999},{wool:56,meat:118},()=>.02).book;
+  assert.equal(rainbowOrder.slots[0].kind,'rainbow');assert.ok(rainbowOrder.slots[0].goods.wool>=120&&rainbowOrder.slots[0].goods.meat>=20);
+  const rainbowReward=orders.complete(rainbowOrder,rainbowOrder.slots[0].id,8,{wool:9999,meat:9999},{wool:56,meat:118},()=>.5);assert.equal(rainbowReward.book.pendingRainbow,1);
   const expansion=orders.complete(blocked,blocked.slots[0].id,8,{wool:9999,meat:9999},{wool:56,meat:118},()=>.004).book;assert.equal(expansion.slots[0].kind,'flock-cap');
   const expanded=orders.complete(expansion,expansion.slots[0].id,8,{wool:9999,meat:9999},{wool:56,meat:118},()=>.5).book;assert.equal(expanded.flockBonus,2);
   const enlarged=boot({calendarVersion:1,level:8,progressionVersion:1,contracts:expanded,upgrades:{capacity:7},sheep:s.sheep});assert.equal(enlarged.game.capacity(),22);
   const preRainbow=orders.normalize(null,7);preRainbow.completed=100;preRainbow.specialUnlocked=true;assert.equal(orders.complete(preRainbow,preRainbow.slots[0].id,7,{wool:9999,meat:9999},{wool:56,meat:118},()=>.02).book.slots[0].kind,'wool');
-  assert.equal(orders.flockChance,.006);assert.equal(orders.rainbowCapChance,.0015);
+  assert.equal(orders.flockChance,.006);assert.equal(orders.rainbowChance,.0315);
 
   // A full pen holds the reward across reload; collection cannot duplicate it or unlock purchases.
   const full=boot({calendarVersion:1,progressionVersion:1,level:8,gold:10000,breeds:{normal:true},sheep:s.sheep.concat(s.sheep.map((x,i)=>Object.assign({},x,{id:'extra'+i}))),contracts:rare});
@@ -85,7 +84,8 @@ async function run(){
   await ff.saveState(false);const fedBack=boot(feeding.saved());assert.equal(fedBack.game.state.feeds.wool,29);assert.equal(fedBack.game.state.feeds.growth,44);
   for(let i=0;i<44;i++)fedBack.game.tick();assert.equal(fedBack.game.state.feeds.wool,0);assert.equal(fedBack.game.state.feeds.growth,0);
   let previous=0;for(let level=2;level<=8;level++){ffstate.level=level;assert.ok(ff.recipeUnitPrice('wool')>previous);previous=ff.recipeUnitPrice('wool');assert.ok(ff.specialFeedPrice('growth')>=800);}
-  const capped=boot();capped.game.state.level=8;capped.game.state.gold=100000;capped.game.state.breeds.rainbow=true;capped.game.buySheep('rainbow');capped.game.buySheep('rainbow');const capCash=capped.game.state.gold;assert.equal(capped.game.buySheep('rainbow'),false);assert.equal(capped.game.state.gold,capCash);
+  const unlimited=boot(),ug=unlimited.game;ug.state.level=8;ug.state.gold=100000;ug.state.upgrades.capacity=7;ug.state.breeds.rainbow=true;
+  for(let i=0;i<6;i++)assert.equal(ug.buySheep('rainbow'),true);assert.equal(ug.rainbowCount(),6);assert.equal(ug.state.gold,76000);
 
   // Batch selling keeps the dialog open until all adult candidates are gone and never selects lambs.
   const sales=boot(),sg=sales.game,ss=sg.state;ss.sheep[0].age=70;ss.sheep[1].age=80;ss.sheep.push(Object.assign({},ss.sheep[0],{id:'sale-extra',age:90}));
@@ -118,7 +118,7 @@ async function run(){
     assert.ok(sim.slots.filter(orders.isRare).length<=1);assert.ok(sim.satisfaction<=100);
   }
   assert.ok(awards>0&&awards<20000/40);assert.ok((paid+awards*18000)/raw<1.35);
-  console.log('PASS: tutorial, six breeds/assets, independent orders, capped bonuses, 0.6%/0.15% expansions, durable rewards, LV8 rainbows, slower growth, paid timed feeds, batch sales, 10-million goal, and affordable supplies.');
+  console.log('PASS: tutorial, six breeds/assets, independent orders, capped bonuses, 0.6% expansion / 3.15% rainbow orders, durable rewards, unlimited LV8 rainbows within pen capacity, slower growth, paid timed feeds, batch sales, 10-million goal, and affordable supplies.');
   console.log(JSON.stringify({orders:20000,rainbowAwards:awards,rewardToRawRatio:(paid+awards*18000)/raw,maxYield:sim.satisfaction*.1,maxGrowth:sim.satisfaction*.05}));
 }
 run().catch(error=>{console.error(error);process.exitCode=1;});
