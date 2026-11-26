@@ -9,7 +9,7 @@
     mint:'想更快剪毛时再买。必须留在羊场才有全场长毛加成；3 只达到 +60%，更多只数不再增加光环。',
     peach:'想让幼羊更快成年时再买。必须在场；3 只达到全场成长 +60%，满场成年羊时不必急着添。',
     wish:'想挑战稀有订单时买 1 只。首次购入永久开启资格；还要完成至少 15 单，稀有奖励并非每单必出。',
-    rainbow:'后期留有经营余钱再买。产毛量是普通羊 4 倍，长大时间也更长；并不会加速全场长毛。'
+    rainbow:'后期留有经营余钱再买。品种数量不限，但仍占用羊圈位置；产毛量是普通羊 4 倍，长大时间也更长。'
   };
   function breedTip(key){return tips[key]||tips.normal;}
   function render(tab,c){
@@ -28,7 +28,7 @@
       html+='<ol class="help-route">'+stages.map(function(s){return '<li><span class="help-level">LV'+s[0]+(level>=s[0]?' · 已开放':'')+'</span><h3>'+s[1]+'</h3><p>'+s[2]+'</p>'+go(s[4],s[3])+'</li>';}).join('')+'</ol>';
     }else if(tab==='breeds'){
       title='特殊羊怎么用';copy='先升到对应等级 → 花金币解锁品种 → 再花金币买羊仔。只解锁品种，还没有获得羊的效果。';
-      html='<div class="help-breeds">'+Object.keys(meta).map(function(key){var m=meta[key];return '<article><img src="./assets/sheep/young-'+key+'-wool-idle.png" width="56" height="56" alt="'+m.name+'"><div><strong>'+m.name+' · LV'+m.level+'</strong><p>'+esc(m.desc)+'</p><small>'+esc(breedTip(key))+'</small><em>解锁 ¥'+money(m.unlock)+' · 羊仔 ¥'+money(m.price)+'/只</em></div></article>';}).join('')+'</div><div class="help-note">稀有订单条件满足后，羊圈扩容概率 0.6%，彩虹名额 0.15%，LV8 彩虹羊仔 3%。同场最多一单，领奖后至少再完成 40 单；完整条件见详细规则。</div>'+go('去购入羊仔','nursery');
+      html='<div class="help-breeds">'+Object.keys(meta).map(function(key){var m=meta[key];return '<article><img src="./assets/sheep/young-'+key+'-wool-idle.png" width="56" height="56" alt="'+m.name+'"><div><strong>'+m.name+' · LV'+m.level+'</strong><p>'+esc(m.desc)+'</p><small>'+esc(breedTip(key))+'</small><em>解锁 ¥'+money(m.unlock)+' · 羊仔 ¥'+money(m.price)+'/只</em></div></article>';}).join('')+'</div><div class="help-note">稀有订单条件满足后，羊圈扩容概率 0.6%，LV8 彩虹羊仔 3.15%。彩虹羊不限品种数量，仍受羊圈总容量限制；同场最多一单，领奖后至少再完成 40 单。</div>'+go('去购入羊仔','nursery');
     }else{
       title='照着这四步，赚第一笔';copy='羊会自己吃喝、走动。你主要负责补给、剪毛、捡羊毛和卖货。';
       var steps=[['左草右水，各点一下','先点左侧黄色干草槽，再点右侧蓝色水槽。每次只补一格并扣金币，不用一次加满。'],['等到 100%，点“剪羊毛”','剪毛按钮亮起就能剪，幼羊也能剪。羊毛会掉在草地上，此时还不能卖。'],['点地上的羊毛，把它捡起来','点草地上的奶白色毛团。仓库增加后，集市里才有可卖的羊毛。'],['去“集市”，点“出售羊毛”','在草场下方的功能区选集市，点击出售。金币先进入现金，接着可升级或买羊。']];
